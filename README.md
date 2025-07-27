@@ -14,7 +14,9 @@ See also:
 
 ### Install from PyPI
 
-TODO
+```sh
+pip install --upgrade shapemod
+```
 
 ### Install from wheel
 
