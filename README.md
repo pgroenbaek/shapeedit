@@ -1,4 +1,4 @@
-# shapeio
+# shapemod
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/pgroenbaek/shapemod?style=flat&label=Latest%20Version)](https://github.com/pgroenbaek/shapemod/releases)
 [![Python 3.6+](https://img.shields.io/badge/Python-3.6%2B-blue?style=flat&logo=python&logoColor=white)](https://www.python.org/)
