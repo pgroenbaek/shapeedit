@@ -6,6 +6,10 @@
 
 This Python module provides experimental operations for modifying existing MSTS/ORTS shape files.
 
+See also:
+- [shapeio](https://github.com/pgroenbaek/shapeio) - provides functions to decode shapes from text files into Python objects and to encode them back into text file format.
+- [trackshape-utils](https://github.com/pgroenbaek/trackshape-utils) - offers additional utilities for working with track shapes.
+
 ## Installation
 
 ### Install from source

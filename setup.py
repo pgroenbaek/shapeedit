@@ -6,7 +6,6 @@ setup(
     packages=find_packages(),
     install_requires=[
         "numpy",
-        "regex>=2024.11.6,<2025.0",
         "shapeio==0.1.0b0"
     ],
     author="Peter Grønbæk Andersen",
