@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name="shapemod",
-    version="0.1.0b0",
+    version="0.5.0b0",
     packages=find_packages(),
     install_requires=[
         "numpy",
-        "shapeio==0.1.0b0"
+        "shapeio==0.5.0b0"
     ],
     author="Peter Grønbæk Andersen",
     author_email="peter@grnbk.io",
