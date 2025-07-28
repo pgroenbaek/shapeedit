@@ -1,8 +1,5 @@
 """
-ShapeMod
-
-This module provides experimental operations for modifying existing MSTS/ORTS shape files
-
+This file is part of ShapeMod.
 
 Copyright (C) 2025 Peter Grønbæk Andersen <peter@grnbk.io>
 
@@ -20,13 +17,17 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-__version__ = '0.5.0b0'
-__all__ = [
-    'distance', 'geometry', 'grouping',
-    'remove_point'
-]
+import pytest
 
-__author__ = 'Peter Grønbæk Andersen <peter@grnbk.io>'
+import shapemod
+from shapeio.shape import Point
 
-from . import distance, geometry, grouping
-from .shapemod import remove_point
+
+@pytest.fixture
+def serializer():
+    return _ColourSerializer()
+
+
+def test_serialize_colour(serializer):
+    colour = Colour(1.0, 2.2, 3.2, 4.5)
+    assert serializer.serialize(colour) == "colour ( 1 2.2 3.2 4.5 )"

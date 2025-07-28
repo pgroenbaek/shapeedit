@@ -1,8 +1,5 @@
 """
-ShapeMod
-
-This module provides experimental operations for modifying existing MSTS/ORTS shape files
-
+This file is part of ShapeMod.
 
 Copyright (C) 2025 Peter Grønbæk Andersen <peter@grnbk.io>
 
@@ -20,13 +17,30 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-__version__ = '0.5.0b0'
-__all__ = [
-    'distance', 'geometry', 'grouping',
-    'remove_point'
-]
+from typing import List, Callable, TypeVar
 
-__author__ = 'Peter Grønbæk Andersen <peter@grnbk.io>'
+T = TypeVar('T')
 
-from . import distance, geometry, grouping
-from .shapemod import remove_point
+
+def group_items_by(
+    items: List[T],
+    group_func: Callable[[T, T], bool]
+) -> List[List[T]]:
+    if not items:
+        return []
+
+    groups: List[List[T]] = []
+
+    for item in items:
+        added_to_group = False
+
+        for group in groups:
+            if group_func(group[-1], item):
+                group.append(item)
+                added_to_group = True
+                break
+
+        if not added_to_group:
+            groups.append([item])
+
+    return groups
