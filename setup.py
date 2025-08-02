@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="shapemod",
+    name="shapeedit",
     version="0.5.0b0",
     packages=find_packages(),
     install_requires=[
@@ -13,7 +13,7 @@ setup(
     description="A library that provides experimental operations for modifying existing MSTS/ORTS shape files.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/pgroenbaek/shapemod",
+    url="https://github.com/pgroenbaek/shapeedit",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",

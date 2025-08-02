@@ -19,7 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import pytest
 
-import shapemod
+import shapeedit
 from shapeio.shape import Point
 
 

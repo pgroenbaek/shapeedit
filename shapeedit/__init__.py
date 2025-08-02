@@ -1,5 +1,5 @@
 """
-ShapeMod
+ShapeEdit
 
 This module provides experimental operations for modifying existing MSTS/ORTS shape files
 
@@ -29,4 +29,4 @@ __all__ = [
 __author__ = 'Peter Grønbæk Andersen <peter@grnbk.io>'
 
 from . import distance, geometry, grouping
-from .shapemod import remove_point
+from .shapeedit import remove_point

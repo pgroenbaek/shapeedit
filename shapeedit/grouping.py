@@ -17,17 +17,31 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-import pytest
+from typing import List, Callable, TypeVar
 
-import shapemod
-from shapeio.shape import Point
-
-
-@pytest.fixture
-def serializer():
-    return _ColourSerializer()
+T = TypeVar('T')
 
 
-def test_serialize_colour(serializer):
-    colour = Colour(1.0, 2.2, 3.2, 4.5)
-    assert serializer.serialize(colour) == "colour ( 1 2.2 3.2 4.5 )"
+def group_items_by(
+    items: List[T],
+    group_func: Callable[[T, T], bool]
+) -> List[List[T]]:
+    if not items:
+        return []
+
+    groups: List[List[T]] = []
+
+    for item in items:
+        added_to_group = False
+
+        for group in groups:
+            if group_func(group[-1], item):
+                group.append(item)
+                added_to_group = True
+                break
+
+        if not added_to_group:
+            groups.append([item])
+
+    return groups
+
