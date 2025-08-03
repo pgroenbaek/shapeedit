@@ -7,7 +7,7 @@
 This Python module provides safe operations for modifying existing MSTS/ORTS shape files that keep the shapes error-free and usable in MSTS/ORTS.
 
 See also:
-- [shapeio](https://github.com/pgroenbaek/shapeio) - provides functions to decode shapes from text files into Python objects and to encode them back into text file format.
+- [shapeio](https://github.com/pgroenbaek/shapeio) - offers functions to decode shapes from structured text format into Python objects and encode them back.
 - [trackshape-utils](https://github.com/pgroenbaek/trackshape-utils) - offers additional utilities for working with track shapes.
 
 ## Installation
@@ -92,4 +92,4 @@ Modify `envlist` to match the Python versions you want to support.
 
 ## License
 
-This project was created by Peter Grønbæk Andersen and is licensed under [GNU GPL v3](/LICENSE).
+This Python module was created by Peter Grønbæk Andersen and is licensed under [GNU GPL v3](/LICENSE).

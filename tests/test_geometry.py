@@ -1,5 +1,5 @@
 """
-This file is part of ShapeMod.
+This file is part of ShapeEdit.
 
 Copyright (C) 2025 Peter Grønbæk Andersen <peter@grnbk.io>
 
