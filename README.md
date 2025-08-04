@@ -40,7 +40,22 @@ pip install --upgrade ./shapeedit
 ```
 
 ## Usage
-TODO
+
+```python
+import shapeio
+from shapeedit import ShapeEditor
+
+my_shape = shapeio.load("./path/to/example.s")
+
+shape_editor = ShapeEditor(my_shape)
+subobj_editor = shape_editor.lod_control(0).lod_dlevel(200).subobject(0)
+
+subobj_editor.add_vertex(new_vertex)
+subobj_editor.remove_triangles(indices=[1, 4, 5])
+subobj_editor.validate()
+
+shapeio.dump(my_shape, "./path/to/output.s")
+```
 
 ## Running Tests
 
