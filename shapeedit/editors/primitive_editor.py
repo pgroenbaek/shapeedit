@@ -17,3 +17,25 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
+from shapeio.shape import Shape, Primitive
+
+class PrimitiveEditor:
+    def __init__(self, shape: Shape, sub_object: SubObject):
+        self.shape = shape
+        self.lod_control_index = lod_control_index
+        self.lod_dlevel = lod_dlevel
+        self.sub_object_index = sub_object_index
+    
+    def insert_triangle(self, vertex1: Vertex, vertex2: Vertex, vertex3: Vertex):
+        pass
+
+    def remove_triangle(self, vertex1: Vertex, vertex2: Vertex, vertex3: Vertex):
+        pass
+
+    def remove_triangles_connected_to(self, new_vertex: Vertex):
+        pass
+    
+    def validate(self):
+        assert all(0 <= v.point_index < len(self.shape.points)
+                   for v in self.subobject.vertices)
+        # check vertex_set bounds, prims, etc.

@@ -26,7 +26,8 @@ class SubObjectEditor:
         self.lod_dlevel = lod_dlevel
         self.sub_object_index = sub_object_index
     
-    def add_vertex(self, new_vertex: Vertex)
+    def add_vertex(self, new_vertex: Vertex):
+        pass
     
     def validate(self):
         assert all(0 <= v.point_index < len(self.shape.points)
