@@ -17,6 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
+from typing import List
+
 from shapeio.shape import Shape
 
 from .editors.lodcontrol_editor import _LodControlEditor
@@ -41,3 +43,9 @@ class ShapeEditor:
 
         lod_control = self._shape.lod_controls[lod_control_index]
         return _LodControlEditor(lod_control, _parent=self)
+
+    def lodcontrols(self) -> List[_LodControlEditor]:
+        return [
+            _LodControlEditor(lod_control, _parent=self)
+            for lod_control in self._shape.lod_controls
+        ]

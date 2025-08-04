@@ -46,7 +46,16 @@ class _LodControlEditor:
 
         raise ValueError(f"No DistanceLevel with dlevel_selection {dlevel_selection} found in this LodControl")
     
-    # def validate(self):
-    #     assert all(0 <= v.point_index < len(self.shape.points)
-    #                for v in self.subobject.vertices)
-    #     # check vertex_set bounds, prims, etc.
+    def distancelevels(self) -> List[_DistanceLevelEditor]:
+        return [
+            _DistanceLevelEditor(distance_level, _parent=self)
+            for distance_level in self._lod_control.distance_levels
+        ]
+
+    @property
+    def index(self) -> int:
+        """Return the index of this LodControl within the parent Shape's lod_controls list."""
+        try:
+            return self._parent._shape.lod_controls.index(self._lod_control)
+        except ValueError:
+            raise ValueError("LodControl not found in parent's lod_controls list")

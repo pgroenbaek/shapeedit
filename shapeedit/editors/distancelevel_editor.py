@@ -49,7 +49,8 @@ class _DistanceLevelEditor:
         sub_object = self._distance_level.sub_objects[sub_object_index]
         return _SubObjectEditor(sub_object, _parent=self)
     
-    # def validate(self):
-    #     assert all(0 <= v.point_index < len(self.shape.points)
-    #                for v in self.subobject.vertices)
-    #     # check vertex_set bounds, prims, etc.
+    def subobjects(self) -> List[_SubObjectEditor]:
+        return [
+            _SubObjectEditor(sub_object, _parent=self)
+            for sub_object in self._distance_level.sub_objects
+        ]
