@@ -48,11 +48,11 @@ from shapeedit import ShapeEditor
 my_shape = shapeio.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
-sub_object = shape_editor.lodcontrol(0).distancelevel(200).subobject(0)
+sub_object = shape_editor.lod_control(0).distance_level(200).sub_object(0)
 
-for primitive in sub_object.primitives()
-    primitive.add_vertex(new_vertex)
-    primitive.remove_triangles(indices=[1, 4, 5])
+for primitive in sub_object.primitives():
+    new_vertex = primitive.add_vertex(new_point, new_uv_point, new_normal)
+    primitive.remove_triangles_connected_to(new_vertex)
 
 shapeio.dump(my_shape, "./path/to/output.s")
 ```
@@ -67,10 +67,13 @@ my_shape = shapeio.load("./path/to/example.s")
 shape_editor = ShapeEditor(my_shape)
 
 for lod_control in shape_editor.lod_controls():
-    for distance_level in lod_control.distancelevels():
-        for sub_object in distance_level.subobjects():
+    for distance_level in lod_control.distance_levels():
+        for sub_object in distance_level.sub_objects():
             for primitive in sub_object.primitives(prim_state_idx=22):
                 new_vertex = primitive.add_vertex(new_point, new_uv_point, new_normal)
+                new_vertex.update_normal(0.0, 0.0, 0.0)
+                new_vertex.update_point(0.0, 0.0, 0.0)
+                new_vertex.update_uv_point(0.0, 0.0)
                 primitive.add_triangle(new_vertex, vertex2, vertex3)
 
             for primitive in sub_object.primitives(prim_state_name="Rails"):
