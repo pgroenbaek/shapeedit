@@ -19,21 +19,43 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 from shapeio.shape import Shape
 
+from .editors.lodcontrol_editor import _LodControlEditor
+
+
 class ShapeEditor:
     def __init__(self, shape: Shape):
-        self.shape = shape
+        if not isinstance(shape, Shape):
+            raise TypeError(f"Parameter 'shape' must be of type shape.Shape, but got {type(shape).__name__}")
 
-    def subobject(self, lod_control_index: int, lod_dlevel: int, sub_object_index: int) -> "SubObjectEditor":
-        dl = self.shape.lod_controls[lod_control_index].distance_levels[lod_dlevel]
-        return SubObjectEditor(self.shape, dl.sub_objects[sub_object_index])
+        self._shape = shape
+
+    def lodcontrol(self, lod_control_index: int) -> _LodControlEditor:
+        if not isinstance(lod_control_index, int):
+            raise TypeError(f"Parameter 'lod_control_index' must be of type int, but got {type(lod_control_index).__name__}")
+        
+        if not (0 <= lod_control_index < len(self._shape.lod_controls)):
+            raise IndexError(
+                f"lod_control_index {lod_control_index} out of range "
+                f"(valid range: 0 to {len(self._shape.lod_controls) - 1})"
+            )
+
+        lod_control = self._shape.lod_controls[lod_control_index]
+        return _LodControlEditor(lod_control, _parent=self)
 
 """
 Usage example:
 
-shape_editor = ShapeEditor(shape)
-sub_editor = shape_editor.subobject(0)
+import shapeio
+from shapeedit import ShapeEditor
 
-sub_editor.add_vertex(new_vertex, vtx_state_id="opaque")
-sub_editor.remove_triangles(indices=[1, 4, 5])
-sub_editor.validate()
+my_shape = shapeio.load("./path/to/example.s")
+
+shape_editor = ShapeEditor(my_shape)
+subobj_editor = shape_editor.lod_control(0).lod_dlevel(200).subobject(0)
+
+subobj_editor.add_vertex(new_vertex)
+subobj_editor.remove_triangles(indices=[1, 4, 5])
+subobj_editor.validate()
+
+shapeio.dump(my_shape, "./path/to/output.s")
 """

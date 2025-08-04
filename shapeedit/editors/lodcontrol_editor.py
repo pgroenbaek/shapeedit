@@ -1,0 +1,52 @@
+"""
+This file is part of ShapeEdit.
+
+Copyright (C) 2025 Peter Grønbæk Andersen <peter@grnbk.io>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+"""
+
+from shapeio.shape import LodControl
+
+from .editors.distancelevel_editor import _DistanceLevelEditor
+
+
+class _LodControlEditor:
+    def __init__(self, lod_control: LodControl, _parent: ShapeEditor = None):
+        if _parent is None:
+            raise TypeError("Parameter '_parent' cannot be None")
+
+        if not isinstance(lod_control, LodControl):
+            raise TypeError(f"Parameter 'lod_control' must be of type shape.LodControl, but got {type(lod_control).__name__}")
+        
+        if not isinstance(_parent, ShapeEditor):
+            raise TypeError(f"Parameter '_parent' must be of type ShapeEditor, but got {type(_parent).__name__}")
+
+        self._lod_control = lod_control
+        self._parent = _parent
+    
+    def distancelevel(self, dlevel_selection: int) -> _LodControlEditor:
+        if not isinstance(dlevel_selection, int):
+            raise TypeError(f"Parameter 'dlevel_selection' must be of type int, but got {type(dlevel_selection).__name__}")
+
+        for distance_level in self._lod_control.distance_levels:
+            if distance_level.distance_level_header.dlevel_selection == dlevel_selection:
+                return _DistanceLevelEditor(distance_level, _parent=self)
+
+        raise ValueError(f"No DistanceLevel with dlevel_selection {dlevel_selection} found in this LodControl")
+    
+    # def validate(self):
+    #     assert all(0 <= v.point_index < len(self.shape.points)
+    #                for v in self.subobject.vertices)
+    #     # check vertex_set bounds, prims, etc.

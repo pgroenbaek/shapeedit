@@ -1,8 +1,7 @@
 """
 ShapeEdit
 
-This module provides experimental operations for modifying existing MSTS/ORTS shape files
-
+This module provides operations for safely modifying existing MSTS/ORTS shape files.
 
 Copyright (C) 2025 Peter Grønbæk Andersen <peter@grnbk.io>
 
@@ -22,11 +21,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 __version__ = '0.5.0b0'
 __all__ = [
-    'distance', 'geometry', 'grouping',
-    'remove_point'
+    'ShapeEditor',
+    'distance', 'geometry',
+    'grouping',
 ]
 
 __author__ = 'Peter Grønbæk Andersen <peter@grnbk.io>'
 
-from . import distance, geometry, grouping
-from .shapeedit import remove_point
+from .editors.shape_editor import ShapeEditor
+from .math3d import distance, geometry
+from .utils import grouping
