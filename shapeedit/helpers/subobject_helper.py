@@ -59,24 +59,22 @@ class _SubObjectHelper:
                 vtx_state_idx_to_update = idx
                 break
 
-        adjust_remaining_vertexset_idxs = False
+        adjust_remaining_vtx_start_idxs = False
         new_vertex_idx = None
         vtx_count_total = 0
 
         for idx, vertex_set in enumerate(sub_object.vertex_sets):
-            vertexset_idx = int(parts[2])
-            vertexset_startidx = int(parts[3])
-            vertexset_count = int(parts[4])
-
-            if adjust_remaining_vertexset_idxs:
+            if adjust_remaining_vtx_start_idxs:
                 vertex_set.vtx_start_index = vtx_count_total
             
             if vertex_set.vtx_state == vtx_state_idx_to_update:
                 new_count = vertex_set.vtx_count + 1
                 vertex_set.vtx_count = new_count
+
                 vtx_count_total += 1
                 new_vertex_idx = vertex_set.vtx_count
-                adjust_remaining_vertexset_idxs = True
+                
+                adjust_remaining_vtx_start_idxs = True
                 
             vtx_count_total += vertex_set.vtx_count
                         
