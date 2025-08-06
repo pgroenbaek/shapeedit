@@ -25,7 +25,7 @@ import shapeio
 
 @pytest.fixture(scope="session")
 def _loaded_shape():
-    return shapeio.load("./path/to/example.s")
+    return shapeio.load("./tests/data/DK10f_A1tPnt5dLft.s")
 
 
 @pytest.fixture(scope="function")

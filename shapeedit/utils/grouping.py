@@ -26,6 +26,31 @@ def group_items_by(
     items: List[T],
     group_func: Callable[[T, T], bool]
 ) -> List[List[T]]:
+    """
+    Groups items into consecutive sublists based on a pairwise grouping condition.
+
+    Iterates through the list of items and assigns each item to the first group
+    where the provided `group_func` returns True when comparing the last item in
+    that group with the current item. If no existing group matches, a new group is created.
+
+    This method groups items sequentially, relying on the relationship between the
+    current item and the last item in each group. It does not merge groups based on
+    transitive relations between non-consecutive items.
+
+    Args:
+        items (List[T]): The list of items to be grouped.
+        group_func (Callable[[T, T], bool]): A binary predicate function that takes two items
+            (the last item in an existing group and a new candidate item) and returns True
+            if the new item should be grouped with the existing group.
+
+    Returns:
+        List[List[T]]: A list of groups (sublists), where each group contains items that
+            satisfy the grouping condition in sequence.
+
+    Example:
+        >>> group_items_by([1, 2, 4, 5, 7], lambda a, b: abs(a - b) == 1)
+        [[1, 2], [4, 5], [7]]
+    """
     if not items:
         return []
 
