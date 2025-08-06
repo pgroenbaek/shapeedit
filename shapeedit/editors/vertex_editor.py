@@ -17,19 +17,31 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-from shapeio.shape import Shape, Vertex
+from shapeio.shape import Vertex, Point, UVPoint, Normal
+
+from .editors.primitives_editor import _PrimitiveEditor
+
 
 class VertexEditor:
-    def __init__(self, shape: Shape, sub_object: SubObject):
-        self.shape = shape
-        self.lod_control_index = lod_control_index
-        self.lod_dlevel = lod_dlevel
-        self.sub_object_index = sub_object_index
+    def __init__(self, vertex: Vertex, _parent: _PrimitiveEditor = None):
+        if _parent is None:
+            raise TypeError("Parameter '_parent' cannot be None")
+
+        if not isinstance(vertex, Vertex):
+            raise TypeError(f"Parameter 'vertex' must be of type shape.Vertex, but got {type(vertex).__name__}")
+        
+        if not isinstance(_parent, _PrimitiveEditor):
+            raise TypeError(f"Parameter '_parent' must be of type _PrimitiveEditor, but got {type(_parent).__name__}")
+
+        self._vertex = vertex
+        self._parent = _parent
     
-    def add_texture(self, new_vertex: Vertex):
+    def update_point(self, x: float = None, y: float = None, z: float = None):
+        pass
+
+    def update_uv_point(self, u: float = None, v: float = None):
+        pass
+
+    def update_normal(self, x: float = None, y: float = None, z: float = None):
         pass
     
-    def validate(self):
-        assert all(0 <= v.point_index < len(self.shape.points)
-                   for v in self.subobject.vertices)
-        # check vertex_set bounds, prims, etc.

@@ -20,6 +20,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 from shapeio.shape import LodControl
 
 from .editors.distancelevel_editor import _DistanceLevelEditor
+from .editors.lodcontrol_editor import _LodControlEditor
 
 
 class _LodControlEditor:
@@ -36,7 +37,7 @@ class _LodControlEditor:
         self._lod_control = lod_control
         self._parent = _parent
     
-    def distancelevel(self, dlevel_selection: int) -> _LodControlEditor:
+    def distance_level(self, dlevel_selection: int) -> _LodControlEditor:
         if not isinstance(dlevel_selection, int):
             raise TypeError(f"Parameter 'dlevel_selection' must be of type int, but got {type(dlevel_selection).__name__}")
 
@@ -46,7 +47,7 @@ class _LodControlEditor:
 
         raise ValueError(f"No DistanceLevel with dlevel_selection {dlevel_selection} found in this LodControl")
     
-    def distancelevels(self) -> List[_DistanceLevelEditor]:
+    def distance_levels(self) -> List[_DistanceLevelEditor]:
         return [
             _DistanceLevelEditor(distance_level, _parent=self)
             for distance_level in self._lod_control.distance_levels

@@ -17,14 +17,47 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-from shapeio.shape import Shape, Primitive
+from shapeio.shape import Primitive, Vertex
+
+from .editors.subobject_editor import _SubObjectEditor
+from .editors.vertex_editor import _VertexEditor
+
 
 class PrimitiveEditor:
-    def __init__(self, shape: Shape, sub_object: SubObject):
-        self.shape = shape
-        self.lod_control_index = lod_control_index
-        self.lod_dlevel = lod_dlevel
-        self.sub_object_index = sub_object_index
+    def __init__(self, primitive: Primitive, _parent: _SubObjectEditor = None):
+        if _parent is None:
+            raise TypeError("Parameter '_parent' cannot be None")
+
+        if not isinstance(primitive, Primitive):
+            raise TypeError(f"Parameter 'primitive' must be of type shape.Primitive, but got {type(primitive).__name__}")
+        
+        if not isinstance(_parent, _SubObjectEditor):
+            raise TypeError(f"Parameter '_parent' must be of type _SubObjectEditor, but got {type(_parent).__name__}")
+
+        self._primitive = primitive
+        self._parent = _parent
+
+    def vertex(self, vertex_index: int) -> _VertexEditor:
+        if not isinstance(sub_object_index, int):
+            raise TypeError(f"Parameter 'vertex_index' must be of type int, but got {type(vertex_index).__name__}")
+        
+        if not (0 <= vertex_index < len(self._primitive.vertices)):
+            raise IndexError(
+                f"vertex_index {vertex_index} out of range "
+                f"(valid range: 0 to {len(self._primitive.vertices) - 1})"
+            )
+
+        vertex = self._primitive.vertices[vertex_index]
+        return _VertexEditor(vertex, _parent=self)
+    
+    def vertices(self) -> List[_VertexEditor]:
+        return [
+            _VertexEditor(vertex, _parent=self)
+            for vertex in self._primitive.vertices
+        ]
+    
+    def get_matrix(self):
+        pass
     
     def insert_triangle(self, vertex1: Vertex, vertex2: Vertex, vertex3: Vertex):
         pass
@@ -35,7 +68,3 @@ class PrimitiveEditor:
     def remove_triangles_connected_to(self, new_vertex: Vertex):
         pass
     
-    def validate(self):
-        assert all(0 <= v.point_index < len(self.shape.points)
-                   for v in self.subobject.vertices)
-        # check vertex_set bounds, prims, etc.

@@ -17,19 +17,41 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-from shapeio.shape import Shape, Vertex
+from shapeio.shape import SubObject, Vertex
+
+from .editors.distancelevel_editor import _DistanceLevelEditor
+from .editors.primitives_editor import _PrimitivesEditor
 
 class SubObjectEditor:
-    def __init__(self, shape: Shape, lod_control_index: int, lod_dlevel: int, sub_object_index: int):
-        self.shape = shape
-        self.lod_control_index = lod_control_index
-        self.lod_dlevel = lod_dlevel
-        self.sub_object_index = sub_object_index
+    def __init__(self, sub_object: SubObject, _parent: _DistanceLevelEditor = None):
+        if _parent is None:
+            raise TypeError("Parameter '_parent' cannot be None")
+
+        if not isinstance(sub_object, SubObject):
+            raise TypeError(f"Parameter 'sub_object' must be of type shape.SubObject, but got {type(sub_object).__name__}")
+        
+        if not isinstance(_parent, _DistanceLevelEditor):
+            raise TypeError(f"Parameter '_parent' must be of type _DistanceLevelEditor, but got {type(_parent).__name__}")
+
+        self._sub_object = sub_object
+        self._parent = _parent
+
+    def distance_level(self, dlevel_selection: int) -> _LodControlEditor:
+        if not isinstance(dlevel_selection, int):
+            raise TypeError(f"Parameter 'dlevel_selection' must be of type int, but got {type(dlevel_selection).__name__}")
+
+        for distance_level in self._lod_control.distance_levels:
+            if distance_level.distance_level_header.dlevel_selection == dlevel_selection:
+                return _DistanceLevelEditor(distance_level, _parent=self)
+
+        raise ValueError(f"No DistanceLevel with dlevel_selection {dlevel_selection} found in this LodControl")
+    
+    def distance_levels(self) -> List[_DistanceLevelEditor]:
+        return [
+            _DistanceLevelEditor(distance_level, _parent=self)
+            for distance_level in self._lod_control.distance_levels
+        ]
     
     def add_vertex(self, new_vertex: Vertex):
         pass
     
-    def validate(self):
-        assert all(0 <= v.point_index < len(self.shape.points)
-                   for v in self.subobject.vertices)
-        # check vertex_set bounds, prims, etc.

@@ -27,7 +27,30 @@ def signed_distance_between(
     point2: shape.Point,
     plane: str = "xz"
 ) -> float:
+    """
+    Calculates the signed distance between two 3D points, projected onto a specified plane.
 
+    The direction of the sign is determined based on a reference vector (perpendicular 
+    to the projection plane). This allows distinguishing "in front" vs "behind" relationships or left/right side 
+    relative to the reference direction.
+
+    Supported planes:
+        - "x", "y", "z": Distance along a single axis.
+        - "xy", "xz", "zy": 2D plane projections.
+        - "xyz": Full 3D Euclidean distance (always positive, not signed).
+
+    Args:
+        point1 (shape.Point): The first point (reference/origin).
+        point2 (shape.Point): The second point (target).
+        plane (str): The projection plane to consider ("x", "y", "z", "xy", "xz", "zy", "xyz").
+
+    Returns:
+        float: The signed distance between the projected points. Positive or negative
+               depending on relative orientation. If plane is "xyz", returns Euclidean distance.
+    
+    Raises:
+        ValueError: If the provided plane is not supported.
+    """
     point1 = point1.to_numpy()
     point2 = point2.to_numpy()
 
@@ -76,7 +99,24 @@ def distance_between(
     point2: shape.Point,
     plane: str = "xz"
 ) -> float:
+    """
+    Calculates the absolute (unsigned) distance between two 3D points, 
+    projected onto a specified plane.
 
+    Internally uses `signed_distance_between` and returns the absolute value.
+    Useful when directionality doesn't matter but dimensional filtering does.
+
+    Args:
+        point1 (shape.Point): The first point.
+        point2 (shape.Point): The second point.
+        plane (str): The projection plane to consider ("x", "y", "z", "xy", "xz", "zy", "xyz").
+
+    Returns:
+        float: The absolute distance between the projected points.
+    
+    Raises:
+        ValueError: If the provided plane is not supported.
+    """
     signed_distance = signed_distance_between(point1, point2, plane=plane)
     
     distance = abs(signed_distance)

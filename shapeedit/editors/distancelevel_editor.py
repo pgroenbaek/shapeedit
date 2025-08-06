@@ -23,20 +23,20 @@ from .editors.subobject_editor import _SubObjectEditor
 
 
 class _DistanceLevelEditor:
-    def __init__(self, distance_level: DistanceLevel, _parent: ShapeEditor = None):
+    def __init__(self, distance_level: DistanceLevel, _parent: _LodControlEditor = None):
         if _parent is None:
             raise TypeError("Parameter '_parent' cannot be None")
 
         if not isinstance(distance_level, DistanceLevel):
             raise TypeError(f"Parameter 'distance_level' must be of type shape.DistanceLevel, but got {type(distance_level).__name__}")
         
-        if not isinstance(_parent, ShapeEditor):
-            raise TypeError(f"Parameter '_parent' must be of type ShapeEditor, but got {type(_parent).__name__}")
+        if not isinstance(_parent, _LodControlEditor):
+            raise TypeError(f"Parameter '_parent' must be of type _LodControlEditor, but got {type(_parent).__name__}")
 
         self._distance_level = distance_level
         self._parent = _parent
 
-    def subobject(self, sub_object_index: int) -> _SubObjectEditor:
+    def sub_object(self, sub_object_index: int) -> _SubObjectEditor:
         if not isinstance(sub_object_index, int):
             raise TypeError(f"Parameter 'sub_object_index' must be of type int, but got {type(sub_object_index).__name__}")
         
@@ -49,8 +49,13 @@ class _DistanceLevelEditor:
         sub_object = self._distance_level.sub_objects[sub_object_index]
         return _SubObjectEditor(sub_object, _parent=self)
     
-    def subobjects(self) -> List[_SubObjectEditor]:
+    def sub_objects(self) -> List[_SubObjectEditor]:
         return [
             _SubObjectEditor(sub_object, _parent=self)
             for sub_object in self._distance_level.sub_objects
         ]
+    
+    @property
+    def dlevel_selection(self) -> int:
+        """Return the dlevel_selection of this DistanceLevel."""
+        return self._distance_level.distance_level_header.dlevel_selection

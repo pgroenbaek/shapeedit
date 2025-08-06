@@ -16,23 +16,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
-
-from shapeio.shape import Shape, Texture
-
-class TextureEditor:
-    def __init__(self, shape: Shape, lod_control_index: int, lod_dlevel: int, sub_object_index: int):
-        self.shape = shape
-        self.lod_control_index = lod_control_index
-        self.lod_dlevel = lod_dlevel
-        self.sub_object_index = sub_object_index
-    
-    def add_image(self, new_texture: Texture):
-        pass
-
-    def add_texture(self, new_texture: Texture):
-        pass
-    
-    def validate(self):
-        assert all(0 <= v.point_index < len(self.shape.points)
-                   for v in self.subobject.vertices)
-        # check vertex_set bounds, prims, etc.

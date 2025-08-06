@@ -31,7 +31,7 @@ class ShapeEditor:
 
         self._shape = shape
 
-    def lodcontrol(self, lod_control_index: int) -> _LodControlEditor:
+    def lod_control(self, lod_control_index: int) -> _LodControlEditor:
         if not isinstance(lod_control_index, int):
             raise TypeError(f"Parameter 'lod_control_index' must be of type int, but got {type(lod_control_index).__name__}")
         
@@ -44,7 +44,7 @@ class ShapeEditor:
         lod_control = self._shape.lod_controls[lod_control_index]
         return _LodControlEditor(lod_control, _parent=self)
 
-    def lodcontrols(self) -> List[_LodControlEditor]:
+    def lod_controls(self) -> List[_LodControlEditor]:
         return [
             _LodControlEditor(lod_control, _parent=self)
             for lod_control in self._shape.lod_controls

@@ -1,7 +1,5 @@
 """
-ShapeEdit
-
-This module provides operations for safely modifying existing MSTS/ORTS shape files.
+This file is part of ShapeEdit.
 
 Copyright (C) 2025 Peter Grønbæk Andersen <peter@grnbk.io>
 
@@ -19,14 +17,18 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-__version__ = '0.5.0b0'
-__all__ = [
-    'math', 'utils',
-    'ShapeEditor',
-]
+import pytest
+import copy
 
-__author__ = 'Peter Grønbæk Andersen <peter@grnbk.io>'
+import shapeio
 
-from . import math
-from . import utils
-from .editors.shape_editor import ShapeEditor
+
+@pytest.fixture(scope="session")
+def _loaded_shape():
+    return shapeio.load("./path/to/example.s")
+
+
+@pytest.fixture(scope="function")
+def global_storage(_loaded_shape):
+    shape_copy = copy.deepcopy(_loaded_shape)
+    return {"shape": shape_copy}
