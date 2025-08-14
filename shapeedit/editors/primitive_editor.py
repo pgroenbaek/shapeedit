@@ -56,18 +56,23 @@ class _PrimitiveEditor:
         return [_VertexEditor(parent_vertices[idx], _parent=self._parent) for idx in unique_ordered_indices]
     
     def get_matrix(self):
+        # TODO implement
         pass
 
     def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Vector):
+        # TODO implement
         pass
     
     def insert_triangle(self, vertex1: Vertex, vertex2: Vertex, vertex3: Vertex):
+        # TODO implement
         pass
 
     def remove_triangle(self, vertex1: Vertex, vertex2: Vertex, vertex3: Vertex):
+        # TODO implement
         pass
 
     def remove_triangles_connected_to(self, new_vertex: Vertex):
+        # TODO implement
         pass
     
     @property

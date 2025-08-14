@@ -58,7 +58,8 @@ class _SubObjectEditor:
         primitive = self._sub_object.primitives[primitive_index]
         return _PrimitiveEditor(primitive, _parent=self)
     
-    def primitives(self) -> List[_PrimitiveEditor]:
+    def primitives(self, prim_state_index: Optional[int] = None, prim_state_name: Optional[str] = None) -> List[_PrimitiveEditor]:
+        # TODO also filter based on prim_state_index and prim_state_name
         return [
             _PrimitiveEditor(primitive, _parent=self)
             for primitive in self._sub_object.primitives

@@ -41,21 +41,27 @@ class _VertexEditor:
         self._parent = _parent
     
     def get_point(self) -> Point:
+        # TODO implement
         pass
 
     def get_uv_point(self) -> UVPoint:
+        # TODO implement
         pass
 
     def get_normal(self) -> Vector:
+        # TODO implement
         pass
 
     def update_point(self, x: float = None, y: float = None, z: float = None) -> None:
+        # TODO implement
         pass
 
     def update_uv_point(self, u: float = None, v: float = None) -> None:
+        # TODO implement
         pass
 
     def update_normal(self, x: float = None, y: float = None, z: float = None) -> None:
+        # TODO implement
         pass
     
     @property
