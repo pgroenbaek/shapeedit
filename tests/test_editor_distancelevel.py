@@ -20,6 +20,23 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import pytest
 
 from shapeedit import ShapeEditor
+from shapeedit.editors.subobject_editor import _SubObjectEditor
+
+
+def test_distancelevel_editor_sub_objects(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    sub_objects = editor.lod_control(0).distance_level(200).sub_objects()
+    assert len(sub_objects) == 5
+
+
+def test_distancelevel_editor_sub_object_by_index(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    sub_object = editor.lod_control(0).distance_level(200).sub_object(0)
+    assert isinstance(sub_object, _SubObjectEditor)
 
 
 def test_distancelevel_editor_dlevelselection(global_storage):
@@ -31,3 +48,22 @@ def test_distancelevel_editor_dlevelselection(global_storage):
     assert distance_levels[1].dlevel_selection == 500
     assert distance_levels[2].dlevel_selection == 800
     assert distance_levels[3].dlevel_selection == 2000
+
+
+def test_lodcontrol_editor_index(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    distance_level = editor.lod_control(0).distance_level(800)
+    assert distance_level.index == 2
+
+
+@pytest.mark.parametrize("bad_index", [
+    30, -1
+])
+def test_distancelevel_editor_sub_object_by_index_raises(global_storage, bad_index):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    distance_level = ShapeEditor(shape).lod_control(0).distance_level(200)
+
+    with pytest.raises(IndexError):
+        distance_level.sub_object(bad_index)
