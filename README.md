@@ -70,6 +70,7 @@ shapeio.dump(my_shape, "./path/to/output.s")
 
 ```python
 import shapeio
+from shapeio.shape import Point, UVPoint, Vector
 from shapeedit import ShapeEditor
 
 my_shape = shapeio.load("./path/to/example.s")
