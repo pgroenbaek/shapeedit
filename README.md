@@ -45,6 +45,7 @@ pip install --upgrade ./shapeedit
 
 ```python
 import shapeio
+from shapeio.shape import Point, UVPoint, Vector
 from shapeedit import ShapeEditor
 
 my_shape = shapeio.load("./path/to/example.s")
@@ -54,8 +55,14 @@ shape_editor = ShapeEditor(my_shape)
 sub_object = shape_editor.lod_control(0).distance_level(200).sub_object(0)
 
 for primitive in sub_object.primitives():
+    new_point = Point(0.0, 0.0, 0.0)
+    new_uv_point = UVPoint(0.0, 0.0)
+    new_normal = Vector(0.0, 0.0, 0.0)
     new_vertex = primitive.add_vertex(new_point, new_uv_point, new_normal)
-    primitive.remove_triangles_connected_to(new_vertex)
+
+    new_vertex.update_point(x=1.2)
+    new_vertex.update_uv_point(u=0.4, v=0.3)
+    new_vertex.update_normal(z=-1.2)
 
 shapeio.dump(my_shape, "./path/to/output.s")
 ```

@@ -21,6 +21,7 @@ import pytest
 
 from shapeedit import ShapeEditor
 from shapeedit.editors.distancelevel_editor import _DistanceLevelEditor
+from shapeedit.editors.lodcontrol_editor import _LodControlEditor
 
 
 def test_lodcontrol_editor_distance_levels(global_storage):
