@@ -18,7 +18,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 from typing import TYPE_CHECKING, List
-from shapeio.shape import SubObject, Vertex, Point, UVPoint, Vector
+from shapeio.shape import SubObject, Vertex
 
 from .primitive_editor import _PrimitiveEditor
 from .vertex_editor import _VertexEditor

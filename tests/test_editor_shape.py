@@ -18,6 +18,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 import pytest
+from shapeio.shape import Point
 
 from shapeedit import ShapeEditor
 from shapeedit.editors.lodcontrol_editor import _LodControlEditor
@@ -48,3 +49,24 @@ def test_shape_editor_lod_control_by_index_raises(global_storage, bad_index):
 
     with pytest.raises(IndexError):
         editor.lod_control(bad_index)
+
+
+@pytest.mark.parametrize("bad_input", [
+    None, 1, Point(1, 2, 3)
+])
+def test_shape_editor_bad_input_raises(global_storage, bad_input):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+
+    with pytest.raises(TypeError):
+        ShapeEditor(bad_input)
+
+
+@pytest.mark.parametrize("bad_input", [
+    None, Point(1, 2, 3)
+])
+def test_shape_editor_lod_control_bad_input_raises(global_storage, bad_input):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    with pytest.raises(TypeError):
+        editor.lod_control(bad_input)

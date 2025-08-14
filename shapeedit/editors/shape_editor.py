@@ -25,6 +25,9 @@ from .lodcontrol_editor import _LodControlEditor
 
 class ShapeEditor:
     def __init__(self, shape: Shape):
+        if shape is None:
+            raise TypeError("Parameter 'shape' must be a shape.Shape, not None")
+
         if not isinstance(shape, Shape):
             raise TypeError(f"Parameter 'shape' must be of type shape.Shape, but got {type(shape).__name__}")
 
