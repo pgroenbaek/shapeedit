@@ -21,6 +21,7 @@ from typing import TYPE_CHECKING, List
 from shapeio.shape import SubObject, Vertex, Point, UVPoint, Vector
 
 from .primitive_editor import _PrimitiveEditor
+from .vertex_editor import _VertexEditor
 from ..helpers.subobject_helper import _SubObjectHelper
 
 if TYPE_CHECKING:
@@ -32,7 +33,7 @@ class _SubObjectEditor:
         from .distancelevel_editor import _DistanceLevelEditor
 
         if _parent is None:
-            raise TypeError("Parameter '_parent' cannot be None")
+            raise TypeError("Parameter '_parent' must be a _DistanceLevelEditor, not None")
 
         if not isinstance(sub_object, SubObject):
             raise TypeError(f"Parameter 'sub_object' must be of type shape.SubObject, but got {type(sub_object).__name__}")
@@ -61,6 +62,25 @@ class _SubObjectEditor:
         return [
             _PrimitiveEditor(primitive, _parent=self)
             for primitive in self._sub_object.primitives
+        ]
+    
+    def vertex(self, vertex_index: int) -> _VertexEditor:
+        if not isinstance(vertex_index, int):
+            raise TypeError(f"Parameter 'vertex_index' must be of type int, but got {type(vertex_index).__name__}")
+
+        if not (0 <= vertex_index < len(self._sub_object.vertices)):
+            raise IndexError(
+                f"vertex_index {vertex_index} out of range "
+                f"(valid range: 0 to {len(self._sub_object.vertices) - 1})"
+            )
+
+        vertex = self._sub_object.vertices[vertex_index]
+        return _VertexEditor(vertex, _parent=self)
+    
+    def vertices(self) -> List[_VertexEditor]:
+        return [
+            _VertexEditor(vertex, _parent=self)
+            for vertex in self._sub_object.vertices
         ]
     
     def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Vector):

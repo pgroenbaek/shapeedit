@@ -31,7 +31,7 @@ class _PrimitiveEditor:
         from .subobject_editor import _SubObjectEditor
 
         if _parent is None:
-            raise TypeError("Parameter '_parent' cannot be None")
+            raise TypeError("Parameter '_parent' must be a _SubObjectEditor, not None")
 
         if not isinstance(primitive, Primitive):
             raise TypeError(f"Parameter 'primitive' must be of type shape.Primitive, but got {type(primitive).__name__}")
@@ -42,24 +42,18 @@ class _PrimitiveEditor:
         self._primitive = primitive
         self._parent = _parent
 
-    def vertex(self, vertex_index: int) -> _VertexEditor:
-        if not isinstance(sub_object_index, int):
-            raise TypeError(f"Parameter 'vertex_index' must be of type int, but got {type(vertex_index).__name__}")
-        
-        if not (0 <= vertex_index < len(self._primitive.vertices)):
-            raise IndexError(
-                f"vertex_index {vertex_index} out of range "
-                f"(valid range: 0 to {len(self._primitive.vertices) - 1})"
-            )
-
-        vertex = self._primitive.vertices[vertex_index]
-        return _VertexEditor(vertex, _parent=self)
-    
     def vertices(self) -> List[_VertexEditor]:
-        return [
-            _VertexEditor(vertex, _parent=self)
-            for vertex in self._primitive.vertices
-        ]
+        parent_vertices = self._parent._sub_object.vertices
+        seen = set()
+        unique_ordered_indices = []
+
+        for vertex_idx in self._primitive.indexed_trilist.vertex_idxs:
+            for idx in (vertex_idx.vertex1_index, vertex_idx.vertex2_index, vertex_idx.vertex3_index):
+                if idx not in seen:
+                    seen.add(idx)
+                    unique_ordered_indices.append(idx)
+
+        return [_VertexEditor(parent_vertices[idx], _parent=self._parent) for idx in unique_ordered_indices]
     
     def get_matrix(self):
         pass

@@ -31,7 +31,7 @@ class _LodControlEditor:
         from .shape_editor import ShapeEditor
 
         if _parent is None:
-            raise TypeError("Parameter '_parent' cannot be None")
+            raise TypeError("Parameter '_parent' must be a ShapeEditor, not None")
 
         if not isinstance(lod_control, LodControl):
             raise TypeError(f"Parameter 'lod_control' must be of type shape.LodControl, but got {type(lod_control).__name__}")

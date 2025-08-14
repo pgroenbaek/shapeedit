@@ -59,7 +59,7 @@ def test_lodcontrol_editor_index(global_storage):
 
 
 @pytest.mark.parametrize("bad_index", [
-    30, -1
+    5, -1, 30
 ])
 def test_distancelevel_editor_sub_object_by_index_raises(global_storage, bad_index):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]

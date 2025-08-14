@@ -31,7 +31,7 @@ class _DistanceLevelEditor:
         from .lodcontrol_editor import _LodControlEditor
 
         if _parent is None:
-            raise TypeError("Parameter '_parent' cannot be None")
+            raise TypeError("Parameter '_parent' must be a _LodControlEditor, not None")
 
         if not isinstance(distance_level, DistanceLevel):
             raise TypeError(f"Parameter 'distance_level' must be of type shape.DistanceLevel, but got {type(distance_level).__name__}")

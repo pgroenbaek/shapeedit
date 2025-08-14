@@ -21,21 +21,21 @@ from typing import TYPE_CHECKING
 from shapeio.shape import Vertex, Point, UVPoint, Vector
 
 if TYPE_CHECKING:
-    from .primitive_editor import _PrimitiveEditor
+    from .subobject_editor import _SubObjectEditor
 
 
 class _VertexEditor:
-    def __init__(self, vertex: Vertex, _parent: "_PrimitiveEditor" = None):
-        from .primitive_editor import _PrimitiveEditor
+    def __init__(self, vertex: Vertex, _parent: "_SubObjectEditor" = None):
+        from .subobject_editor import _SubObjectEditor
 
         if _parent is None:
-            raise TypeError("Parameter '_parent' cannot be None")
+            raise TypeError("Parameter '_parent' must be a _SubObjectEditor, not None")
 
         if not isinstance(vertex, Vertex):
             raise TypeError(f"Parameter 'vertex' must be of type shape.Vertex, but got {type(vertex).__name__}")
         
-        if not isinstance(_parent, _PrimitiveEditor):
-            raise TypeError(f"Parameter '_parent' must be of type _PrimitiveEditor, but got {type(_parent).__name__}")
+        if not isinstance(_parent, _SubObjectEditor):
+            raise TypeError(f"Parameter '_parent' must be of type _SubObjectEditor, but got {type(_parent).__name__}")
 
         self._vertex = vertex
         self._parent = _parent
@@ -62,6 +62,6 @@ class _VertexEditor:
     def index(self) -> int:
         """Return the index of this Vertex within the parent SubObject's vertices list."""
         try:
-            return self._parent._parent._sub_object.vertices.index(self._vertex)
+            return self._parent._sub_object.vertices.index(self._vertex)
         except ValueError:
             raise ValueError("Vertex not found in parent's vertices list")
