@@ -63,18 +63,22 @@ class _PrimitiveEditor:
         return shape.matrices[matrix_idx]
 
     def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Vector):
+        shape = self._parent._parent._parent._parent._shape
         # TODO implement
         pass
     
     def insert_triangle(self, vertex1: Vertex, vertex2: Vertex, vertex3: Vertex):
+        shape = self._parent._parent._parent._parent._shape
         # TODO implement
         pass
 
     def remove_triangle(self, vertex1: Vertex, vertex2: Vertex, vertex3: Vertex):
+        shape = self._parent._parent._parent._parent._shape
         # TODO implement
         pass
 
     def remove_triangles_connected_to(self, new_vertex: Vertex):
+        shape = self._parent._parent._parent._parent._shape
         # TODO implement
         pass
     

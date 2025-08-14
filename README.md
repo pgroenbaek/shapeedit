@@ -54,15 +54,10 @@ shape_editor = ShapeEditor(my_shape)
 
 sub_object = shape_editor.lod_control(0).distance_level(200).sub_object(0)
 
-for primitive in sub_object.primitives():
-    new_point = Point(0.0, 0.0, 0.0)
-    new_uv_point = UVPoint(0.0, 0.0)
-    new_normal = Vector(0.0, 0.0, 0.0)
-    new_vertex = primitive.add_vertex(new_point, new_uv_point, new_normal)
-
-    new_vertex.update_point(x=1.2)
-    new_vertex.update_uv_point(u=0.4, v=0.3)
-    new_vertex.update_normal(z=-1.2)
+for vertex in sub_object.vertices():
+    vertex.update_point(x=0.0, y=0.0, z=0.0)
+    vertex.update_uv_point(u=0.0, v=0.0)
+    vertex.update_normal(x=0.0, y=0.0, z=0.0)
 
 shapeio.dump(my_shape, "./path/to/output.s")
 ```
@@ -84,13 +79,12 @@ for lod_control in shape_editor.lod_controls():
                 new_point = Point(0.0, 0.0, 0.0)
                 new_uv_point = UVPoint(0.0, 0.0)
                 new_normal = Vector(0.0, 0.0, 0.0)
-                new_vertex = primitive.add_vertex(new_point, new_uv_point, new_normal)
 
-                new_vertex.update_point(-20.0, 1.0, 0.0)
-                new_vertex.update_uv_point(1.0, 0.0)
-                new_vertex.update_normal(1.0, 0.0, 0.0)
+                new_vertex1 = primitive.add_vertex(new_point, new_uv_point, new_normal)
+                new_vertex2 = primitive.add_vertex(new_point, new_uv_point, new_normal)
+                new_vertex3 = primitive.add_vertex(new_point, new_uv_point, new_normal)
 
-                primitive.add_triangle(new_vertex, vertex2, vertex3)
+                primitive.add_triangle(new_vertex1, new_vertex2, new_vertex3)
 
             for primitive in sub_object.primitives(prim_state_name="Rails"):
                 primitive.remove_triangles_connected_to(vertex)
