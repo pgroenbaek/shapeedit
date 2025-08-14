@@ -83,9 +83,6 @@ class _SubObjectEditor:
             for vertex in self._sub_object.vertices
         ]
     
-    def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Vector):
-        pass
-    
     @property
     def index(self) -> int:
         """Return the index of this SubObject within the parent DistanceLevel's sub_objects list."""

@@ -57,6 +57,9 @@ class _PrimitiveEditor:
     
     def get_matrix(self):
         pass
+
+    def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Vector):
+        pass
     
     def insert_triangle(self, vertex1: Vertex, vertex2: Vertex, vertex3: Vertex):
         pass
