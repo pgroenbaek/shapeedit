@@ -55,7 +55,7 @@ class _SubObjectHelper:
 
             current_prim_idx += num_primitives
 
-    def increase_vertexset_count(self, primitive: Primitive) -> Optional[int]:
+    def expand_vertexset(self, primitive: Primitive) -> Optional[int]:
         # Find the vertex state index to update
         total_prims = 0
         vtx_state_idx_to_update = -1

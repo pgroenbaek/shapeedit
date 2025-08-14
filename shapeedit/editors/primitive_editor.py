@@ -18,7 +18,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 from typing import TYPE_CHECKING, List
-from shapeio.shape import Primitive, Vertex, Point, UVPoint, Vector
+from shapeio.shape import Primitive, Vertex, Point, UVPoint, Vector, Matrix
 
 from .vertex_editor import _VertexEditor
 
@@ -55,9 +55,12 @@ class _PrimitiveEditor:
 
         return [_VertexEditor(parent_vertices[idx], _parent=self._parent) for idx in unique_ordered_indices]
     
-    def get_matrix(self):
-        # TODO implement
-        pass
+    def get_matrix(self) -> Matrix:
+        shape = self._parent._parent._parent._parent._shape
+        prim_state_idx = self._primitive.prim_state_index
+        vtx_state_idx = shape.prim_states[prim_state_idx].vtx_state_index
+        matrix_idx = shape.vtx_states[vtx_state_idx].matrix_index
+        return shape.matrices[matrix_idx]
 
     def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Vector):
         # TODO implement

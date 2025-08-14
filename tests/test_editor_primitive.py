@@ -41,3 +41,11 @@ def test_primitive_editor_index(global_storage):
     assert primitive.index == 0
 
 
+def test_primitive_editor_get_matrix(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    sub_object = editor.lod_control(0).distance_level(200).sub_object(0)
+    primitive = sub_object.primitive(0)
+    matrix = primitive.get_matrix()
+    assert matrix.name == "PNT5D_L01"
