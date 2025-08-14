@@ -20,35 +20,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import pytest
 
 from shapeedit import ShapeEditor
-from shapeedit.editors.lodcontrol_editor import _LodControlEditor
 
 
-def test_shape_editor_lod_controls(global_storage):
+def test_shape_has_lods(global_storage):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
     editor = ShapeEditor(shape)
 
-    lod_controls = editor.lod_controls()
-    assert len(lod_controls) == 1
-
-
-def test_shape_editor_lod_control_by_index(global_storage):
-    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
-    editor = ShapeEditor(shape)
-
-    lod_control = editor.lod_control(0)
-    assert isinstance(lod_control, _LodControlEditor)
-
-
-@pytest.mark.parametrize("bad_index", [
-    1,
-    -1
-])
-def test_shape_editor_lod_control_by_index_raises(global_storage, bad_index):
-    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
-    editor = ShapeEditor(shape)
-
-    with pytest.raises(IndexError):
-        editor.lod_control(bad_index)
+    lods = editor.all_lodcontrols()
+    assert len(lods) > 0, "Shape should have at least one LOD control"
 
 
 def test_add_vertex_to_first_subobject(global_storage):

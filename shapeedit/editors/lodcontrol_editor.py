@@ -17,14 +17,19 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
+from typing import TYPE_CHECKING, List
 from shapeio.shape import LodControl
 
-from .editors.distancelevel_editor import _DistanceLevelEditor
-from .editors.lodcontrol_editor import _LodControlEditor
+from .distancelevel_editor import _DistanceLevelEditor
+
+if TYPE_CHECKING:
+    from .shape_editor import ShapeEditor
 
 
 class _LodControlEditor:
-    def __init__(self, lod_control: LodControl, _parent: ShapeEditor = None):
+    def __init__(self, lod_control: LodControl, _parent: "ShapeEditor" = None):
+        from .shape_editor import ShapeEditor
+
         if _parent is None:
             raise TypeError("Parameter '_parent' cannot be None")
 
@@ -37,7 +42,7 @@ class _LodControlEditor:
         self._lod_control = lod_control
         self._parent = _parent
     
-    def distance_level(self, dlevel_selection: int) -> _LodControlEditor:
+    def distance_level(self, dlevel_selection: int) -> _DistanceLevelEditor:
         if not isinstance(dlevel_selection, int):
             raise TypeError(f"Parameter 'dlevel_selection' must be of type int, but got {type(dlevel_selection).__name__}")
 

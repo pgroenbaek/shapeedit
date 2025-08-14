@@ -17,13 +17,19 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
+from typing import TYPE_CHECKING, List
 from shapeio.shape import DistanceLevel
 
-from .editors.subobject_editor import _SubObjectEditor
+from .subobject_editor import _SubObjectEditor
+
+if TYPE_CHECKING:
+    from .lodcontrol_editor import _LodControlEditor
 
 
 class _DistanceLevelEditor:
-    def __init__(self, distance_level: DistanceLevel, _parent: _LodControlEditor = None):
+    def __init__(self, distance_level: DistanceLevel, _parent: "_LodControlEditor" = None):
+        from .lodcontrol_editor import _LodControlEditor
+
         if _parent is None:
             raise TypeError("Parameter '_parent' cannot be None")
 
@@ -59,3 +65,11 @@ class _DistanceLevelEditor:
     def dlevel_selection(self) -> int:
         """Return the dlevel_selection of this DistanceLevel."""
         return self._distance_level.distance_level_header.dlevel_selection
+    
+    @property
+    def index(self) -> int:
+        """Return the index of this DistanceLevel within the parent LodControls's distance_levels list."""
+        try:
+            return self._parent._lod_control.distance_levels.index(self._distance_level)
+        except ValueError:
+            raise ValueError("DistanceLevel not found in parent's distance_levels list")

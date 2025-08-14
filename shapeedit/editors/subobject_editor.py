@@ -17,15 +17,20 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-from shapeio.shape import SubObject, Vertex, Point, UVPoint, Normal
+from typing import TYPE_CHECKING, List
+from shapeio.shape import SubObject, Vertex, Point, UVPoint, Vector
 
-from .editors.distancelevel_editor import _DistanceLevelEditor
-from .editors.primitives_editor import _PrimitivesEditor
-from .helpers.subobject_helper import _SubObjectHelper
+from .primitive_editor import _PrimitiveEditor
+from ..helpers.subobject_helper import _SubObjectHelper
+
+if TYPE_CHECKING:
+    from .distancelevel_editor import _DistanceLevelEditor
 
 
-class SubObjectEditor:
-    def __init__(self, sub_object: SubObject, _parent: _DistanceLevelEditor = None):
+class _SubObjectEditor:
+    def __init__(self, sub_object: SubObject, _parent: "_DistanceLevelEditor" = None):
+        from .distancelevel_editor import _DistanceLevelEditor
+
         if _parent is None:
             raise TypeError("Parameter '_parent' cannot be None")
 
@@ -39,22 +44,32 @@ class SubObjectEditor:
         self._parent = _parent
         self._sub_object_helper = _SubObjectHelper(sub_object)
 
-    def distance_level(self, dlevel_selection: int) -> _LodControlEditor:
-        if not isinstance(dlevel_selection, int):
-            raise TypeError(f"Parameter 'dlevel_selection' must be of type int, but got {type(dlevel_selection).__name__}")
+    def primitive(self, primitive_index: int) -> _PrimitiveEditor:
+        if not isinstance(primitive_index, int):
+            raise TypeError(f"Parameter 'primitive_index' must be of type int, but got {type(primitive_index).__name__}")
+        
+        if not (0 <= primitive_index < len(self._sub_object.primitives)):
+            raise IndexError(
+                f"primitive_index {primitive_index} out of range "
+                f"(valid range: 0 to {len(self._sub_object.primitives) - 1})"
+            )
 
-        for distance_level in self._lod_control.distance_levels:
-            if distance_level.distance_level_header.dlevel_selection == dlevel_selection:
-                return _DistanceLevelEditor(distance_level, _parent=self)
-
-        raise ValueError(f"No DistanceLevel with dlevel_selection {dlevel_selection} found in this LodControl")
+        primitive = self._sub_object.primitives[primitive_index]
+        return _PrimitiveEditor(primitive, _parent=self)
     
-    def distance_levels(self) -> List[_DistanceLevelEditor]:
+    def primitives(self) -> List[_PrimitiveEditor]:
         return [
-            _DistanceLevelEditor(distance_level, _parent=self)
-            for distance_level in self._lod_control.distance_levels
+            _PrimitiveEditor(primitive, _parent=self)
+            for primitive in self._sub_object.primitives
         ]
     
-    def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Normal):
+    def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Vector):
         pass
     
+    @property
+    def index(self) -> int:
+        """Return the index of this SubObject within the parent DistanceLevel's sub_objects list."""
+        try:
+            return self._parent._distance_level.sub_objects.index(self._sub_object)
+        except ValueError:
+            raise ValueError("SubObject not found in parent's sub_objects list")

@@ -31,4 +31,4 @@ def _loaded_shape():
 @pytest.fixture(scope="function")
 def global_storage(_loaded_shape):
     shape_copy = copy.deepcopy(_loaded_shape)
-    return {"shape": shape_copy}
+    return {"shape_DK10f_A1tPnt5dLft": shape_copy}

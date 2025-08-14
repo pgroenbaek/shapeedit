@@ -17,13 +17,17 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-from shapeio.shape import Vertex, Point, UVPoint, Normal
+from typing import TYPE_CHECKING
+from shapeio.shape import Vertex, Point, UVPoint, Vector
 
-from .editors.primitives_editor import _PrimitiveEditor
+if TYPE_CHECKING:
+    from .primitive_editor import _PrimitiveEditor
 
 
-class VertexEditor:
-    def __init__(self, vertex: Vertex, _parent: _PrimitiveEditor = None):
+class _VertexEditor:
+    def __init__(self, vertex: Vertex, _parent: "_PrimitiveEditor" = None):
+        from .primitive_editor import _PrimitiveEditor
+
         if _parent is None:
             raise TypeError("Parameter '_parent' cannot be None")
 
@@ -36,12 +40,28 @@ class VertexEditor:
         self._vertex = vertex
         self._parent = _parent
     
-    def update_point(self, x: float = None, y: float = None, z: float = None):
+    def get_point(self) -> Point:
         pass
 
-    def update_uv_point(self, u: float = None, v: float = None):
+    def get_uv_point(self) -> UVPoint:
         pass
 
-    def update_normal(self, x: float = None, y: float = None, z: float = None):
+    def get_normal(self) -> Vector:
+        pass
+
+    def update_point(self, x: float = None, y: float = None, z: float = None) -> None:
+        pass
+
+    def update_uv_point(self, u: float = None, v: float = None) -> None:
+        pass
+
+    def update_normal(self, x: float = None, y: float = None, z: float = None) -> None:
         pass
     
+    @property
+    def index(self) -> int:
+        """Return the index of this Vertex within the parent SubObject's vertices list."""
+        try:
+            return self._parent._parent._sub_object.vertices.index(self._vertex)
+        except ValueError:
+            raise ValueError("Vertex not found in parent's vertices list")

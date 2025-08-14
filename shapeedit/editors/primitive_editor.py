@@ -17,14 +17,19 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
+from typing import TYPE_CHECKING, List
 from shapeio.shape import Primitive, Vertex
 
-from .editors.subobject_editor import _SubObjectEditor
-from .editors.vertex_editor import _VertexEditor
+from .vertex_editor import _VertexEditor
+
+if TYPE_CHECKING:
+    from .subobject_editor import _SubObjectEditor
 
 
-class PrimitiveEditor:
-    def __init__(self, primitive: Primitive, _parent: _SubObjectEditor = None):
+class _PrimitiveEditor:
+    def __init__(self, primitive: Primitive, _parent: "_SubObjectEditor" = None):
+        from .subobject_editor import _SubObjectEditor
+
         if _parent is None:
             raise TypeError("Parameter '_parent' cannot be None")
 
@@ -68,3 +73,10 @@ class PrimitiveEditor:
     def remove_triangles_connected_to(self, new_vertex: Vertex):
         pass
     
+    @property
+    def index(self) -> int:
+        """Return the index of this Primitive within the parent SubObject's primitives list."""
+        try:
+            return self._parent._sub_object.primitives.index(self._primitive)
+        except ValueError:
+            raise ValueError("Primitive not found in parent's primitives list")
