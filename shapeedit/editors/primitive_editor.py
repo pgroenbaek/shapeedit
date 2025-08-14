@@ -67,18 +67,55 @@ class _PrimitiveEditor:
         # TODO implement
         pass
     
-    def insert_triangle(self, vertex1: Vertex, vertex2: Vertex, vertex3: Vertex):
+    def insert_triangle(self, vertex1: _VertexEditor, vertex2: _VertexEditor, vertex3: _VertexEditor):
         shape = self._parent._parent._parent._parent._shape
+        
+        if not isinstance(vertex1, _VertexEditor):
+            raise TypeError(f"Parameter 'vertex1' must be of type _VertexEditor, but got {type(vertex1).__name__}")
+        if not isinstance(vertex2, _VertexEditor):
+            raise TypeError(f"Parameter 'vertex2' must be of type _VertexEditor, but got {type(vertex2).__name__}")
+        if not isinstance(vertex3, _VertexEditor):
+            raise TypeError(f"Parameter 'vertex3' must be of type _VertexEditor, but got {type(vertex3).__name__}")
+
+        if not self._parent._sub_object is vertex1._parent._sub_object:
+            raise ValueError("Parameter 'vertex1' is not from the same sub-object")
+        if not self._parent._sub_object is vertex2._parent._sub_object:
+            raise ValueError("Parameter 'vertex2' is not from the same sub-object")
+        if not self._parent._sub_object is vertex3._parent._sub_object:
+            raise ValueError("Parameter 'vertex3' is not from the same sub-object")
+        
         # TODO implement
         pass
 
-    def remove_triangle(self, vertex1: Vertex, vertex2: Vertex, vertex3: Vertex):
+    def remove_triangle(self, vertex1: _VertexEditor, vertex2: _VertexEditor, vertex3: _VertexEditor):
         shape = self._parent._parent._parent._parent._shape
+
+        if not isinstance(vertex1, _VertexEditor):
+            raise TypeError(f"Parameter 'vertex1' must be of type _VertexEditor, but got {type(vertex1).__name__}")
+        if not isinstance(vertex2, _VertexEditor):
+            raise TypeError(f"Parameter 'vertex2' must be of type _VertexEditor, but got {type(vertex2).__name__}")
+        if not isinstance(vertex3, _VertexEditor):
+            raise TypeError(f"Parameter 'vertex3' must be of type _VertexEditor, but got {type(vertex3).__name__}")
+
+        if not self._parent._sub_object is vertex1._parent._sub_object:
+            raise ValueError("Parameter 'vertex1' is not from the same sub-object")
+        if not self._parent._sub_object is vertex2._parent._sub_object:
+            raise ValueError("Parameter 'vertex2' is not from the same sub-object")
+        if not self._parent._sub_object is vertex3._parent._sub_object:
+            raise ValueError("Parameter 'vertex3' is not from the same sub-object")
+
         # TODO implement
         pass
 
-    def remove_triangles_connected_to(self, new_vertex: Vertex):
+    def remove_triangles_connected_to(self, new_vertex: _VertexEditor):
         shape = self._parent._parent._parent._parent._shape
+
+        if not isinstance(new_vertex, _VertexEditor):
+            raise TypeError(f"Parameter 'new_vertex' must be of type _VertexEditor, but got {type(new_vertex).__name__}")
+
+        if not self._parent._sub_object is new_vertex._parent._sub_object:
+            raise ValueError("Parameter 'new_vertex' is not from the same sub-object")
+        
         # TODO implement
         pass
     
