@@ -21,3 +21,13 @@ import pytest
 
 from shapeedit import ShapeEditor
 
+
+def test_distancelevel_editor_dlevelselection(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    distance_levels = editor.lod_control(0).distance_levels()
+    assert distance_levels[0].dlevel_selection == 200
+    assert distance_levels[1].dlevel_selection == 500
+    assert distance_levels[2].dlevel_selection == 800
+    assert distance_levels[3].dlevel_selection == 2000

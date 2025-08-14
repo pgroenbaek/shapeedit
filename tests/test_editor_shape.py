@@ -40,8 +40,7 @@ def test_shape_editor_lod_control_by_index(global_storage):
 
 
 @pytest.mark.parametrize("bad_index", [
-    1,
-    -1
+    1, -1, 100
 ])
 def test_shape_editor_lod_control_by_index_raises(global_storage, bad_index):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]

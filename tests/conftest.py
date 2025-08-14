@@ -25,7 +25,7 @@ import shapeio
 def _fast_clone(obj):
     """
     Recursively clone Python base types and custom classes.
-    Avoids deepcopy overhead.
+    Avoids deepcopy overhead before each test.
     """
     # Base immutable types - just return
     if isinstance(obj, (int, float, str, bool, type(None))):
@@ -62,5 +62,5 @@ def _loaded_shape():
 
 @pytest.fixture(scope="function")
 def global_storage(_loaded_shape):
-    shape_copy = _fast_clone(_loaded_shape)
+    shape_copy = _fast_clone(_loaded_shape) # Each test gets a fresh copy
     return {"shape_DK10f_A1tPnt5dLft": shape_copy}

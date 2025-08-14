@@ -20,4 +20,39 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import pytest
 
 from shapeedit import ShapeEditor
+from shapeedit.editors.distancelevel_editor import _DistanceLevelEditor
 
+
+def test_lodcontrol_editor_distance_levels(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    distance_levels = editor.lod_control(0).distance_levels()
+    assert len(distance_levels) == 4
+
+
+def test_lodcontrol_editor_distance_level_by_distance(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    distance_level = editor.lod_control(0).distance_level(200)
+    assert isinstance(distance_level, _DistanceLevelEditor)
+
+
+def test_lodcontrol_editor_index(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    lod_control = editor.lod_control(0)
+    assert lod_control.index == 0
+
+
+@pytest.mark.parametrize("bad_value", [
+    1, -1, 300, 1337
+])
+def test_lodcontrol_editor_distance_level_by_distance_raises(global_storage, bad_value):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    lod_control = ShapeEditor(shape).lod_control(0)
+
+    with pytest.raises(ValueError):
+        lod_control.distance_level(bad_value)
