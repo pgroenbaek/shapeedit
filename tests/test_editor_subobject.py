@@ -50,15 +50,15 @@ def test_subobject_editor_index(global_storage):
     assert sub_object.index == 0
 
 
-@pytest.mark.parametrize("bad_value", [
+@pytest.mark.parametrize("bad_index", [
     22, -1, 300, 1337
 ])
-def test_subobject_editor_primitive_by_index_raises(global_storage, bad_value):
+def test_subobject_editor_primitive_by_index_raises(global_storage, bad_index):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
     sub_object = ShapeEditor(shape).lod_control(0).distance_level(200).sub_object(0)
 
     with pytest.raises(IndexError):
-        sub_object.primitive(bad_value)
+        sub_object.primitive(bad_index)
 
 
 def test_subobject_editor_vertices(global_storage):
@@ -79,12 +79,12 @@ def test_subobject_editor_vertex_by_index(global_storage):
     assert isinstance(vertex, _VertexEditor)
 
 
-@pytest.mark.parametrize("bad_value", [
+@pytest.mark.parametrize("bad_index", [
     7427, -1, 13337
 ])
-def test_subobject_editor_vertex_by_index_raises(global_storage, bad_value):
+def test_subobject_editor_vertex_by_index_raises(global_storage, bad_index):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
-    primitive = ShapeEditor(shape).lod_control(0).distance_level(200).sub_object(0)
+    sub_object = ShapeEditor(shape).lod_control(0).distance_level(200).sub_object(0)
 
     with pytest.raises(IndexError):
-        primitive.vertex(bad_value)
+        sub_object.vertex(bad_index)

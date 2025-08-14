@@ -21,3 +21,10 @@ import pytest
 
 from shapeedit import ShapeEditor
 
+
+def test_vertex_editor_index(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    vertex = editor.lod_control(0).distance_level(200).sub_object(0).vertex(0)
+    assert vertex.index == 0
