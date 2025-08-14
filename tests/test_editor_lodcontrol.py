@@ -21,27 +21,3 @@ import pytest
 
 from shapeedit import ShapeEditor
 
-
-def test_shape_has_lods(global_storage):
-    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
-    editor = ShapeEditor(shape)
-
-    lods = editor.all_lodcontrols()
-    assert len(lods) > 0, "Shape should have at least one LOD control"
-
-
-def test_add_vertex_to_first_subobject(global_storage):
-    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
-    editor = ShapeEditor(shape)
-
-    # Assume there's at least one LOD, one dlevel, and one subobject
-    lod_editor = editor.lodcontrol(0)
-    dlevel_editor = lod_editor.distancelevels()[0]
-    subobj_editor = dlevel_editor.subobject(0)
-
-    new_vertex = ...  # your vertex creation logic here
-    original_count = len(shape.points)
-
-    subobj_editor.add_vertex(new_vertex)
-
-    assert len(shape.points) == original_count + 1

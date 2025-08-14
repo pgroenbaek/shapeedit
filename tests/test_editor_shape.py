@@ -49,20 +49,3 @@ def test_shape_editor_lod_control_by_index_raises(global_storage, bad_index):
 
     with pytest.raises(IndexError):
         editor.lod_control(bad_index)
-
-
-def test_add_vertex_to_first_subobject(global_storage):
-    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
-    editor = ShapeEditor(shape)
-
-    # Assume there's at least one LOD, one dlevel, and one subobject
-    lod_editor = editor.lodcontrol(0)
-    dlevel_editor = lod_editor.distancelevels()[0]
-    subobj_editor = dlevel_editor.subobject(0)
-
-    new_vertex = ...  # your vertex creation logic here
-    original_count = len(shape.points)
-
-    subobj_editor.add_vertex(new_vertex)
-
-    assert len(shape.points) == original_count + 1

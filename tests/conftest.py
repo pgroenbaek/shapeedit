@@ -18,9 +18,41 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 import pytest
-import copy
 
 import shapeio
+
+
+def _fast_clone(obj):
+    """
+    Recursively clone Python base types and custom classes.
+    Avoids deepcopy overhead.
+    """
+    # Base immutable types - just return
+    if isinstance(obj, (int, float, str, bool, type(None))):
+        return obj
+
+    # Lists / tuples / sets - clone elements
+    elif isinstance(obj, list):
+        return [_fast_clone(x) for x in obj]
+    elif isinstance(obj, tuple):
+        return tuple(_fast_clone(x) for x in obj)
+    elif isinstance(obj, set):
+        return {_fast_clone(x) for x in obj}
+
+    # Dicts - clone keys/values
+    elif isinstance(obj, dict):
+        return {_fast_clone(k): _fast_clone(v) for k, v in obj.items()}
+
+    # Custom class with __dict__
+    elif hasattr(obj, "__dict__"):
+        clone = obj.__class__.__new__(obj.__class__)  # avoid __init__
+        for k, v in obj.__dict__.items():
+            setattr(clone, k, _fast_clone(v))
+        return clone
+
+    # Fallback: return object as-is
+    else:
+        return obj
 
 
 @pytest.fixture(scope="session")
@@ -30,5 +62,5 @@ def _loaded_shape():
 
 @pytest.fixture(scope="function")
 def global_storage(_loaded_shape):
-    shape_copy = copy.deepcopy(_loaded_shape)
+    shape_copy = _fast_clone(_loaded_shape)
     return {"shape_DK10f_A1tPnt5dLft": shape_copy}
