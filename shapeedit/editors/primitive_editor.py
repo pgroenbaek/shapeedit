@@ -20,6 +20,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 from typing import TYPE_CHECKING, List
 from shapeio.shape import Primitive, Vertex, Point, UVPoint, Vector, Matrix
 
+from .triangle_editor import _TriangleEditor
 from .vertex_editor import _VertexEditor
 
 if TYPE_CHECKING:
@@ -61,15 +62,23 @@ class _PrimitiveEditor:
         vtx_state_idx = shape.prim_states[prim_state_idx].vtx_state_index
         matrix_idx = shape.vtx_states[vtx_state_idx].matrix_index
         return shape.matrices[matrix_idx]
+    
+    def triangles():
+        # TODO implement
+        pass
 
-    def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Vector):
+    def triangle():
+        # TODO implement
+        pass
+
+    def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Vector) -> _VertexEditor:
         shape = self._parent._parent._parent._parent._shape
         # TODO implement
         pass
     
-    def insert_triangle(self, vertex1: _VertexEditor, vertex2: _VertexEditor, vertex3: _VertexEditor):
+    def insert_triangle(self, vertex1: _VertexEditor, vertex2: _VertexEditor, vertex3: _VertexEditor) -> _TriangleEditor:
         shape = self._parent._parent._parent._parent._shape
-        
+
         if not isinstance(vertex1, _VertexEditor):
             raise TypeError(f"Parameter 'vertex1' must be of type _VertexEditor, but got {type(vertex1).__name__}")
         if not isinstance(vertex2, _VertexEditor):
@@ -107,14 +116,14 @@ class _PrimitiveEditor:
         # TODO implement
         pass
 
-    def remove_triangles_connected_to(self, new_vertex: _VertexEditor):
+    def remove_triangles_connected_to(self, vertex: _VertexEditor):
         shape = self._parent._parent._parent._parent._shape
 
-        if not isinstance(new_vertex, _VertexEditor):
-            raise TypeError(f"Parameter 'new_vertex' must be of type _VertexEditor, but got {type(new_vertex).__name__}")
+        if not isinstance(vertex, _VertexEditor):
+            raise TypeError(f"Parameter 'vertex' must be of type _VertexEditor, but got {type(vertex).__name__}")
 
-        if not self._parent._sub_object is new_vertex._parent._sub_object:
-            raise ValueError("Parameter 'new_vertex' is not from the same sub-object")
+        if not self._parent._sub_object is vertex._parent._sub_object:
+            raise ValueError("Parameter 'vertex' is not from the same sub-object")
         
         # TODO implement
         pass
