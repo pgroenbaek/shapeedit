@@ -18,7 +18,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 import numpy as np
-
 from shapeio import shape
 
 

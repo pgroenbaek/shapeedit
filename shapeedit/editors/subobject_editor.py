@@ -17,10 +17,12 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-from shapeio.shape import SubObject, Vertex
+from shapeio.shape import SubObject, Vertex, Point, UVPoint, Normal
 
 from .editors.distancelevel_editor import _DistanceLevelEditor
 from .editors.primitives_editor import _PrimitivesEditor
+from .helpers.subobject_helper import _SubObjectHelper
+
 
 class SubObjectEditor:
     def __init__(self, sub_object: SubObject, _parent: _DistanceLevelEditor = None):
@@ -35,6 +37,7 @@ class SubObjectEditor:
 
         self._sub_object = sub_object
         self._parent = _parent
+        self._sub_object_helper = _SubObjectHelper(sub_object)
 
     def distance_level(self, dlevel_selection: int) -> _LodControlEditor:
         if not isinstance(dlevel_selection, int):
@@ -52,6 +55,6 @@ class SubObjectEditor:
             for distance_level in self._lod_control.distance_levels
         ]
     
-    def add_vertex(self, new_vertex: Vertex):
+    def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Normal):
         pass
     

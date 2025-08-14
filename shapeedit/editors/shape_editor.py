@@ -18,7 +18,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 from typing import List
-
 from shapeio.shape import Shape
 
 from .editors.lodcontrol_editor import _LodControlEditor
