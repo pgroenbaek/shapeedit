@@ -80,10 +80,15 @@ for lod_control in shape_editor.lod_controls():
     for distance_level in lod_control.distance_levels():
         for sub_object in distance_level.sub_objects():
             for primitive in sub_object.primitives(prim_state_idx=22):
+                new_point = Point(0.0, 0.0, 0.0)
+                new_uv_point = UVPoint(0.0, 0.0)
+                new_normal = Vector(0.0, 0.0, 0.0)
                 new_vertex = primitive.add_vertex(new_point, new_uv_point, new_normal)
-                new_vertex.update_normal(0.0, 0.0, 0.0)
-                new_vertex.update_point(0.0, 0.0, 0.0)
-                new_vertex.update_uv_point(0.0, 0.0)
+
+                new_vertex.update_point(-20.0, 1.0, 0.0)
+                new_vertex.update_uv_point(1.0, 0.0)
+                new_vertex.update_normal(1.0, 0.0, 0.0)
+
                 primitive.add_triangle(new_vertex, vertex2, vertex3)
 
             for primitive in sub_object.primitives(prim_state_name="Rails"):
