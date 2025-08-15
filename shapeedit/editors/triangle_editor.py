@@ -45,3 +45,15 @@ class _TriangleEditor:
         self._vertex_idx = vertex_idx
         self._normal_idx = normal_idx
         self._parent = _parent
+
+    def vertices():
+        # TODO implement
+        pass
+
+    def get_face_normal():
+        # TODO implement
+        pass
+
+    def update_face_normal():
+        # TODO implement
+        pass
