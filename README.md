@@ -47,7 +47,9 @@ git clone https://github.com/pgroenbaek/shapeedit.git
 pip install --upgrade ./shapeedit
 ```
 
-## Usage
+## Expected Usage
+
+These examples are preliminary, not fully implemented and might change.
 
 ```python
 import shapeio
