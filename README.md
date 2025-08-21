@@ -16,6 +16,7 @@ At this stage, only a limited set of operations is implemented, such as adding v
 
 List of companion modules:
 - [shapeio](https://github.com/pgroenbaek/shapeio) - offers functions to convert shapes between structured text format and Python objects.
+- [shapecomp](https://github.com/pgroenbaek/shapecomp) - handles compression and decompression of shape files through the TK.MSTS.Tokens.dll library by Okrasa Ghia.
 - [trackshape-utils](https://github.com/pgroenbaek/trackshape-utils/tree/develop) - offers additional utilities for working with track shapes.
 
 ## Installation
@@ -52,11 +53,11 @@ pip install --upgrade ./shapeedit
 These examples are preliminary, not fully implemented and might change.
 
 ```python
-import shapeio
+import shapeio as sio
 from shapeio.shape import Point, UVPoint, Vector
 from shapeedit import ShapeEditor
 
-my_shape = shapeio.load("./path/to/example.s")
+my_shape = sio.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
 
@@ -67,16 +68,16 @@ for vertex in sub_object.vertices():
     vertex.update_uv_point(u=0.0, v=0.0)
     vertex.update_normal(x=0.0, y=0.0, z=0.0)
 
-shapeio.dump(my_shape, "./path/to/output.s")
+sio.dump(my_shape, "./path/to/output.s")
 ```
 
 
 ```python
-import shapeio
+import shapeio as sio
 from shapeio.shape import Point, UVPoint, Vector
 from shapeedit import ShapeEditor
 
-my_shape = shapeio.load("./path/to/example.s")
+my_shape = sio.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
 
@@ -98,7 +99,7 @@ for lod_control in shape_editor.lod_controls():
                 primitive.remove_triangles_connected_to(vertex)
                 primitive.remove_triangle(vertex1, vertex2, vertex3)
 
-shapeio.dump(my_shape, "./path/to/output.s")
+sio.dump(my_shape, "./path/to/output.s")
 ```
 
 ## Running Tests
