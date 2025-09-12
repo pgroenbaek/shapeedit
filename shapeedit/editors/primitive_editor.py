@@ -72,13 +72,34 @@ class _PrimitiveEditor:
 
         return [_VertexEditor(parent_vertices[idx], _parent=self._parent) for idx in unique_ordered_indices]
     
-    def triangles():
-        # TODO implement
-        pass
+    def triangle(self, triangle_index: int) -> _TriangleEditor:
+        if not isinstance(triangle_index, int):
+            raise TypeError(f"Parameter 'triangle_index' must be of type int, but got {type(triangle_index).__name__}")
 
-    def triangle():
-        # TODO implement
-        pass
+        indexed_trilist = self._primitive.indexed_trilist
+
+        if not (0 <= triangle_index < len(indexed_trilist.vertex_idxs)):
+            raise IndexError(
+                f"triangle_index {triangle_index} out of range "
+                f"(valid range: 0 to {len(indexed_trilist.vertex_idxs) - 1})"
+            )
+        
+        if not (0 <= triangle_index < len(indexed_trilist.normal_idxs)):
+            raise IndexError(
+                f"triangle_index {triangle_index} out of range "
+                f"(valid range: 0 to {len(indexed_trilist.normal_idxs) - 1})"
+            )
+
+        vertex_idx = indexed_trilist.vertex_idxs[triangle_index]
+        normal_idx = indexed_trilist.normal_idxs[triangle_index]
+        return _TriangleEditor(vertex_idx, normal_idx, _parent=self)
+    
+    def triangles(self) -> List[_TriangleEditor]:
+        indexed_trilist = self._primitive.indexed_trilist
+        return [
+            _TriangleEditor(vertex_idx, normal_idx, _parent=self)
+            for vertex_idx, normal_idx in zip(indexed_trilist.vertex_idxs, indexed_trilist.normal_idxs)
+        ]
 
     def add_vertex(self, new_point: Point, new_uv_point: UVPoint, new_normal: Vector) -> _VertexEditor:
         shape = self._parent._parent._parent._parent._shape

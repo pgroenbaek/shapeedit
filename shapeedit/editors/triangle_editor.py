@@ -50,7 +50,7 @@ class _TriangleEditor:
     def index(self) -> int:
         """Return the index of this triangle within the parent Primitive's vertex_idxs list."""
         try:
-            return self._parent._primitive.vertex_idxs.index(self._vertex_idx)
+            return self._parent._primitive.indexed_trilist.vertex_idxs.index(self._vertex_idx)
         except ValueError:
             raise IndexError("Triangle not found in parent's vertex_idxs list")
 
