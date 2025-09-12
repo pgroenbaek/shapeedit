@@ -42,6 +42,22 @@ class _PrimitiveEditor:
 
         self._primitive = primitive
         self._parent = _parent
+    
+    @property
+    def index(self) -> int:
+        """Return the index of this Primitive within the parent SubObject's primitives list."""
+        try:
+            return self._parent._sub_object.primitives.index(self._primitive)
+        except IndexError:
+            raise IndexError("Primitive not found in parent's primitives list")
+
+    @property
+    def matrix(self) -> Matrix:
+        shape = self._parent._parent._parent._parent._shape
+        prim_state_idx = self._primitive.prim_state_index
+        vtx_state_idx = shape.prim_states[prim_state_idx].vtx_state_index
+        matrix_idx = shape.vtx_states[vtx_state_idx].matrix_index
+        return shape.matrices[matrix_idx]
 
     def vertices(self) -> List[_VertexEditor]:
         parent_vertices = self._parent._sub_object.vertices
@@ -55,13 +71,6 @@ class _PrimitiveEditor:
                     unique_ordered_indices.append(idx)
 
         return [_VertexEditor(parent_vertices[idx], _parent=self._parent) for idx in unique_ordered_indices]
-    
-    def get_matrix(self) -> Matrix:
-        shape = self._parent._parent._parent._parent._shape
-        prim_state_idx = self._primitive.prim_state_index
-        vtx_state_idx = shape.prim_states[prim_state_idx].vtx_state_index
-        matrix_idx = shape.vtx_states[vtx_state_idx].matrix_index
-        return shape.matrices[matrix_idx]
     
     def triangles():
         # TODO implement
@@ -127,11 +136,3 @@ class _PrimitiveEditor:
         
         # TODO implement
         pass
-    
-    @property
-    def index(self) -> int:
-        """Return the index of this Primitive within the parent SubObject's primitives list."""
-        try:
-            return self._parent._sub_object.primitives.index(self._primitive)
-        except ValueError:
-            raise ValueError("Primitive not found in parent's primitives list")

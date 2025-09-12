@@ -44,6 +44,14 @@ class _SubObjectEditor:
         self._sub_object = sub_object
         self._parent = _parent
         self._sub_object_helper = _SubObjectHelper(sub_object)
+    
+    @property
+    def index(self) -> int:
+        """Return the index of this SubObject within the parent DistanceLevel's sub_objects list."""
+        try:
+            return self._parent._distance_level.sub_objects.index(self._sub_object)
+        except IndexError:
+            raise IndexError("SubObject not found in parent's sub_objects list")
 
     def primitive(self, primitive_index: int) -> _PrimitiveEditor:
         if not isinstance(primitive_index, int):
@@ -83,11 +91,3 @@ class _SubObjectEditor:
             _VertexEditor(vertex, _parent=self)
             for vertex in self._sub_object.vertices
         ]
-    
-    @property
-    def index(self) -> int:
-        """Return the index of this SubObject within the parent DistanceLevel's sub_objects list."""
-        try:
-            return self._parent._distance_level.sub_objects.index(self._sub_object)
-        except ValueError:
-            raise ValueError("SubObject not found in parent's sub_objects list")

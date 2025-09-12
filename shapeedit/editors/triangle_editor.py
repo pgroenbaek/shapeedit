@@ -46,14 +46,50 @@ class _TriangleEditor:
         self._normal_idx = normal_idx
         self._parent = _parent
 
-    def vertices():
-        # TODO implement
-        pass
+    @property
+    def face_normal(self) -> Vector:
+        shape = self._parent._parent._parent._parent._shape
+        normal_idx = self._normal_idx.index
 
-    def get_face_normal():
-        # TODO implement
-        pass
+        if not (normal_idx < len(shape.normals)):
+            raise IndexError("Normal not found in shape's normals list")
+        
+        return shape.normals[normal_idx]
 
-    def update_face_normal():
-        # TODO implement
-        pass
+    @face_normal.setter
+    def face_normal(self, face_normal: Vector):
+        shape = self._parent._parent._parent._parent._shape
+
+        if not isinstance(face_normal, Vector):
+            raise TypeError(f"Parameter 'face_normal' must be of type shape.Vector, but got {type(face_normal).__name__}")
+
+        if face_normal in shape.normals:
+            normal_idx = shape.normals.index(face_normal)
+        else:
+            shape.normals.append(face_normal)
+            normal_idx = len(shape.normals) - 1
+
+        self._normal_idx.index = normal_idx
+
+    def vertices(self) -> List[_VertexEditor]:
+        sub_object = self._parent._parent._sub_object
+
+        vertex1_idx = self._vertex_idx.vertex1_index
+        vertex2_idx = self._vertex_idx.vertex2_index
+        vertex3_idx = self._vertex_idx.vertex3_index
+
+        for vertex_idx in [vertex1_idx, vertex2_idx, vertex3_idx]:
+            if not (vertex_idx < len(sub_object.vertices)):
+                raise IndexError(
+                    f"Vertex index {vertex_idx} not found in SubObject's vertices list"
+                )
+
+        vertex1 = sub_object.vertices[self._vertex_idx.vertex1_index]
+        vertex2 = sub_object.vertices[self._vertex_idx.vertex2_index]
+        vertex3 = sub_object.vertices[self._vertex_idx.vertex3_index]
+
+        return [
+            _VertexEditor(vertex1, _parent=self),
+            _VertexEditor(vertex2, _parent=self),
+            _VertexEditor(vertex3, _parent=self),
+        ]

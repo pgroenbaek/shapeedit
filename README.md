@@ -64,9 +64,14 @@ shape_editor = ShapeEditor(my_shape)
 sub_object = shape_editor.lod_control(0).distance_level(200).sub_object(0)
 
 for vertex in sub_object.vertices():
-    vertex.update_point(x=0.0, y=0.0, z=0.0)
-    vertex.update_uv_point(u=0.0, v=0.0)
-    vertex.update_normal(x=0.0, y=0.0, z=0.0)
+    vertex.point.x = 0.0
+    vertex.point.y = 0.0
+    vertex.point.x = 0.0
+    vertex.uv_point.u = 0.0
+    vertex.uv_point.v = 0.0
+    vertex.normal.x = 0.0
+    vertex.normal.y = 0.0
+    vertex.normal.x = 0.0
 
 shapeio.dump(my_shape, "./path/to/output.s")
 ```

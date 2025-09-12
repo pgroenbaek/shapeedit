@@ -42,6 +42,19 @@ class _DistanceLevelEditor:
         self._distance_level = distance_level
         self._parent = _parent
 
+    @property
+    def index(self) -> int:
+        """Return the index of this DistanceLevel within the parent LodControls's distance_levels list."""
+        try:
+            return self._parent._lod_control.distance_levels.index(self._distance_level)
+        except IndexError:
+            raise IndexError("DistanceLevel not found in parent's distance_levels list")
+    
+    @property
+    def dlevel_selection(self) -> int:
+        """Return the dlevel_selection of this DistanceLevel."""
+        return self._distance_level.distance_level_header.dlevel_selection
+
     def sub_object(self, sub_object_index: int) -> _SubObjectEditor:
         if not isinstance(sub_object_index, int):
             raise TypeError(f"Parameter 'sub_object_index' must be of type int, but got {type(sub_object_index).__name__}")
@@ -60,16 +73,3 @@ class _DistanceLevelEditor:
             _SubObjectEditor(sub_object, _parent=self)
             for sub_object in self._distance_level.sub_objects
         ]
-    
-    @property
-    def dlevel_selection(self) -> int:
-        """Return the dlevel_selection of this DistanceLevel."""
-        return self._distance_level.distance_level_header.dlevel_selection
-    
-    @property
-    def index(self) -> int:
-        """Return the index of this DistanceLevel within the parent LodControls's distance_levels list."""
-        try:
-            return self._parent._lod_control.distance_levels.index(self._distance_level)
-        except ValueError:
-            raise ValueError("DistanceLevel not found in parent's distance_levels list")

@@ -41,6 +41,14 @@ class _LodControlEditor:
 
         self._lod_control = lod_control
         self._parent = _parent
+
+    @property
+    def index(self) -> int:
+        """Return the index of this LodControl within the parent Shape's lod_controls list."""
+        try:
+            return self._parent._shape.lod_controls.index(self._lod_control)
+        except IndexError:
+            raise IndexError("LodControl not found in parent's lod_controls list")
     
     def distance_level(self, dlevel_selection: int) -> _DistanceLevelEditor:
         if not isinstance(dlevel_selection, int):
@@ -57,11 +65,3 @@ class _LodControlEditor:
             _DistanceLevelEditor(distance_level, _parent=self)
             for distance_level in self._lod_control.distance_levels
         ]
-
-    @property
-    def index(self) -> int:
-        """Return the index of this LodControl within the parent Shape's lod_controls list."""
-        try:
-            return self._parent._shape.lod_controls.index(self._lod_control)
-        except ValueError:
-            raise ValueError("LodControl not found in parent's lod_controls list")

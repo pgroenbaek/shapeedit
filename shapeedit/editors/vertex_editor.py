@@ -40,40 +40,85 @@ class _VertexEditor:
         self._vertex = vertex
         self._parent = _parent
     
-    def get_point(self) -> Point:
-        shape = self._parent._parent._parent._parent._shape
-        # TODO implement
-        pass
-
-    def get_uv_point(self) -> UVPoint:
-        shape = self._parent._parent._parent._parent._shape
-        # TODO implement
-        pass
-
-    def get_normal(self) -> Vector:
-        shape = self._parent._parent._parent._parent._shape
-        # TODO implement
-        pass
-
-    def update_point(self, x: float = None, y: float = None, z: float = None) -> None:
-        shape = self._parent._parent._parent._parent._shape
-        # TODO implement
-        pass
-
-    def update_uv_point(self, u: float = None, v: float = None) -> None:
-        shape = self._parent._parent._parent._parent._shape
-        # TODO implement
-        pass
-
-    def update_normal(self, x: float = None, y: float = None, z: float = None) -> None:
-        shape = self._parent._parent._parent._parent._shape
-        # TODO implement
-        pass
-    
     @property
     def index(self) -> int:
         """Return the index of this Vertex within the parent SubObject's vertices list."""
         try:
             return self._parent._sub_object.vertices.index(self._vertex)
-        except ValueError:
-            raise ValueError("Vertex not found in parent's vertices list")
+        except IndexError:
+            raise IndexError("Vertex not found in parent's vertices list")
+
+    @property
+    def point(self) -> Point:
+        shape = self._parent._parent._parent._parent._shape
+        point_idx = self._vertex.point_index
+
+        if not (point_idx < len(shape.points)):
+            raise IndexError(f"Point index {point_idx} not found in shape's points list")
+        
+        return shape.points[point_idx]
+    
+    @point.setter
+    def point(self, point: Point):
+        shape = self._parent._parent._parent._parent._shape
+
+        if not isinstance(point, Point):
+            raise TypeError(f"Parameter 'point' must be of type shape.Point, but got {type(point).__name__}")
+
+        if point in shape.points:
+            point_idx = shape.points.index(point)
+        else:
+            shape.points.append(point)
+            point_idx = len(shape.points) - 1
+
+        self._vertex.point_index = point_idx
+
+    @property
+    def uv_point(self) -> UVPoint:
+        shape = self._parent._parent._parent._parent._shape
+        uv_point_idx = self._vertex.uv_points[0]
+
+        if not (uv_point_idx < len(shape.uv_points)):
+            raise IndexError(f"UVPoint index {uv_point_idx} not found in shape's uv_points list")
+        
+        return shape.uv_points[uv_point_idx]
+
+    @uv_point.setter
+    def uv_point(self, uv_point: UVPoint):
+        shape = self._parent._parent._parent._parent._shape
+
+        if not isinstance(uv_point, UVPoint):
+            raise TypeError(f"Parameter 'uv_point' must be of type shape.UVPoint, but got {type(uv_point).__name__}")
+
+        if uv_point in shape.uv_points:
+            uv_point_idx = shape.uv_points.index(uv_point)
+        else:
+            shape.uv_points.append(uv_point)
+            uv_point_idx = len(shape.uv_points) - 1
+
+        self._vertex.uv_points[0] = uv_point_idx
+
+    @property
+    def normal(self) -> Vector:
+        shape = self._parent._parent._parent._parent._shape
+        normal_idx = self._vertex.normal_index
+
+        if not (normal_idx < len(shape.normals)):
+            raise IndexError(f"Normal index {normal_idx} not found in shape's normals list")
+        
+        return shape.normals[normal_idx]
+
+    @normal.setter
+    def normal(self, normal: Vector):
+        shape = self._parent._parent._parent._parent._shape
+
+        if not isinstance(normal, Vector):
+            raise TypeError(f"Parameter 'normal' must be of type shape.Vector, but got {type(normal).__name__}")
+
+        if normal in shape.normals:
+            normal_idx = shape.normals.index(normal)
+        else:
+            shape.normals.append(normal)
+            normal_idx = len(shape.normals) - 1
+
+        self._vertex.normal_index = normal_idx
