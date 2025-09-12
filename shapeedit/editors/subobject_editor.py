@@ -50,7 +50,7 @@ class _SubObjectEditor:
         """Return the index of this SubObject within the parent DistanceLevel's sub_objects list."""
         try:
             return self._parent._distance_level.sub_objects.index(self._sub_object)
-        except IndexError:
+        except ValueError:
             raise IndexError("SubObject not found in parent's sub_objects list")
 
     def primitive(self, primitive_index: int) -> _PrimitiveEditor:

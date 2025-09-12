@@ -48,7 +48,7 @@ class _PrimitiveEditor:
         """Return the index of this Primitive within the parent SubObject's primitives list."""
         try:
             return self._parent._sub_object.primitives.index(self._primitive)
-        except IndexError:
+        except ValueError:
             raise IndexError("Primitive not found in parent's primitives list")
 
     @property

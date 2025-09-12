@@ -47,6 +47,14 @@ class _TriangleEditor:
         self._parent = _parent
 
     @property
+    def index(self) -> int:
+        """Return the index of this triangle within the parent Primitive's vertex_idxs list."""
+        try:
+            return self._parent._primitive.vertex_idxs.index(self._vertex_idx)
+        except ValueError:
+            raise IndexError("Triangle not found in parent's vertex_idxs list")
+
+    @property
     def face_normal(self) -> Vector:
         shape = self._parent._parent._parent._parent._shape
         normal_idx = self._normal_idx.index

@@ -45,7 +45,7 @@ class _VertexEditor:
         """Return the index of this Vertex within the parent SubObject's vertices list."""
         try:
             return self._parent._sub_object.vertices.index(self._vertex)
-        except IndexError:
+        except ValueError:
             raise IndexError("Vertex not found in parent's vertices list")
 
     @property
@@ -76,7 +76,7 @@ class _VertexEditor:
     @property
     def uv_point(self) -> UVPoint:
         shape = self._parent._parent._parent._parent._shape
-        uv_point_idx = self._vertex.uv_points[0]
+        uv_point_idx = self._vertex.vertex_uvs[0]
 
         if not (uv_point_idx < len(shape.uv_points)):
             raise IndexError(f"UVPoint index {uv_point_idx} not found in shape's uv_points list")
@@ -96,7 +96,7 @@ class _VertexEditor:
             shape.uv_points.append(uv_point)
             uv_point_idx = len(shape.uv_points) - 1
 
-        self._vertex.uv_points[0] = uv_point_idx
+        self._vertex.vertex_uvs[0] = uv_point_idx
 
     @property
     def normal(self) -> Vector:

@@ -47,7 +47,7 @@ class _DistanceLevelEditor:
         """Return the index of this DistanceLevel within the parent LodControls's distance_levels list."""
         try:
             return self._parent._lod_control.distance_levels.index(self._distance_level)
-        except IndexError:
+        except ValueError:
             raise IndexError("DistanceLevel not found in parent's distance_levels list")
     
     @property
