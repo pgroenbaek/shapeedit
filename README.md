@@ -115,7 +115,7 @@ for lod_control in shape_editor.lod_controls():
     for distance_level in lod_control.distance_levels():
         for sub_object in distance_level.sub_objects():
             for primitive in sub_object.primitives(prim_state_name="Rails"):
-                for vertex in sub_object.vertices():
+                for vertex in primitive.vertices():
                     primitive.remove_triangles_connected_to(vertex)
 
 shapeio.dump(my_shape, "./path/to/output.s")
