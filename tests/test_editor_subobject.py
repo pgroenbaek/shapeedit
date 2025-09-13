@@ -33,6 +33,48 @@ def test_subobject_editor_primitives(global_storage):
     assert len(primitives) == 22
 
 
+def test_subobject_editor_primitives_filtered_by_primstateindex(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    sub_object = editor.lod_control(0).distance_level(200).sub_object(0)
+    primitives = sub_object.primitives(prim_state_index=0)
+    assert len(primitives) == 2
+    assert all([p._primitive.prim_state_index == 0 for p in primitives])
+
+
+def test_subobject_editor_primitives_filtered_by_primstatename(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    sub_object = editor.lod_control(0).distance_level(200).sub_object(0)
+    primitives = sub_object.primitives(prim_state_name="Rails")
+    assert len(primitives) == 6
+    assert all([shape.prim_states[p._primitive.prim_state_index].name == "Rails" for p in primitives])
+
+
+@pytest.mark.parametrize("bad_type", [
+    "not an int", 0.1, []
+])
+def test_subobject_editor_primitives_filtered_by_primstateindex_raises(global_storage, bad_type):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    sub_object = ShapeEditor(shape).lod_control(0).distance_level(200).sub_object(0)
+
+    with pytest.raises(TypeError):
+        sub_object.primitives(prim_state_index=bad_type)
+
+
+@pytest.mark.parametrize("bad_type", [
+    1, 0.1, []
+])
+def test_subobject_editor_primitives_filtered_by_primstatename_raises(global_storage, bad_type):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    sub_object = ShapeEditor(shape).lod_control(0).distance_level(200).sub_object(0)
+
+    with pytest.raises(TypeError):
+        sub_object.primitives(prim_state_name=bad_type)
+
+
 def test_subobject_editor_primitive_by_index(global_storage):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
     editor = ShapeEditor(shape)

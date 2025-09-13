@@ -71,7 +71,7 @@ def test_primitive_editor_index(global_storage):
     assert primitive.index == 0
 
 
-def test_primitive_editor_get_matrix(global_storage):
+def test_primitive_editor_matrix_getter(global_storage):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
     editor = ShapeEditor(shape)
 

@@ -66,12 +66,32 @@ class _SubObjectEditor:
         primitive = self._sub_object.primitives[primitive_index]
         return _PrimitiveEditor(primitive, _parent=self)
     
-    def primitives(self, prim_state_index: Optional[int] = None, prim_state_name: Optional[str] = None) -> List[_PrimitiveEditor]:
-        # TODO also filter based on prim_state_index and prim_state_name
-        return [
-            _PrimitiveEditor(primitive, _parent=self)
-            for primitive in self._sub_object.primitives
-        ]
+    def primitives(self,
+        prim_state_index: Optional[int] = None,
+        prim_state_name: Optional[str] = None
+    ) -> List[_PrimitiveEditor]:
+
+        if prim_state_index is not None and not isinstance(prim_state_index, int):
+            raise TypeError(f"Parameter 'prim_state_index' must be of type int, but got {type(prim_state_index).__name__}")
+        
+        if prim_state_name is not None and not isinstance(prim_state_name, str):
+            raise TypeError(f"Parameter 'prim_state_name' must be of type str, but got {type(prim_state_name).__name__}")
+        
+        shape = self._parent._parent._parent._shape
+        primitives = []
+
+        for primitive in self._sub_object.primitives:
+            if prim_state_index is not None and primitive.prim_state_index != prim_state_index:
+                continue
+
+            if prim_state_name is not None:
+                state_name = shape.prim_states[primitive.prim_state_index].name
+                if state_name != prim_state_name:
+                    continue
+
+            primitives.append(_PrimitiveEditor(primitive, _parent=self))
+
+        return primitives
     
     def vertex(self, vertex_index: int) -> _VertexEditor:
         if not isinstance(vertex_index, int):

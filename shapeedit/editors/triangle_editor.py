@@ -56,7 +56,7 @@ class _TriangleEditor:
 
     @property
     def face_normal(self) -> Vector:
-        shape = self._parent._parent._parent._parent._shape
+        shape = self._parent._parent._parent._parent._parent._shape
         normal_idx = self._normal_idx.index
 
         if not (normal_idx < len(shape.normals)):
@@ -66,7 +66,7 @@ class _TriangleEditor:
 
     @face_normal.setter
     def face_normal(self, face_normal: Vector):
-        shape = self._parent._parent._parent._parent._shape
+        shape = self._parent._parent._parent._parent._parent._shape
 
         if not isinstance(face_normal, Vector):
             raise TypeError(f"Parameter 'face_normal' must be of type shape.Vector, but got {type(face_normal).__name__}")
@@ -97,7 +97,7 @@ class _TriangleEditor:
         vertex3 = sub_object.vertices[self._vertex_idx.vertex3_index]
 
         return [
-            _VertexEditor(vertex1, _parent=self),
-            _VertexEditor(vertex2, _parent=self),
-            _VertexEditor(vertex3, _parent=self),
+            _VertexEditor(vertex1, _parent=self._parent._parent),
+            _VertexEditor(vertex2, _parent=self._parent._parent),
+            _VertexEditor(vertex3, _parent=self._parent._parent),
         ]
