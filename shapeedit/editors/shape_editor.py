@@ -24,7 +24,47 @@ from .lodcontrol_editor import _LodControlEditor
 
 
 class ShapeEditor:
+    """
+    Wrapper for safely editing the `Shape` data structure.
+
+    The `ShapeEditor` class provides a high-level interface to safely edit
+    the internal data of a `Shape` instance while maintaining the
+    consistency and invariants required for the shape to remain
+    valid and usable in Microsoft Train Simulator (MSTS) and
+    Open Rails. It exposes operations such as accessing vertices,
+    triangles, points, uv points and normals. It also allows you to
+    modify, remove and add new geometry in an existing shape.
+
+    Example:
+        >>> import shapeio
+        >>> from shapeio.shape import Point, UVPoint, Vector
+        >>> from shapeedit import ShapeEditor
+        >>>
+        >>> my_shape = shapeio.load("./path/to/example.s")
+        >>> shape_editor = ShapeEditor(my_shape)
+        >>> sub_object = shape_editor.lod_control(0).distance_level(200).sub_object(0)
+        >>>
+        >>> # Set point values of all vertices in the subobject.
+        >>> for vertex in sub_object.vertices():
+        ...     vertex.point.x = 0.0
+        ...     vertex.point.y = 1.0
+        ...     vertex.point.z = 2.0
+        >>>
+        >>> shapeio.dump(my_shape, "./path/to/output.s")
+    """
+
     def __init__(self, shape: Shape):
+        """
+        Initializes a ShapeEditor instance.
+
+        Wraps a `Shape` instance to provide safe editing operations.
+
+        Args:
+            shape (Shape): The shape instance to be edited.
+
+        Raises:
+            TypeError: If `shape` is None or not an instance of `Shape`.
+        """
         if shape is None:
             raise TypeError("Parameter 'shape' must be a shape.Shape, not None")
 
@@ -34,6 +74,22 @@ class ShapeEditor:
         self._shape = shape
 
     def lod_control(self, lod_control_index: int) -> _LodControlEditor:
+        """
+        Returns an editor for a specific LOD (Level of Detail) control.
+
+        Provides access to a specific LOD control of the shape,
+        allowing safe edits to its children.
+
+        Args:
+            lod_control_index (int): Index of the LOD control to edit.
+
+        Returns:
+            _LodControlEditor: An editor instance for the specified LOD control.
+
+        Raises:
+            TypeError: If `lod_control_index` is not an integer.
+            IndexError: If `lod_control_index` is out of the valid range.
+        """
         if not isinstance(lod_control_index, int):
             raise TypeError(f"Parameter 'lod_control_index' must be of type int, but got {type(lod_control_index).__name__}")
         
@@ -47,6 +103,14 @@ class ShapeEditor:
         return _LodControlEditor(lod_control, _parent=self)
 
     def lod_controls(self) -> List[_LodControlEditor]:
+        """
+        Returns editors for all LOD (Level of Detail) controls of the shape.
+
+        Each editor allows safe modifications to its respective LOD control.
+
+        Returns:
+            List[_LodControlEditor]: A list of editors, one for each LOD control.
+        """
         return [
             _LodControlEditor(lod_control, _parent=self)
             for lod_control in self._shape.lod_controls

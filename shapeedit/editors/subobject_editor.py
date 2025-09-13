@@ -29,7 +29,33 @@ if TYPE_CHECKING:
 
 
 class _SubObjectEditor:
+    """
+    Internal editor for a single `SubObject` within a `DistanceLevel`.
+
+    This class is part of the internal shape-editing API and **should not**
+    be instantiated directly. Instances are created and returned by
+    `_DistanceLevelEditor.sub_object()` or `_DistanceLevelEditor.sub_objects()`.
+
+    It provides safe access and editing of a SubObject's primitives and
+    vertices, preserving the consistency of the underlying `Shape` data
+    structure used in MSTS/Open Rails.
+    """
+
     def __init__(self, sub_object: SubObject, _parent: "_DistanceLevelEditor" = None):
+        """
+        Initializes a `_SubObjectEditor` instance.
+
+        Do not call this constructor directly. Use `_DistanceLevelEditor.sub_object()`
+        or `_DistanceLevelEditor.sub_objects()` to obtain an instance.
+
+        Args:
+            sub_object (SubObject): The SubObject to wrap.
+            _parent (_DistanceLevelEditor): The parent distance level editor.
+
+        Raises:
+            TypeError: If `_parent` is None, or if `sub_object` is not
+                a `SubObject`, or if `_parent` is not a `_DistanceLevelEditor`.
+        """
         from .distancelevel_editor import _DistanceLevelEditor
 
         if _parent is None:
@@ -47,13 +73,34 @@ class _SubObjectEditor:
     
     @property
     def index(self) -> int:
-        """Return the index of this SubObject within the parent DistanceLevel's sub_objects list."""
+        """
+        Index of this `SubObject` in the parent DistanceLevel's list.
+
+        Returns:
+            int: The index of this SubObject within the parent's `sub_objects` list.
+
+        Raises:
+            IndexError: If the underlying `SubObject` is not found in the parent's list.
+        """
         try:
             return self._parent._distance_level.sub_objects.index(self._sub_object)
         except ValueError:
             raise IndexError("SubObject not found in parent's sub_objects list")
 
     def primitive(self, primitive_index: int) -> _PrimitiveEditor:
+        """
+        Returns an editor for a specific Primitive in this SubObject.
+
+        Args:
+            primitive_index (int): Index of the Primitive to edit.
+
+        Returns:
+            _PrimitiveEditor: An editor for the specified Primitive.
+
+        Raises:
+            TypeError: If `primitive_index` is not an integer.
+            IndexError: If `primitive_index` is out of the valid range.
+        """
         if not isinstance(primitive_index, int):
             raise TypeError(f"Parameter 'primitive_index' must be of type int, but got {type(primitive_index).__name__}")
         
@@ -70,7 +117,20 @@ class _SubObjectEditor:
         prim_state_index: Optional[int] = None,
         prim_state_name: Optional[str] = None
     ) -> List[_PrimitiveEditor]:
+        """
+        Returns editors for primitives in this SubObject, optionally filtered by prim_state.
 
+        Args:
+            prim_state_index (int, optional): Only include primitives with this prim_state index.
+            prim_state_name (str, optional): Only include primitives with this prim_state name.
+
+        Returns:
+            List[_PrimitiveEditor]: A list of primitive editors matching the filters.
+
+        Raises:
+            TypeError: If `prim_state_index` is not an integer or
+                       `prim_state_name` is not a string.
+        """
         if prim_state_index is not None and not isinstance(prim_state_index, int):
             raise TypeError(f"Parameter 'prim_state_index' must be of type int, but got {type(prim_state_index).__name__}")
         
@@ -94,6 +154,19 @@ class _SubObjectEditor:
         return primitives
     
     def vertex(self, vertex_index: int) -> _VertexEditor:
+        """
+        Returns an editor for a specific vertex in this SubObject.
+
+        Args:
+            vertex_index (int): Index of the vertex to edit.
+
+        Returns:
+            _VertexEditor: An editor for the specified vertex.
+
+        Raises:
+            TypeError: If `vertex_index` is not an integer.
+            IndexError: If `vertex_index` is out of the valid range.
+        """
         if not isinstance(vertex_index, int):
             raise TypeError(f"Parameter 'vertex_index' must be of type int, but got {type(vertex_index).__name__}")
 
@@ -107,6 +180,12 @@ class _SubObjectEditor:
         return _VertexEditor(vertex, _parent=self)
     
     def vertices(self) -> List[_VertexEditor]:
+        """
+        Returns editors for all vertices in this SubObject.
+
+        Returns:
+            List[_VertexEditor]: A list of vertex editors.
+        """
         return [
             _VertexEditor(vertex, _parent=self)
             for vertex in self._sub_object.vertices

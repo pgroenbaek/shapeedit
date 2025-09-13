@@ -27,7 +27,33 @@ if TYPE_CHECKING:
 
 
 class _LodControlEditor:
+    """
+    Internal editor for a single `LodControl` within a `Shape`.
+
+    This class is part of the internal shape-editing API and **should not**
+    be instantiated directly. Instances are created and returned by
+    `ShapeEditor.lod_control()` or `ShapeEditor.lod_controls()`.
+
+    It provides safe access and editing of a single LOD control's distance
+    levels, ensuring that changes keep the `Shape` data structure consistent
+    and valid for MSTS/Open Rails.
+    """
+
     def __init__(self, lod_control: LodControl, _parent: "ShapeEditor" = None):
+        """
+        Initializes a `_LodControlEditor` instance.
+
+        Do not call this constructor directly. Use `ShapeEditor.lod_control()`
+        or `ShapeEditor.lod_controls()` to obtain an instance.
+
+        Args:
+            lod_control (LodControl): The LOD control to wrap.
+            _parent (ShapeEditor): The parent `ShapeEditor` instance.
+
+        Raises:
+            TypeError: If `_parent` is None, or if `lod_control` is not
+                a `LodControl`, or if `_parent` is not a `ShapeEditor`.
+        """
         from .shape_editor import ShapeEditor
 
         if _parent is None:
@@ -44,13 +70,37 @@ class _LodControlEditor:
 
     @property
     def index(self) -> int:
-        """Return the index of this LodControl within the parent Shape's lod_controls list."""
+        """
+        Index of this `LodControl` in the parent shape's `lod_controls` list.
+
+        Returns:
+            int: The index of this LOD control within the parent shape.
+
+        Raises:
+            IndexError: If the underlying `LodControl` is not found in the
+                parent's `lod_controls` list.
+        """
         try:
             return self._parent._shape.lod_controls.index(self._lod_control)
         except ValueError:
             raise IndexError("LodControl not found in parent's lod_controls list")
     
     def distance_level(self, dlevel_selection: int) -> _DistanceLevelEditor:
+        """
+        Returns an editor for a specific distance level in this LOD control.
+
+        Args:
+            dlevel_selection (int): The `dlevel_selection` identifier of
+                the distance level to edit.
+
+        Returns:
+            _DistanceLevelEditor: An editor instance for the matching
+            distance level.
+
+        Raises:
+            TypeError: If `dlevel_selection` is not an integer.
+            ValueError: If no matching distance level is found.
+        """
         if not isinstance(dlevel_selection, int):
             raise TypeError(f"Parameter 'dlevel_selection' must be of type int, but got {type(dlevel_selection).__name__}")
 
@@ -61,6 +111,14 @@ class _LodControlEditor:
         raise ValueError(f"No DistanceLevel with dlevel_selection {dlevel_selection} found in this LodControl")
     
     def distance_levels(self) -> List[_DistanceLevelEditor]:
+        """
+        Returns editors for all distance levels in this LOD control.
+
+        Each editor allows safe modifications to its respective distance level.
+
+        Returns:
+            List[_DistanceLevelEditor]: A list of editors for all distance levels.
+        """
         return [
             _DistanceLevelEditor(distance_level, _parent=self)
             for distance_level in self._lod_control.distance_levels
