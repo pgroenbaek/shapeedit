@@ -16,7 +16,7 @@ At this stage, only a limited set of operations is implemented, such as adding v
 
 List of companion modules:
 - [shapeio](https://github.com/pgroenbaek/shapeio) - offers functions to convert shapes between structured text format and Python objects.
-- [trackshape-utils](https://github.com/pgroenbaek/trackshape-utils/tree/develop) - offers additional utilities for working with track shapes.
+- [trackshape-utils](https://github.com/pgroenbaek/trackshape-utils) - offers additional utilities for working with track shapes.
 - [pytkutils](https://github.com/pgroenbaek/pytkutils) - handles compression and decompression of shape files through the `TK.MSTS.Tokens.dll` library by Okrasa Ghia.
 
 ## Installation
