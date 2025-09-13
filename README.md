@@ -6,7 +6,7 @@
 
 > 🚧 **Project Status: In Development**  
 > This project is not feature-complete and is still being actively developed.  
-> Expect missing functionality, incomplete features, and frequent changes.
+> Expect unstable functionality, incomplete features, and frequent changes.
 
 This Python module provides a wrapper around the shape data structure, offering operations for modifying existing MSTS/ORTS shape files.
 

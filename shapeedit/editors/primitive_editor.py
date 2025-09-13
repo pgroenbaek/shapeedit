@@ -308,7 +308,7 @@ class _PrimitiveEditor:
 
         # TODO ensure that vertices are associated with this primitive?
 
-        # Remove the triangle from the indexed trilist if it matches.
+        # Remove the triangle from the indexed trilist.
         for triangle in reversed(primitive.triangles()):
             tri_vertex_idxs = [v.index for v in triangle.vertices()]
 
@@ -341,7 +341,7 @@ class _PrimitiveEditor:
         
         # TODO ensure that vertices are associated with this primitive?
 
-        # Remove connected triangles from the indexed trilist if it matches.
+        # Remove connected triangles from the indexed trilist.
         for triangle in reversed(primitive.triangles()):
             tri_vertex_idxs = [v.index for v in triangle.vertices()]
             
