@@ -22,13 +22,50 @@ from shapeio.shape import SubObject, Primitive
 
 
 class _SubObjectHelper:
+    """
+    Internal helper class for a `SubObject`.
+
+    This class is used internally within `_SubObjectEditor` to manage
+    low-level SubObject data, such as geometry info and vertex sets.
+    It **should not be instantiated or used directly** by
+    external code.
+
+    Args:
+        sub_object (SubObject): The SubObject to wrap.
+
+    Raises:
+        TypeError: If `sub_object` is not a `SubObject`.
+    """
+
     def __init__(self, sub_object: SubObject):
+        """
+        Initializes the internal `_SubObjectHelper`.
+
+        Do not instantiate this class directly; it is intended for internal use
+        within `_SubObjectEditor` and its children editors.
+
+        Args:
+            sub_object (SubObject): The SubObject to wrap and manage.
+
+        Raises:
+            TypeError: If `sub_object` is not a `SubObject` instance.
+        """
         if not isinstance(sub_object, SubObject):
             raise TypeError(f"Parameter 'sub_object' must be of type shape.SubObject, but got {type(sub_object).__name__}")
         
         self._sub_object = sub_object
 
-    def update_geometry_info(self) -> None:
+    def update_geometry_info(self):
+        """
+        Recalculates and updates geometry information for the sub-object.
+
+        Updates `geometry_info` and `cullable_prims` based on the
+        current primitives and triangle lists, including:
+            - Total number of face normals
+            - Total number of trilist indices
+            - Primitive-level counts in geometry nodes
+        """
+
         # Gather vertex and face counts based on trilist data
         vertex_idxs_counts = []
         normal_idxs_counts = []
@@ -56,6 +93,22 @@ class _SubObjectHelper:
             current_prim_idx += num_primitives
 
     def expand_vertexset(self, primitive: Primitive) -> Optional[int]:
+        """
+        Expands the vertex set counts to make way for
+        adding a new vertex to the specified primitive.
+
+        Finds the vertex state index corresponding to the primitive,
+        increments the vertex count, and adjusts start indices in
+        the vertex sets.
+
+        Args:
+            primitive (Primitive): The primitive whose vertex set should be expanded.
+
+        Returns:
+            Optional[int]: The new vertex index in the expanded vertex set,
+            or `None` if no update was performed.
+        """
+
         # Find the vertex state index to update
         total_prims = 0
         vtx_state_idx_to_update = -1

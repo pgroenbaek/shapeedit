@@ -54,7 +54,6 @@ These examples are preliminary, not fully implemented and might change.
 
 ```python
 import shapeio
-from shapeio.shape import Point, UVPoint, Vector
 from shapeedit import ShapeEditor
 
 my_shape = shapeio.load("./path/to/example.s")
@@ -63,7 +62,7 @@ shape_editor = ShapeEditor(my_shape)
 
 sub_object = shape_editor.lod_control(0).distance_level(200).sub_object(0)
 
-# Set point values of all vertices in the subobject.
+# Set point values of all vertices within the subobject.
 for vertex in sub_object.vertices():
     vertex.point.x = 0.0
     vertex.point.y = 1.0
@@ -82,18 +81,21 @@ my_shape = shapeio.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
 
-# Add three new vertices to the prim_state at index 22. Connect them with a triangle.
+# Add three new vertices to primitives associated with prim_state_index 22.
+# Connect the three vertices added to each primitive with a triangle.
 for lod_control in shape_editor.lod_controls():
     for distance_level in lod_control.distance_levels():
         for sub_object in distance_level.sub_objects():
             for primitive in sub_object.primitives(prim_state_idx=22):
-                new_point = Point(0.0, 0.0, 0.0)
+                new_point1 = Point(0.0, 0.0, 0.0)
+                new_point2 = Point(1.0, 0.0, 0.0)
+                new_point3 = Point(2.0, 0.0, 1.0)
                 new_uv_point = UVPoint(0.0, 0.0)
                 new_normal = Vector(0.0, 0.0, 0.0)
 
-                new_vertex1 = primitive.add_vertex(new_point, new_uv_point, new_normal)
-                new_vertex2 = primitive.add_vertex(new_point, new_uv_point, new_normal)
-                new_vertex3 = primitive.add_vertex(new_point, new_uv_point, new_normal)
+                new_vertex1 = primitive.add_vertex(new_point1, new_uv_point, new_normal)
+                new_vertex2 = primitive.add_vertex(new_point2, new_uv_point, new_normal)
+                new_vertex3 = primitive.add_vertex(new_point3, new_uv_point, new_normal)
 
                 primitive.add_triangle(new_vertex1, new_vertex2, new_vertex3)
 
@@ -110,7 +112,7 @@ my_shape = shapeio.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
 
-# Remove all triangles for any prim_state named "Rails".
+# Remove all triangles from primitives associated with any prim_state named "Rails".
 for lod_control in shape_editor.lod_controls():
     for distance_level in lod_control.distance_levels():
         for sub_object in distance_level.sub_objects():

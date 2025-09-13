@@ -37,10 +37,10 @@ class ShapeEditor:
 
     Example:
         >>> import shapeio
-        >>> from shapeio.shape import Point, UVPoint, Vector
         >>> from shapeedit import ShapeEditor
         >>>
         >>> my_shape = shapeio.load("./path/to/example.s")
+        >>>
         >>> shape_editor = ShapeEditor(my_shape)
         >>> sub_object = shape_editor.lod_control(0).distance_level(200).sub_object(0)
         >>>
