@@ -28,7 +28,33 @@ if TYPE_CHECKING:
 
 
 class _PrimitiveEditor:
+    """
+    Internal editor for a single `Primitive` within a `SubObject`.
+
+    This class is part of the internal shape-editing API and **should not**
+    be instantiated directly. Instances are created and returned by
+    `_SubObjectEditor.primitive()` or `_SubObjectEditor.primitives()`.
+
+    It provides safe access to the primitive's vertices, triangles, and
+    transformation matrix, preserving the consistency of the underlying
+    `Shape` data structure used in MSTS/Open Rails.
+    """
+
     def __init__(self, primitive: Primitive, _parent: "_SubObjectEditor" = None):
+        """
+        Initializes a `_PrimitiveEditor` instance.
+
+        Do not call this constructor directly. Use `_SubObjectEditor.primitive()`
+        or `_SubObjectEditor.primitives()` to obtain an instance.
+
+        Args:
+            primitive (Primitive): The primitive to wrap.
+            _parent (_SubObjectEditor): The parent SubObject editor.
+
+        Raises:
+            TypeError: If `_parent` is None, or if `primitive` is not a `Primitive`,
+                       or if `_parent` is not a `_SubObjectEditor`.
+        """
         from .subobject_editor import _SubObjectEditor
 
         if _parent is None:
@@ -45,7 +71,15 @@ class _PrimitiveEditor:
     
     @property
     def index(self) -> int:
-        """Return the index of this Primitive within the parent SubObject's primitives list."""
+        """
+        Index of this `Primitive` in the parent SubObject's primitives list.
+
+        Returns:
+            int: The index of this primitive within the parent SubObject.
+
+        Raises:
+            IndexError: If the primitive is not found in the parent's list.
+        """
         try:
             return self._parent._sub_object.primitives.index(self._primitive)
         except ValueError:
@@ -53,6 +87,12 @@ class _PrimitiveEditor:
 
     @property
     def matrix(self) -> Matrix:
+        """
+        Returns the transformation matrix associated with this primitive.
+
+        Returns:
+            Matrix: The matrix object referenced by this primitive.
+        """
         shape = self._parent._parent._parent._parent._shape
         prim_state_idx = self._primitive.prim_state_index
         vtx_state_idx = shape.prim_states[prim_state_idx].vtx_state_index
@@ -60,6 +100,15 @@ class _PrimitiveEditor:
         return shape.matrices[matrix_idx]
 
     def vertices(self) -> List[_VertexEditor]:
+        """
+        Returns editors for all vertices used by this primitive.
+
+        The vertices are returned in the order they first appear in the
+        primitive's indexed triangle list. Each vertex only appear once in the returned list.
+
+        Returns:
+            List[_VertexEditor]: A list of vertex editors.
+        """
         parent_vertices = self._parent._sub_object.vertices
         seen = set()
         unique_ordered_indices = []
@@ -73,6 +122,20 @@ class _PrimitiveEditor:
         return [_VertexEditor(parent_vertices[idx], _parent=self._parent) for idx in unique_ordered_indices]
     
     def triangle(self, triangle_index: int) -> _TriangleEditor:
+        """
+        Returns an editor for a specific triangle in this primitive.
+
+        Args:
+            triangle_index (int): Index of the triangle to edit.
+
+        Returns:
+            _TriangleEditor: An editor for the specified triangle.
+
+        Raises:
+            TypeError: If `triangle_index` is not an integer.
+            IndexError: If `triangle_index` is out of range of the primitive's
+                        vertex or normal index lists.
+        """
         if not isinstance(triangle_index, int):
             raise TypeError(f"Parameter 'triangle_index' must be of type int, but got {type(triangle_index).__name__}")
 
@@ -95,6 +158,13 @@ class _PrimitiveEditor:
         return _TriangleEditor(vertex_idx, normal_idx, _parent=self)
     
     def triangles(self) -> List[_TriangleEditor]:
+        """
+        Returns editors for all triangles in this primitive.
+
+        Returns:
+            List[_TriangleEditor]: A list of triangle editors, in order of the
+            primitive's indexed triangle list.
+        """
         indexed_trilist = self._primitive.indexed_trilist
         return [
             _TriangleEditor(vertex_idx, normal_idx, _parent=self)

@@ -38,6 +38,7 @@ class _TriangleEditor:
     preserving the consistency of the underlying `Shape` data structure
     used in MSTS/Open Rails.
     """
+    
     def __init__(self, vertex_idx: VertexIdx, normal_idx: NormalIdx, _parent: "_PrimitiveEditor" = None):
         """
         Initializes a `_TriangleEditor` instance.
