@@ -32,7 +32,7 @@ class ShapeEditor:
     consistency and invariants required for the shape to remain
     valid and usable in Microsoft Train Simulator (MSTS) and
     Open Rails. It exposes operations such as accessing vertices,
-    triangles, points, uv points and normals. It also allows you to
+    triangles, points, UV points and normals. It also allows you to
     modify, remove and add new geometry in an existing shape.
 
     Example:

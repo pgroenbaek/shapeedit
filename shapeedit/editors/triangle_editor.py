@@ -27,7 +27,33 @@ if TYPE_CHECKING:
 
 
 class _TriangleEditor:
+    """
+    Internal editor for a single triangle within a `Primitive`.
+
+    This class is part of the internal shape-editing API and **should not**
+    be instantiated directly. Instances are created and returned by
+    `_PrimitiveEditor.triangle()` or related methods.
+
+    It provides safe access to the triangle's vertices and face normal,
+    preserving the consistency of the underlying `Shape` data structure
+    used in MSTS/Open Rails.
+    """
     def __init__(self, vertex_idx: VertexIdx, normal_idx: NormalIdx, _parent: "_PrimitiveEditor" = None):
+        """
+        Initializes a `_TriangleEditor` instance.
+
+        Do not call this constructor directly. Use `_PrimitiveEditor.triangle()`
+        or `_PrimitiveEditor.triangles()` to obtain an instance.
+
+        Args:
+            vertex_idx (VertexIdx): The vertex index structure for this triangle.
+            normal_idx (NormalIdx): The normal index structure for this triangle.
+            _parent (_PrimitiveEditor): The parent primitive editor.
+
+        Raises:
+            TypeError: If `_parent` is None, or if `vertex_idx` is not a `VertexIdx`,
+                       or if `normal_idx` is not a `NormalIdx`, or if `_parent` is not a `_PrimitiveEditor`.
+        """
         from .subobject_editor import _PrimitiveEditor
 
         if _parent is None:
@@ -48,7 +74,15 @@ class _TriangleEditor:
 
     @property
     def index(self) -> int:
-        """Return the index of this triangle within the parent Primitive's vertex_idxs list."""
+        """
+        Index of this triangle in the parent primitive's vertex_idxs list.
+
+        Returns:
+            int: The index of this triangle within the parent primitive trilist.
+
+        Raises:
+            IndexError: If the triangle is not found in the parent's vertex_idxs list.
+        """
         try:
             return self._parent._primitive.indexed_trilist.vertex_idxs.index(self._vertex_idx)
         except ValueError:
@@ -56,6 +90,15 @@ class _TriangleEditor:
 
     @property
     def face_normal(self) -> Vector:
+        """
+        The face normal vector associated with this triangle.
+
+        Returns:
+            Vector: The normal vector referenced by this triangle.
+
+        Raises:
+            IndexError: If the normal index is not found in the shape's normals list.
+        """
         shape = self._parent._parent._parent._parent._parent._shape
         normal_idx = self._normal_idx.index
 
@@ -66,6 +109,17 @@ class _TriangleEditor:
 
     @face_normal.setter
     def face_normal(self, face_normal: Vector):
+        """
+        Sets the face normal vector for this triangle.
+
+        If the normal does not exist in the shape's normals list, it is appended.
+
+        Args:
+            face_normal (Vector): The new normal vector to assign.
+
+        Raises:
+            TypeError: If `face_normal` is not a `Vector` instance.
+        """
         shape = self._parent._parent._parent._parent._parent._shape
 
         if not isinstance(face_normal, Vector):
@@ -80,6 +134,17 @@ class _TriangleEditor:
         self._normal_idx.index = normal_idx
 
     def vertices(self) -> List[_VertexEditor]:
+        """
+        Returns editors for the three vertices of this triangle.
+
+        Returns:
+            List[_VertexEditor]: A list of vertex editors corresponding to
+            the triangle's three vertices.
+
+        Raises:
+            IndexError: If any of the vertex indices are not found in the
+                        parent SubObject's vertices list.
+        """
         sub_object = self._parent._parent._sub_object
 
         vertex1_idx = self._vertex_idx.vertex1_index

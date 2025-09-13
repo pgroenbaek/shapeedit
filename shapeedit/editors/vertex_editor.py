@@ -25,7 +25,33 @@ if TYPE_CHECKING:
 
 
 class _VertexEditor:
+    """
+    Internal editor for a single `Vertex` within a `SubObject`.
+
+    This class is part of the internal shape-editing API and **should not**
+    be instantiated directly. Instances are created and returned by
+    `_SubObjectEditor.vertex()` or `_SubObjectEditor.vertices()`.
+
+    It provides safe access and modification of the vertex's point, UV point,
+    and normal, preserving the consistency of the underlying `Shape` data
+    structure used in MSTS/Open Rails.
+    """
+
     def __init__(self, vertex: Vertex, _parent: "_SubObjectEditor" = None):
+        """
+        Initializes a `_VertexEditor` instance.
+
+        Do not call this constructor directly. Use `_SubObjectEditor.vertex()`
+        or `_SubObjectEditor.vertices()` to obtain an instance.
+
+        Args:
+            vertex (Vertex): The vertex to wrap.
+            _parent (_SubObjectEditor): The parent SubObject editor.
+
+        Raises:
+            TypeError: If `_parent` is None, or if `vertex` is not a `Vertex`,
+                or if `_parent` is not a `_SubObjectEditor`.
+        """
         from .subobject_editor import _SubObjectEditor
 
         if _parent is None:
@@ -42,7 +68,15 @@ class _VertexEditor:
     
     @property
     def index(self) -> int:
-        """Return the index of this Vertex within the parent SubObject's vertices list."""
+        """
+        Index of this `Vertex` in the parent SubObject's vertices list.
+
+        Returns:
+            int: The index of this vertex within the parent SubObject.
+
+        Raises:
+            IndexError: If the vertex is not found in the parent's list.
+        """
         try:
             return self._parent._sub_object.vertices.index(self._vertex)
         except ValueError:
@@ -50,6 +84,15 @@ class _VertexEditor:
 
     @property
     def point(self) -> Point:
+        """
+        The `Point` associated with this vertex.
+
+        Returns:
+            Point: The point object referenced by this vertex.
+
+        Raises:
+            IndexError: If the Vertex's point index is not found in the shape's points list.
+        """
         shape = self._parent._parent._parent._parent._shape
         point_idx = self._vertex.point_index
 
@@ -60,6 +103,17 @@ class _VertexEditor:
     
     @point.setter
     def point(self, point: Point):
+        """
+        Sets the `Point` for this vertex.
+
+        If the point does not exist in the shape's points list, it is appended.
+
+        Args:
+            point (Point): The new point to assign.
+
+        Raises:
+            TypeError: If `point` is not a `Point` instance.
+        """
         shape = self._parent._parent._parent._parent._shape
 
         if not isinstance(point, Point):
@@ -75,6 +129,15 @@ class _VertexEditor:
 
     @property
     def uv_point(self) -> UVPoint:
+        """
+        The `UVPoint` associated with this vertex.
+
+        Returns:
+            UVPoint: The UV point object referenced by this vertex.
+
+        Raises:
+            IndexError: If the UV point index is not found in the shape's uv_points list.
+        """
         shape = self._parent._parent._parent._parent._shape
         uv_point_idx = self._vertex.vertex_uvs[0]
 
@@ -85,6 +148,17 @@ class _VertexEditor:
 
     @uv_point.setter
     def uv_point(self, uv_point: UVPoint):
+        """
+        Sets the `UVPoint` for this vertex.
+
+        If the UV point does not exist in the shape's uv_points list, it is appended.
+
+        Args:
+            uv_point (UVPoint): The new UV point to assign.
+
+        Raises:
+            TypeError: If `uv_point` is not a `UVPoint` instance.
+        """
         shape = self._parent._parent._parent._parent._shape
 
         if not isinstance(uv_point, UVPoint):
@@ -100,6 +174,15 @@ class _VertexEditor:
 
     @property
     def normal(self) -> Vector:
+        """
+        The `Vector` normal associated with this vertex.
+
+        Returns:
+            Vector: The normal vector referenced by this vertex.
+
+        Raises:
+            IndexError: If the normal index is not found in the shape's normals list.
+        """
         shape = self._parent._parent._parent._parent._shape
         normal_idx = self._vertex.normal_index
 
@@ -110,6 +193,17 @@ class _VertexEditor:
 
     @normal.setter
     def normal(self, normal: Vector):
+        """
+        Sets the `Vector` normal for this vertex.
+
+        If the normal vector does not exist in the shape's normals list, it is appended.
+
+        Args:
+            normal (Vector): The new normal vector to assign.
+
+        Raises:
+            TypeError: If `normal` is not a `Vector` instance.
+        """
         shape = self._parent._parent._parent._parent._shape
 
         if not isinstance(normal, Vector):
