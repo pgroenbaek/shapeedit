@@ -194,7 +194,6 @@ class _PrimitiveEditor:
             TypeError: If any of the arguments are not of the expected types.
             IndexError: If index adjustments fail due to inconsistent geometry data.
         """
-        shape = self._parent._parent._parent._parent._shape
         sub_object = self._parent
         sub_object_helper = sub_object._sub_object_helper
 
@@ -237,7 +236,6 @@ class _PrimitiveEditor:
         return new_vertex_editor
     
     def insert_triangle(self, vertex1: _VertexEditor, vertex2: _VertexEditor, vertex3: _VertexEditor) -> _TriangleEditor:
-        shape = self._parent._parent._parent._parent._shape
         sub_object = self._parent
         sub_object_helper = sub_object._sub_object_helper
         indexed_trilist = self._primitive.indexed_trilist
@@ -287,7 +285,6 @@ class _PrimitiveEditor:
         return new_triangle_editor
 
     def remove_triangle(self, vertex1: _VertexEditor, vertex2: _VertexEditor, vertex3: _VertexEditor):
-        shape = self._parent._parent._parent._parent._shape
         sub_object = self._parent
         sub_object_helper = sub_object._sub_object_helper
         indexed_trilist = self._primitive.indexed_trilist
@@ -328,7 +325,6 @@ class _PrimitiveEditor:
         sub_object_helper.update_geometry_info()
 
     def remove_triangles_connected_to(self, vertex: _VertexEditor):
-        shape = self._parent._parent._parent._parent._shape
         sub_object = self._parent
         sub_object_helper = sub_object._sub_object_helper
         indexed_trilist = self._primitive.indexed_trilist

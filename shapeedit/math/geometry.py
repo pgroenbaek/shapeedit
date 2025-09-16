@@ -106,10 +106,10 @@ def calculate_face_normal(
     Returns:
         shape.Vector: The face normal vector. Zero vector if the triangle is degenerate.
     """
-    edge1 = point2.to_numpy() - point1.to_numpy()
-    edge2 = point3.to_numpy() - point1.to_numpy()
+    edge1 = point2.to_numpy().astype(np.float64) - point1.to_numpy().astype(np.float64)
+    edge2 = point3.to_numpy().astype(np.float64) - point1.to_numpy().astype(np.float64)
 
-    normal = np.cross(edge1, edge2)
+    normal = np.cross(edge1, edge2).astype(np.float64)
 
     norm = np.linalg.norm(normal)
     if normalize:
@@ -144,14 +144,14 @@ def calculate_vertex_normal(
     Returns:
         shape.Vector: The summed (or normalized) vertex normal. Zero vector if fewer than two connections.
     """
-    vertex_normal_sum = np.zeros(3)
+    vertex_normal_sum = np.zeros(3, dtype=float)
 
     if len(connected_points) < 2:
         return shape.Vector(0, 0, 0)
 
     for i in range(len(connected_points) - 1):
-        edge1 = connected_points[i].to_numpy() - point.to_numpy()
-        edge2 = connected_points[i + 1].to_numpy() - point.to_numpy()
+        edge1 = connected_points[i].to_numpy().astype(np.float64) - point.to_numpy().astype(np.float64)
+        edge2 = connected_points[i + 1].to_numpy().astype(np.float64) - point.to_numpy().astype(np.float64)
 
         normal = np.cross(edge1, edge2)
 

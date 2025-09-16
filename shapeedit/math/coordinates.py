@@ -42,8 +42,16 @@ def remap_point(
         shape.Point: The point transformed into the new coordinate system.
     """
     p = np.array([point.x, point.y, point.z, 1.0])
-    M_old = from_matrix.to_numpy()
-    M_new = to_matrix.to_numpy()
+
+    M_old_arr = from_matrix.to_numpy()
+    M_old = np.eye(4, dtype=np.float32)
+    M_old[:3, :3] = M_old_arr[:3, :]
+    M_old[:3, 3] = M_old_arr[3, :]
+
+    M_new_arr = to_matrix.to_numpy()
+    M_new = np.eye(4, dtype=np.float32)
+    M_new[:3, :3] = M_new_arr[:3, :]
+    M_new[:3, 3] = M_new_arr[3, :]
 
     M_new_inv = np.linalg.inv(M_new)
     M_transform = M_new_inv @ M_old
@@ -75,8 +83,16 @@ def remap_normal(
         shape.Vector: The normal vector transformed into the new coordinate system.
     """
     n = np.array([normal.x, normal.y, normal.z])
-    M_old = from_matrix.to_numpy()
-    M_new = to_matrix.to_numpy()
+    
+    M_old_arr = from_matrix.to_numpy()
+    M_old = np.eye(4, dtype=np.float32)
+    M_old[:3, :3] = M_old_arr[:3, :]
+    M_old[:3, 3] = M_old_arr[3, :]
+
+    M_new_arr = to_matrix.to_numpy()
+    M_new = np.eye(4, dtype=np.float32)
+    M_new[:3, :3] = M_new_arr[:3, :]
+    M_new[:3, 3] = M_new_arr[3, :]
 
     M_new_inv = np.linalg.inv(M_new)
     M_transform = M_new_inv @ M_old
