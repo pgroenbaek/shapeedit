@@ -93,6 +93,16 @@ class _SubObjectHelper:
             current_prim_idx += num_primitives
 
     def find_vertexset_index(self, primitive: Primitive) -> Optional[int]:
+        """
+        Finds the vertex set index that contains vertices associated with the given primitive.
+
+        Args:
+            primitive (Primitive): The primitive for which to find the vertex set index.
+
+        Returns:
+            Optional[int]: The index of the vertex set that contains vertices associated with
+            the primitive, or `None` if the primitive index is out of range.
+        """
         total_prims = 0
 
         for idx, node in enumerate(sub_object.geometry_info.geometry_nodes):
