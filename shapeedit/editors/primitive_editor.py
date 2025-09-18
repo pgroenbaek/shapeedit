@@ -236,6 +236,25 @@ class _PrimitiveEditor:
         return new_vertex_editor
     
     def insert_triangle(self, vertex1: _VertexEditor, vertex2: _VertexEditor, vertex3: _VertexEditor) -> _TriangleEditor:
+        """
+        Inserts a new triangle into this primitive's indexed trilist.
+
+        Validates that the vertices belong to the same SubObject and vertex set,
+        calculates the triangle's face normal, creates the corresponding VertexIdx
+        and NormalIdx objects, and appends them to the indexed trilist.
+
+        Args:
+            vertex1 (_VertexEditor): The first vertex of the triangle.
+            vertex2 (_VertexEditor): The second vertex of the triangle.
+            vertex3 (_VertexEditor): The third vertex of the triangle.
+
+        Returns:
+            _TriangleEditor: An editor for the newly created triangle.
+
+        Raises:
+            TypeError: If any vertex argument is not of type _VertexEditor.
+            ValueError: If any vertex does not belong to the same SubObject or vertex set as this primitive.
+        """
         sub_object = self._parent
         sub_object_helper = sub_object._sub_object_helper
         indexed_trilist = self._primitive.indexed_trilist
@@ -294,6 +313,23 @@ class _PrimitiveEditor:
         return new_triangle_editor
 
     def remove_triangle(self, vertex1: _VertexEditor, vertex2: _VertexEditor, vertex3: _VertexEditor):
+        """
+        Removes a triangle from this primitive that matches the specified vertices.
+
+        Validates that the vertices belong to the same SubObject and vertex set,
+        then searches the primitive's indexed trilist for a triangle containing
+        exactly these vertices and removes it. Updates the parent SubObject's
+        geometry information afterward.
+
+        Args:
+            vertex1 (_VertexEditor): The first vertex of the triangle to remove.
+            vertex2 (_VertexEditor): The second vertex of the triangle to remove.
+            vertex3 (_VertexEditor): The third vertex of the triangle to remove.
+
+        Raises:
+            TypeError: If any vertex argument is not of type _VertexEditor.
+            ValueError: If any vertex does not belong to the same SubObject or vertex set as this primitive.
+        """
         sub_object = self._parent
         sub_object_helper = sub_object._sub_object_helper
         indexed_trilist = self._primitive.indexed_trilist
@@ -343,6 +379,20 @@ class _PrimitiveEditor:
         sub_object_helper.update_geometry_info()
 
     def remove_triangles_connected_to(self, vertex: _VertexEditor):
+        """
+        Removes all triangles in this primitive that include the specified vertex.
+
+        Validates that the vertex belongs to the same SubObject and vertex set,
+        then iterates over the primitive's indexed trilist and deletes all triangles
+        containing the vertex. Updates the parent SubObject's geometry information.
+
+        Args:
+            vertex (_VertexEditor): The vertex whose connected triangles should be removed.
+
+        Raises:
+            TypeError: If the vertex is not of type _VertexEditor.
+            ValueError: If the vertex does not belong to the same SubObject or vertex set as this primitive.
+        """
         sub_object = self._parent
         sub_object_helper = sub_object._sub_object_helper
         indexed_trilist = self._primitive.indexed_trilist
