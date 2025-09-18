@@ -57,7 +57,7 @@ class _SubObjectHelper:
 
     def update_geometry_info(self):
         """
-        Recalculates and updates geometry information for the sub-object.
+        Recalculates and updates geometry information for the SubObject.
 
         Updates `geometry_info` and `cullable_prims` based on the
         current primitives and triangle lists, including:
