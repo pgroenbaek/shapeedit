@@ -92,6 +92,16 @@ class _SubObjectHelper:
 
             current_prim_idx += num_primitives
 
+    def find_vertexset_index(self, primitive: Primitive) -> Optional[int]:
+        total_prims = 0
+
+        for idx, node in enumerate(sub_object.geometry_info.geometry_nodes):
+            total_prims += node.cullable_prims.num_prims
+            if total_prims > primitive.index:
+                return idx
+        
+        return None
+
     def expand_vertexset(self, primitive: Primitive) -> Optional[int]:
         """
         Expands the vertex set counts to make way for
@@ -108,16 +118,7 @@ class _SubObjectHelper:
             Optional[int]: The new vertex index in the expanded vertex set,
             or `None` if no update was performed.
         """
-
-        # Find the vertex state index to update
-        total_prims = 0
-        vtx_state_idx_to_update = -1
-
-        for idx, node in enumerate(sub_object.geometry_info.geometry_nodes):
-            total_prims += node.cullable_prims.num_prims
-            if total_prims > indexed_trilist._trilist_idx:
-                vtx_state_idx_to_update = idx
-                break
+        vtx_state_idx_to_update = find_vertexset_index(primitive)
 
         # Update the vertex count and adjust start indices
         new_vertex_idx = None
