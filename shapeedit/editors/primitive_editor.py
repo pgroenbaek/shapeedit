@@ -268,36 +268,23 @@ class _PrimitiveEditor:
         sub_object_helper = sub_object._sub_object_helper
         indexed_trilist = self._primitive.indexed_trilist
 
-        if not isinstance(vertex1, _VertexEditor):
-            raise TypeError(f"Parameter 'vertex1' must be of type _VertexEditor, but got {type(vertex1).__name__}")
+        parameters = [("vertex1", vertex1), ("vertex2", vertex2), ("vertex3", vertex3)]
 
-        if not isinstance(vertex2, _VertexEditor):
-            raise TypeError(f"Parameter 'vertex2' must be of type _VertexEditor, but got {type(vertex2).__name__}")
+        for name, vertex in parameters:
+            if not isinstance(vertex, _VertexEditor):
+                raise TypeError(f"Parameter '{name}' must be of type _VertexEditor, but got {type(vertex).__name__}")
 
-        if not isinstance(vertex3, _VertexEditor):
-            raise TypeError(f"Parameter 'vertex3' must be of type _VertexEditor, but got {type(vertex3).__name__}")
-
-        if not self._parent._sub_object is vertex1._parent._sub_object:
-            raise ValueError("Parameter 'vertex1' is not from the same SubObject as this primitive")
-
-        if not self._parent._sub_object is vertex2._parent._sub_object:
-            raise ValueError("Parameter 'vertex2' is not from the same SubObject as this primitive")
-
-        if not self._parent._sub_object is vertex3._parent._sub_object:
-            raise ValueError("Parameter 'vertex3' is not from the same SubObject as this primitive")
+        for name, vertex in parameters:
+            if vertex._parent._sub_object is not self._parent._sub_object:
+                raise ValueError(f"Parameter '{name}' is not from the same SubObject as this primitive")
 
         vertexset_idx = sub_object_helper.find_vertexset_index(self._primitive)
         vertex_set = sub_object.vertex_sets[vertexset_idx]
         allowed_vertexidx_range = range(vertex_set.vtx_start_index, vertex_set.vtx_start_index + vertex_set.vtx_count)
         
-        if not vertex1.index in allowed_vertexidx_range:
-            raise ValueError("Parameter 'vertex1' is not associated with this primitive")
-
-        if not vertex2.index in allowed_vertexidx_range:
-            raise ValueError("Parameter 'vertex2' is not associated with this primitive")
-
-        if not vertex3.index in allowed_vertexidx_range:
-            raise ValueError("Parameter 'vertex3' is not associated with this primitive")
+        for name, vertex in parameters:
+            if vertex.index not in allowed_vertexidx_range:
+                raise ValueError(f"Parameter '{name}' is not associated with this primitive")
 
         # Calculate face normal of the new triangle.
         face_normal = calculate_face_normal(vertex1.point, vertex2.point, vertex3.point)
@@ -349,36 +336,23 @@ class _PrimitiveEditor:
         sub_object_helper = sub_object._sub_object_helper
         indexed_trilist = self._primitive.indexed_trilist
 
-        if not isinstance(vertex1, _VertexEditor):
-            raise TypeError(f"Parameter 'vertex1' must be of type _VertexEditor, but got {type(vertex1).__name__}")
+        parameters = [("vertex1", vertex1), ("vertex2", vertex2), ("vertex3", vertex3)]
 
-        if not isinstance(vertex2, _VertexEditor):
-            raise TypeError(f"Parameter 'vertex2' must be of type _VertexEditor, but got {type(vertex2).__name__}")
+        for name, vertex in parameters:
+            if not isinstance(vertex, _VertexEditor):
+                raise TypeError(f"Parameter '{name}' must be of type _VertexEditor, but got {type(vertex).__name__}")
 
-        if not isinstance(vertex3, _VertexEditor):
-            raise TypeError(f"Parameter 'vertex3' must be of type _VertexEditor, but got {type(vertex3).__name__}")
-
-        if not self._parent._sub_object is vertex1._parent._sub_object:
-            raise ValueError("Parameter 'vertex1' is not from the same SubObject as this primitive")
-
-        if not self._parent._sub_object is vertex2._parent._sub_object:
-            raise ValueError("Parameter 'vertex2' is not from the same SubObject as this primitive")
-
-        if not self._parent._sub_object is vertex3._parent._sub_object:
-            raise ValueError("Parameter 'vertex3' is not from the same SubObject as this primitive")
+        for name, vertex in parameters:
+            if vertex._parent._sub_object is not self._parent._sub_object:
+                raise ValueError(f"Parameter '{name}' is not from the same SubObject as this primitive")
 
         vertexset_idx = sub_object_helper.find_vertexset_index(self._primitive)
         vertex_set = sub_object.vertex_sets[vertexset_idx]
         allowed_vertexidx_range = range(vertex_set.vtx_start_index, vertex_set.vtx_start_index + vertex_set.vtx_count)
         
-        if not vertex1.index in allowed_vertexidx_range:
-            raise ValueError("Parameter 'vertex1' is not associated with this primitive")
-
-        if not vertex2.index in allowed_vertexidx_range:
-            raise ValueError("Parameter 'vertex2' is not associated with this primitive")
-            
-        if not vertex3.index in allowed_vertexidx_range:
-            raise ValueError("Parameter 'vertex3' is not associated with this primitive")
+        for name, vertex in parameters:
+            if vertex.index not in allowed_vertexidx_range:
+                raise ValueError(f"Parameter '{name}' is not associated with this primitive")
 
         # Remove the triangle from the indexed trilist.
         for triangle in reversed(primitive.triangles()):
