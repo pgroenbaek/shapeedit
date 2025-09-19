@@ -171,6 +171,18 @@ commands = pytest
 
 Modify `envlist` to match the Python versions you want to support.
 
+
+## Roadmap
+
+Possible future features to be added:
+- Ability to add new textures and primitives
+- Ability to remove vertices from primitives
+- Ability to edit things like light configurations, animations, etc.
+- And possibly more..
+
+Please make an issue if you have any good ideas, or if you need something that has not yet been implemented.
+
+
 ## License
 
 This Python module was created by Peter Grønbæk Andersen and is licensed under [GNU GPL v3](/LICENSE).
