@@ -97,7 +97,7 @@ for lod_control in shape_editor.lod_controls():
                 new_vertex2 = primitive.add_vertex(new_point2, new_uv_point, new_normal)
                 new_vertex3 = primitive.add_vertex(new_point3, new_uv_point, new_normal)
 
-                primitive.add_triangle(new_vertex1, new_vertex2, new_vertex3)
+                primitive.insert_triangle(new_vertex1, new_vertex2, new_vertex3)
 
 shapeio.dump(my_shape, "./path/to/output.s")
 ```

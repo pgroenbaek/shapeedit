@@ -194,6 +194,15 @@ class _PrimitiveEditor:
             TypeError: If any of the arguments are not of the expected types.
             IndexError: If index adjustments fail due to inconsistent geometry data.
         """
+        if not isinstance(new_point, Point):
+            raise TypeError(f"Parameter 'new_point' must be of type shape.Point, but got {type(new_point).__name__}")
+
+        if not isinstance(new_uv_point, UVPoint):
+            raise TypeError(f"Parameter 'new_uv_point' must be of type shape.UVPoint, but got {type(new_uv_point).__name__}")
+
+        if not isinstance(new_normal, Vector):
+            raise TypeError(f"Parameter 'new_normal' must be of type shape.Vector, but got {type(new_normal).__name__}")
+
         sub_object = self._parent
         sub_object_helper = sub_object._sub_object_helper
 
@@ -261,15 +270,19 @@ class _PrimitiveEditor:
 
         if not isinstance(vertex1, _VertexEditor):
             raise TypeError(f"Parameter 'vertex1' must be of type _VertexEditor, but got {type(vertex1).__name__}")
+
         if not isinstance(vertex2, _VertexEditor):
             raise TypeError(f"Parameter 'vertex2' must be of type _VertexEditor, but got {type(vertex2).__name__}")
+
         if not isinstance(vertex3, _VertexEditor):
             raise TypeError(f"Parameter 'vertex3' must be of type _VertexEditor, but got {type(vertex3).__name__}")
 
         if not self._parent._sub_object is vertex1._parent._sub_object:
             raise ValueError("Parameter 'vertex1' is not from the same SubObject as this primitive")
+
         if not self._parent._sub_object is vertex2._parent._sub_object:
             raise ValueError("Parameter 'vertex2' is not from the same SubObject as this primitive")
+
         if not self._parent._sub_object is vertex3._parent._sub_object:
             raise ValueError("Parameter 'vertex3' is not from the same SubObject as this primitive")
 
@@ -279,8 +292,10 @@ class _PrimitiveEditor:
         
         if not vertex1.index in allowed_vertexidx_range:
             raise ValueError("Parameter 'vertex1' is not associated with this primitive")
+
         if not vertex2.index in allowed_vertexidx_range:
             raise ValueError("Parameter 'vertex2' is not associated with this primitive")
+
         if not vertex3.index in allowed_vertexidx_range:
             raise ValueError("Parameter 'vertex3' is not associated with this primitive")
 
@@ -336,15 +351,19 @@ class _PrimitiveEditor:
 
         if not isinstance(vertex1, _VertexEditor):
             raise TypeError(f"Parameter 'vertex1' must be of type _VertexEditor, but got {type(vertex1).__name__}")
+
         if not isinstance(vertex2, _VertexEditor):
             raise TypeError(f"Parameter 'vertex2' must be of type _VertexEditor, but got {type(vertex2).__name__}")
+
         if not isinstance(vertex3, _VertexEditor):
             raise TypeError(f"Parameter 'vertex3' must be of type _VertexEditor, but got {type(vertex3).__name__}")
 
         if not self._parent._sub_object is vertex1._parent._sub_object:
             raise ValueError("Parameter 'vertex1' is not from the same SubObject as this primitive")
+
         if not self._parent._sub_object is vertex2._parent._sub_object:
             raise ValueError("Parameter 'vertex2' is not from the same SubObject as this primitive")
+
         if not self._parent._sub_object is vertex3._parent._sub_object:
             raise ValueError("Parameter 'vertex3' is not from the same SubObject as this primitive")
 
@@ -354,8 +373,10 @@ class _PrimitiveEditor:
         
         if not vertex1.index in allowed_vertexidx_range:
             raise ValueError("Parameter 'vertex1' is not associated with this primitive")
+
         if not vertex2.index in allowed_vertexidx_range:
             raise ValueError("Parameter 'vertex2' is not associated with this primitive")
+            
         if not vertex3.index in allowed_vertexidx_range:
             raise ValueError("Parameter 'vertex3' is not associated with this primitive")
 
