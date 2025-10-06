@@ -122,7 +122,36 @@ class _PrimitiveEditor:
                     unique_ordered_indices.append(idx)
 
         return [_VertexEditor(parent_vertices[idx], _parent=self._parent) for idx in unique_ordered_indices]
-    
+
+    def connected_vertices(self, vertex: _VertexEditor) -> List[_VertexEditor]:
+        """
+        Returns editors for vertices connected to the given vertex.
+
+        The vertices are returned in the order they first appear in the
+        primitive's indexed triangle list. Each connected vertex only appears once.
+
+        Args:
+            vertex (_VertexEditor): The vertex to find connections for.
+
+        Returns:
+            List[_VertexEditor]: A list of vertex editors connected to the given vertex.
+        """
+        parent_vertices = self._parent._sub_object.vertices
+        seen = set()
+        connected_indices = []
+
+        target_idx = vertex.index
+
+        for vertex_idx in self._primitive.indexed_trilist.vertex_idxs:
+            indices = (vertex_idx.vertex1_index, vertex_idx.vertex2_index, vertex_idx.vertex3_index)
+            if target_idx in indices:
+                for idx in indices:
+                    if idx != target_idx and idx not in seen:
+                        seen.add(idx)
+                        connected_indices.append(idx)
+
+        return [_VertexEditor(parent_vertices[idx], _parent=self._parent) for idx in connected_indices]
+
     def triangle(self, triangle_index: int) -> _TriangleEditor:
         """
         Returns an editor for a specific triangle in this primitive.

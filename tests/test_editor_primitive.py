@@ -33,6 +33,16 @@ def test_primitive_editor_vertices(global_storage):
     assert len(vertices) == 2353
 
 
+def test_primitive_editor_connected_vertices(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    sub_object = editor.lod_control(0).distance_level(200).sub_object(0)
+    vertex = sub_object.vertex(1792)
+    connected_vertices = sub_object.primitive(0).connected_vertices(vertex)
+    assert len(connected_vertices) == 4
+
+
 def test_primitive_editor_triangles(global_storage):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
     editor = ShapeEditor(shape)
