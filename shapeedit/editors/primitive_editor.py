@@ -135,7 +135,13 @@ class _PrimitiveEditor:
 
         Returns:
             List[_VertexEditor]: A list of vertex editors connected to the given vertex.
+        
+        Raises:
+            TypeError: If `vertex` is not a `_VertexEditor`.
         """
+        if not isinstance(vertex, _VertexEditor):
+            raise TypeError(f"Parameter 'vertex' must be of type _VertexEditor, but got {type(vertex).__name__}")
+
         parent_vertices = self._parent._sub_object.vertices
         seen = set()
         connected_indices = []

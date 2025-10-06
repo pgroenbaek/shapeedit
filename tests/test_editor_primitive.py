@@ -43,6 +43,19 @@ def test_primitive_editor_connected_vertices(global_storage):
     assert len(connected_vertices) == 4
 
 
+@pytest.mark.parametrize("bad_type", [
+    1337, "not a _VertexEditor"
+])
+def test_primitive_editor_connected_vertices_raises(global_storage, bad_type):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    sub_object = editor.lod_control(0).distance_level(200).sub_object(0)
+
+    with pytest.raises(TypeError):
+        sub_object.primitive(0).connected_vertices(bad_type)
+
+
 def test_primitive_editor_triangles(global_storage):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
     editor = ShapeEditor(shape)
