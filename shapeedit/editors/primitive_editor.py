@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
+import copy
 from typing import TYPE_CHECKING, List
 from shapeio.shape import Primitive, Vertex, Point, UVPoint, Vector
 from shapeio.shape import Matrix, VertexIdx, NormalIdx
@@ -247,16 +248,14 @@ class _PrimitiveEditor:
         # Increment vertex indexes where necessary in the parent sub_object primitives.
         for primitive in sub_object.primitives():
             for triangle in primitive.triangles():
-                triangle_vertex_idx = triangle._vertex_idx
+                tri_idxs = triangle._vertex_idx
+                vertex_idxs = [tri_idxs.vertex1_index, tri_idxs.vertex2_index, tri_idxs.vertex3_index]
 
-                if triangle_vertex_idx.vertex1_index >= new_vertex_idx:
-                    triangle_vertex_idx.vertex1_index = triangle_vertex_idx + 1
+                for idx, vertex_idx in enumerate(vertex_idxs):
+                    if vertex_idx >= new_vertex_idx:
+                        vertex_idxs[idx] = vertex_idx + 1
 
-                if triangle_vertex_idx.vertex2_index >= new_vertex_idx:
-                    triangle_vertex_idx.vertex2_index = triangle_vertex_idx + 1
-
-                if triangle_vertex_idx.vertex3_index >= new_vertex_idx:
-                    triangle_vertex_idx.vertex3_index = triangle_vertex_idx + 1
+                tri_idxs.vertex1_index, tri_idxs.vertex2_index, tri_idxs.vertex3_index = vertex_idxs
         
         # Create the new vertex and its corresponding _VertexEditor.
         new_vertex = Vertex(
@@ -270,12 +269,12 @@ class _PrimitiveEditor:
         new_vertex_editor = _VertexEditor(new_vertex, sub_object)
 
         # Update point, uv_point and normal data for the new vertex.
-        new_vertex_editor.point = new_point
-        new_vertex_editor.uv_point = new_uv_point
-        new_vertex_editor.normal = new_normal
+        new_vertex_editor.point = copy.deepcopy(new_point)
+        new_vertex_editor.uv_point = copy.deepcopy(new_uv_point)
+        new_vertex_editor.normal = copy.deepcopy(new_normal)
 
         # Add new vertex to the sub_object at the correct position.
-        sub_object.vertices[new_vertex_idx:new_vertex_idx] = new_vertex
+        sub_object._sub_object.vertices[new_vertex_idx:new_vertex_idx] = [new_vertex]
 
         return new_vertex_editor
     
@@ -313,9 +312,13 @@ class _PrimitiveEditor:
             if vertex._parent._sub_object is not self._parent._sub_object:
                 raise ValueError(f"Parameter '{name}' is not from the same SubObject as this primitive")
 
+        # Check if specified vertices are actually associated with this primitive.
         vertexset_idx = sub_object_helper.find_vertexset_index(self._primitive)
-        vertex_set = sub_object.vertex_sets[vertexset_idx]
-        allowed_vertexidx_range = range(vertex_set.vtx_start_index, vertex_set.vtx_start_index + vertex_set.vtx_count)
+        vertex_set = sub_object._sub_object.vertex_sets[vertexset_idx]
+        allowed_vertexidx_range = range(
+            vertex_set.vtx_start_index,
+            vertex_set.vtx_start_index + vertex_set.vtx_count
+        )
         
         for name, vertex in parameters:
             if vertex.index not in allowed_vertexidx_range:
@@ -337,7 +340,7 @@ class _PrimitiveEditor:
         new_triangle_editor = _TriangleEditor(new_vertex_idx, new_normal_idx, self)
 
         # Update face normal for the new triangle.
-        new_triangle_editor.face_normal = face_normal
+        new_triangle_editor.face_normal = copy.deepcopy(face_normal)
 
         # Add new triangle to the indexed_trilist.
         indexed_trilist.vertex_idxs.append(new_vertex_idx)
@@ -381,9 +384,13 @@ class _PrimitiveEditor:
             if vertex._parent._sub_object is not self._parent._sub_object:
                 raise ValueError(f"Parameter '{name}' is not from the same SubObject as this primitive")
 
+        # Check if specified vertices are actually associated with this primitive.
         vertexset_idx = sub_object_helper.find_vertexset_index(self._primitive)
-        vertex_set = sub_object.vertex_sets[vertexset_idx]
-        allowed_vertexidx_range = range(vertex_set.vtx_start_index, vertex_set.vtx_start_index + vertex_set.vtx_count)
+        vertex_set = sub_object._sub_object.vertex_sets[vertexset_idx]
+        allowed_vertexidx_range = range(
+            vertex_set.vtx_start_index,
+            vertex_set.vtx_start_index + vertex_set.vtx_count
+        )
         
         for name, vertex in parameters:
             if vertex.index not in allowed_vertexidx_range:
@@ -433,9 +440,13 @@ class _PrimitiveEditor:
         if not self._parent._sub_object is vertex._parent._sub_object:
             raise ValueError("Parameter 'vertex' is not from the same SubObject as this primitive")
         
+        # Check if specified vertices are actually associated with this primitive.
         vertexset_idx = sub_object_helper.find_vertexset_index(self._primitive)
-        vertex_set = sub_object.vertex_sets[vertexset_idx]
-        allowed_vertexidx_range = range(vertex_set.vtx_start_index, vertex_set.vtx_start_index + vertex_set.vtx_count)
+        vertex_set = sub_object._sub_object.vertex_sets[vertexset_idx]
+        allowed_vertexidx_range = range(
+            vertex_set.vtx_start_index,
+            vertex_set.vtx_start_index + vertex_set.vtx_count
+        )
         
         if not vertex.index in allowed_vertexidx_range:
             raise ValueError("Parameter 'vertex' is not associated with this primitive")

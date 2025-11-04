@@ -51,7 +51,8 @@ class _SubObjectHelper:
             TypeError: If `sub_object` is not a `SubObject` instance.
         """
         if not isinstance(sub_object, SubObject):
-            raise TypeError(f"Parameter 'sub_object' must be of type shape.SubObject, but got {type(sub_object).__name__}")
+            raise TypeError(f"""Parameter 'sub_object' must be of type shape.SubObject,
+                but got {type(sub_object).__name__}""")
         
         self._sub_object = sub_object
 
@@ -65,24 +66,26 @@ class _SubObjectHelper:
             - Total number of trilist indices
             - Primitive-level counts in geometry nodes
         """
+        geometry_info = self._sub_object.sub_object_header.geometry_info
 
         # Gather vertex and face counts based on trilist data
         vertex_idxs_counts = []
         normal_idxs_counts = []
 
-        for primitive in sub_object.primitives:
+        for primitive in self._sub_object.primitives:
             indexed_trilist = primitive.indexed_trilist
-            vertex_idxs_counts.append(len(indexed_trilist.vertex_idxs))
-            normal_idxs_counts.append(int(len(indexed_trilist.vertex_idxs) / 3))
+            triangle_count = len(indexed_trilist.vertex_idxs)
+            vertex_idxs_counts.append(triangle_count * 3)
+            normal_idxs_counts.append(triangle_count)
 
         # Update values within geometry_info
-        sub_object.geometry_info.face_normals = sum(normal_idxs_counts)
-        sub_object.geometry_info.trilist_indices = sum(vertex_idxs_counts)
+        geometry_info.face_normals = sum(normal_idxs_counts)
+        geometry_info.trilist_indices = sum(vertex_idxs_counts)
 
         # Update values within cullable_prims
         current_prim_idx = 0
 
-        for geometry_node in sub_object.geometry_info.geometry_nodes:
+        for geometry_node in geometry_info.geometry_nodes:
             num_primitives = geometry_node.cullable_prims.num_prims
             from_idx = current_prim_idx
             to_idx = current_prim_idx + num_primitives
@@ -103,11 +106,12 @@ class _SubObjectHelper:
             Optional[int]: The index of the vertex set that contains vertices associated with
             the primitive, or `None` if the primitive index is out of range.
         """
+        geometry_info = self._sub_object.sub_object_header.geometry_info
         total_prims = 0
 
-        for idx, node in enumerate(sub_object.geometry_info.geometry_nodes):
+        for idx, node in enumerate(geometry_info.geometry_nodes):
             total_prims += node.cullable_prims.num_prims
-            if total_prims > primitive.index:
+            if total_prims > self._sub_object.primitives.index(primitive):
                 return idx
         
         return None
@@ -128,23 +132,24 @@ class _SubObjectHelper:
             Optional[int]: The new vertex index in the expanded vertex set,
             or `None` if no update was performed.
         """
-        vtx_state_idx_to_update = find_vertexset_index(primitive)
+        vtx_state_idx_to_update = self.find_vertexset_index(primitive)
+        if vtx_state_idx_to_update is None:
+            return None
 
         # Update the vertex count and adjust start indices
-        new_vertex_idx = None
         total_vertex_count = 0
-        update_start_indices = False
+        new_vertex_idx = None
+        update_next_sets = False
 
-        for vertex_set in sub_object.vertex_sets:
-            if update_start_indices:
+        for vertex_set in self._sub_object.vertex_sets:
+            if vertex_set.vtx_state == vtx_state_idx_to_update:
+                new_vertex_idx = vertex_set.vtx_start_index + vertex_set.vtx_count
+                vertex_set.vtx_count += 1
+                update_next_sets = True
+
+            elif update_next_sets:
                 vertex_set.vtx_start_index = total_vertex_count
 
-            if vertex_set.vtx_state == vtx_state_idx_to_update:
-                vertex_set.vtx_count += 1
-                total_vertex_count += 1
-                update_start_indices = True
-                new_vertex_idx = vertex_set.vtx_count
-
-            total_vertex_count += vertex_set.vtx_count
+            total_vertex_count = vertex_set.vtx_start_index + vertex_set.vtx_count
 
         return new_vertex_idx
