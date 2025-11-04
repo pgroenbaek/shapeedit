@@ -46,12 +46,12 @@ def remap_point(
     new_matrix = to_matrix.to_numpy().astype(np.float32)
     
     M_old = np.eye(4, dtype=np.float32)
-    M_old[:3, :3] = old_matrix[:3, :]
-    M_old[:3, 3] = old_matrix[3, :]
+    M_old[:3, :3] = old_matrix[:3, :].T
+    M_old[:3, 3]  = old_matrix[3, :]
 
     M_new = np.eye(4, dtype=np.float32)
-    M_new[:3, :3] = new_matrix[:3, :]
-    M_new[:3, 3] = new_matrix[3, :]
+    M_new[:3, :3] = new_matrix[:3, :].T
+    M_new[:3, 3]  = new_matrix[3, :]
 
     M_new_inv = np.linalg.inv(M_new)
     M_transform = M_new_inv @ M_old
@@ -87,12 +87,12 @@ def remap_normal(
     new_matrix = to_matrix.to_numpy().astype(np.float32)
     
     M_old = np.eye(4, dtype=np.float32)
-    M_old[:3, :3] = old_matrix[:3, :]
-    M_old[:3, 3] = old_matrix[3, :]
+    M_old[:3, :3] = old_matrix[:3, :].T
+    M_old[:3, 3]  = old_matrix[3, :]
 
     M_new = np.eye(4, dtype=np.float32)
-    M_new[:3, :3] = new_matrix[:3, :]
-    M_new[:3, 3] = new_matrix[3, :]
+    M_new[:3, :3] = new_matrix[:3, :].T
+    M_new[:3, 3]  = new_matrix[3, :]
 
     M_new_inv = np.linalg.inv(M_new)
     M_transform = M_new_inv @ M_old
