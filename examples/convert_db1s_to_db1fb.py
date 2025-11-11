@@ -1,20 +1,20 @@
 import os
 import re
-import pytkutils
+import pyffeditc
 import shapeio
 from shapeio.shape import Point, UVPoint, Vector
 from shapeedit import ShapeEditor
 
 if __name__ == "__main__":
-    tkutils_dll_path = "./TK.MSTS.Tokens.dll"
-    shape_load_path = "./examples/data"
-    shape_processed_path = "./examples/data/processed/DB1fb"
+    ffeditc_path = "./ffeditc_unicode.exe"
+    load_path = "./examples/data"
+    processed_path = "./examples/data/processed/DB1fb"
     match_files = ["DB1s_*.s"]
     ignore_files = ["*Tun*", "*Pnt*", "*Frog*"]
     
-    os.makedirs(shape_processed_path, exist_ok=True)
+    os.makedirs(processed_path, exist_ok=True)
 
-    shape_names = shapeio.find_directory_files(shape_load_path, match_files, ignore_files)
+    shape_names = shapeio.find_directory_files(load_path, match_files, ignore_files)
 
     for idx, sfile_name in enumerate(shape_names):
         print(f"Shape {idx + 1} of {len(shape_names)}...")
@@ -22,12 +22,12 @@ if __name__ == "__main__":
         new_sfile_name = sfile_name.replace("DB1s", "DB1fb")
 
         # Convert .s file
-        shape_path = f"{shape_load_path}/{sfile_name}"
-        new_shape_path = f"{shape_processed_path}/{new_sfile_name}"
+        shape_path = f"{load_path}/{sfile_name}"
+        new_shape_path = f"{processed_path}/{new_sfile_name}"
 
         shapeio.copy(shape_path, new_shape_path)
 
-        pytkutils.decompress(tkutils_dll_path, new_shape_path)
+        pyffeditc.decompress(ffeditc_path, new_shape_path)
         trackshape = shapeio.load(new_shape_path)
 
         for idx, image in enumerate(trackshape.images):
@@ -50,14 +50,14 @@ if __name__ == "__main__":
                         vertex.point.y = 0.0945
         
         shapeio.dump(trackshape, new_shape_path)
-        #pytkutils.compress(tkutils_dll_path, new_shape_path)
+        #pyffeditc.compress(ffeditc_path, new_shape_path)
 
         # Process .sd file
         sdfile_name = sfile_name.replace(".s", ".sd")
         new_sdfile_name = new_sfile_name.replace(".s", ".sd")
 
-        sdfile_path = f"{shape_load_path}/{sdfile_name}"
-        new_sdfile_path = f"{shape_processed_path}/{new_sdfile_name}"
+        sdfile_path = f"{load_path}/{sdfile_name}"
+        new_sdfile_path = f"{processed_path}/{new_sdfile_name}"
 
         shapeio.copy(sdfile_path, new_sdfile_path)
         shapeio.replace_ignorecase(new_sdfile_path, sfile_name, new_sfile_name)

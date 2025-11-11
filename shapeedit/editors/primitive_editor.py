@@ -312,18 +312,6 @@ class _PrimitiveEditor:
             if vertex._parent._sub_object is not self._parent._sub_object:
                 raise ValueError(f"Parameter '{name}' is not from the same SubObject as this primitive")
 
-        # Check if specified vertices are actually associated with this primitive.
-        vertexset_idx = sub_object_helper.find_vertexset_index(self._primitive)
-        vertex_set = sub_object._sub_object.vertex_sets[vertexset_idx]
-        allowed_vertexidx_range = range(
-            vertex_set.vtx_start_index,
-            vertex_set.vtx_start_index + vertex_set.vtx_count
-        )
-        
-        for name, vertex in parameters:
-            if vertex.index not in allowed_vertexidx_range:
-                raise ValueError(f"Parameter '{name}' is not associated with this primitive")
-
         # Calculate face normal of the new triangle.
         face_normal = calculate_face_normal(vertex1.point, vertex2.point, vertex3.point)
 
@@ -384,20 +372,8 @@ class _PrimitiveEditor:
             if vertex._parent._sub_object is not self._parent._sub_object:
                 raise ValueError(f"Parameter '{name}' is not from the same SubObject as this primitive")
 
-        # Check if specified vertices are actually associated with this primitive.
-        vertexset_idx = sub_object_helper.find_vertexset_index(self._primitive)
-        vertex_set = sub_object._sub_object.vertex_sets[vertexset_idx]
-        allowed_vertexidx_range = range(
-            vertex_set.vtx_start_index,
-            vertex_set.vtx_start_index + vertex_set.vtx_count
-        )
-        
-        for name, vertex in parameters:
-            if vertex.index not in allowed_vertexidx_range:
-                raise ValueError(f"Parameter '{name}' is not associated with this primitive")
-
         # Remove the triangle from the indexed trilist.
-        for triangle in reversed(primitive.triangles()):
+        for triangle in reversed(self.triangles()):
             tri_vertex_idxs = [v.index for v in triangle.vertices()]
 
             should_remove = all([
@@ -440,19 +416,8 @@ class _PrimitiveEditor:
         if not self._parent._sub_object is vertex._parent._sub_object:
             raise ValueError("Parameter 'vertex' is not from the same SubObject as this primitive")
         
-        # Check if specified vertices are actually associated with this primitive.
-        vertexset_idx = sub_object_helper.find_vertexset_index(self._primitive)
-        vertex_set = sub_object._sub_object.vertex_sets[vertexset_idx]
-        allowed_vertexidx_range = range(
-            vertex_set.vtx_start_index,
-            vertex_set.vtx_start_index + vertex_set.vtx_count
-        )
-        
-        if not vertex.index in allowed_vertexidx_range:
-            raise ValueError("Parameter 'vertex' is not associated with this primitive")
-
         # Remove connected triangles from the indexed trilist.
-        for triangle in reversed(primitive.triangles()):
+        for triangle in reversed(self.triangles()):
             tri_vertex_idxs = [v.index for v in triangle.vertices()]
             
             should_remove = vertex.index in tri_vertex_idxs

@@ -1,41 +1,41 @@
 import os
-import pytkutils
+import pyffeditc
 import shapeio
 from shapeedit import ShapeEditor
 from shapeedit.math import coordinates
 
 if __name__ == "__main__":
-    tkutils_dll_path = "./TK.MSTS.Tokens.dll"
-    shape_load_path = "./examples/data"
-    shape_processed_path = "./examples/data/processed/OhwDblSlip7_5d"
+    ffeditc_path = "./ffeditc_unicode.exe"
+    load_path = "./examples/data"
+    processed_path = "./examples/data/processed/OhwDblSlip7_5d"
     cwire_shape = "DB22f_A1tDblSlip7_5d.s"
     match_files = ["DB2_A1tDblSlip7_5d.s", "DB3_A1tDblSlip7_5d.s", "DB2_A1tDKW7_5d.s", "DB3_A1tDKW7_5d.s"]
     ignore_files = ["*.sd"]
     
-    os.makedirs(shape_processed_path, exist_ok=True)
+    os.makedirs(processed_path, exist_ok=True)
 
-    cwire_shape_path = f"{shape_load_path}/{cwire_shape}"
+    cwire_shape_path = f"{load_path}/{cwire_shape}"
 
-    pytkutils.decompress(tkutils_dll_path, cwire_shape_path)
+    pyffeditc.decompress(ffeditc_path, cwire_shape_path)
     cwire_shape = shapeio.load(cwire_shape_path)
     
     cwire_shape_editor = ShapeEditor(cwire_shape)
     cwire_sub_object = cwire_shape_editor.lod_control(0).distance_level(200).sub_object(3)
     cwire_primitives = cwire_sub_object.primitives(prim_state_name="mt_cwire")
 
-    shape_names = shapeio.find_directory_files(shape_load_path, match_files, ignore_files)
+    shape_names = shapeio.find_directory_files(load_path, match_files, ignore_files)
 
     for idx, sfile_name in enumerate(shape_names):
         print(f"Shape {idx + 1} of {len(shape_names)}...")
         new_sfile_name = sfile_name.replace("DB2_", "DB2f_")
         new_sfile_name = new_sfile_name.replace("DB3_", "DB3f_")
 
-        shape_path = f"{shape_load_path}/{sfile_name}"
-        new_shape_path = f"{shape_processed_path}/{new_sfile_name}"
+        shape_path = f"{load_path}/{sfile_name}"
+        new_shape_path = f"{processed_path}/{new_sfile_name}"
 
         shapeio.copy(shape_path, new_shape_path)
 
-        pytkutils.decompress(tkutils_dll_path, new_shape_path)
+        pyffeditc.decompress(ffeditc_path, new_shape_path)
         trackshape = shapeio.load(new_shape_path)
 
         shape_editor = ShapeEditor(trackshape)
@@ -78,14 +78,14 @@ if __name__ == "__main__":
             print("")
             
         shapeio.dump(trackshape, new_shape_path)
-        #pytkutils.compress(tkutils_dll_path, new_shape_path)
+        #pyffeditc.compress(ffeditc_path, new_shape_path)
 
         # Process .sd file
         sdfile_name = sfile_name.replace(".s", ".sd")
         new_sdfile_name = new_sfile_name.replace(".s", ".sd")
 
-        sdfile_path = f"{shape_load_path}/{sdfile_name}"
-        new_sdfile_path = f"{shape_processed_path}/{new_sdfile_name}"
+        sdfile_path = f"{load_path}/{sdfile_name}"
+        new_sdfile_path = f"{processed_path}/{new_sdfile_name}"
 
         shapeio.copy(sdfile_path, new_sdfile_path)
         shapeio.replace_ignorecase(new_sdfile_path, sfile_name, new_sfile_name)
