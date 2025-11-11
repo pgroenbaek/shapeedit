@@ -49,7 +49,7 @@ pip install --upgrade ./shapeedit
 
 The exact capabilities of this Python module might not be immediately obvious, so here's an overview with some examples and screenshots.
 
-You cam perform pretty cool edits on existing shapes using this set of tools.
+You can perform pretty cool edits on existing shapes using this set of tools.
 
 ### Modification of existing geometry
 
