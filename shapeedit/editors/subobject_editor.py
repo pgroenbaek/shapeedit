@@ -71,6 +71,9 @@ class _SubObjectEditor:
         self._parent = _parent
         self._sub_object_helper = _SubObjectHelper(sub_object)
     
+    def __repr__(self):
+        return f"_SubObjectEditor({self._sub_object})"
+    
     @property
     def index(self) -> int:
         """

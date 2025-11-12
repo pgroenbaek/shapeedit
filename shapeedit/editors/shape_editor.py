@@ -72,6 +72,9 @@ class ShapeEditor:
             raise TypeError(f"Parameter 'shape' must be of type shape.Shape, but got {type(shape).__name__}")
 
         self._shape = shape
+    
+    def __repr__(self):
+        return f"ShapeEditor({self._shape})"
 
     def lod_control(self, lod_control_index: int) -> _LodControlEditor:
         """

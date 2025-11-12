@@ -72,6 +72,9 @@ class _PrimitiveEditor:
         self._primitive = primitive
         self._parent = _parent
     
+    def __repr__(self):
+        return f"_PrimitiveEditor({self._primitive})"
+    
     @property
     def index(self) -> int:
         """

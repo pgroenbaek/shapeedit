@@ -72,6 +72,9 @@ class _TriangleEditor:
         self._vertex_idx = vertex_idx
         self._normal_idx = normal_idx
         self._parent = _parent
+    
+    def __repr__(self):
+        return f"_TriangleEditor({self._vertex_idx}, {self._normal_idx})"
 
     @property
     def index(self) -> int:

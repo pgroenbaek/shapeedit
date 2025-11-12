@@ -66,6 +66,9 @@ class _VertexEditor:
         self._vertex = vertex
         self._parent = _parent
     
+    def __repr__(self):
+        return f"_VertexEditor({self._vertex})"
+    
     @property
     def index(self) -> int:
         """

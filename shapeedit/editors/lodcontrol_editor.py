@@ -67,6 +67,9 @@ class _LodControlEditor:
 
         self._lod_control = lod_control
         self._parent = _parent
+    
+    def __repr__(self):
+        return f"_LodControlEditor({self._lod_control})"
 
     @property
     def index(self) -> int:

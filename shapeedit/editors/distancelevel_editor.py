@@ -63,6 +63,9 @@ class _DistanceLevelEditor:
 
         self._distance_level = distance_level
         self._parent = _parent
+    
+    def __repr__(self):
+        return f"_DistanceLevelEditor({self._distance_level})"
 
     @property
     def index(self) -> int:
