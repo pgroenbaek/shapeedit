@@ -267,6 +267,12 @@ Please make an issue if you have any good ideas, or if you need something that h
 
 Pull requests are also welcome.
 
+## Contributing
+
+Contributions of all kinds are welcome. These could be suggestions, issues, bug fixes, documentation improvements, or new features.
+
+For more details see the [contribution guidelines](/CONTRIBUTING.md).
+
 ## License
 
 This Python module was created by Peter Grønbæk Andersen and is licensed under [GNU GPL v3](/LICENSE).
