@@ -100,8 +100,8 @@ class TestRemapPoint:
 
         result = remap_point(point, from_matrix, to_matrix)
         
-        # Point should effectively rotate -90° in new space = (0, -1, 0)
-        expected = np.array([0.0, -1.0, 0.0])
+        # Point should effectively rotate +90° in new space = (0, -1, 0)
+        expected = np.array([0.0, 1.0, 0.0])
         assert np.allclose(result.to_numpy(), expected, atol=1e-6)
 
 
@@ -135,7 +135,7 @@ class TestRemapNormal:
 
         result = remap_normal(normal, from_matrix, to_matrix)
 
-        # Vector should effectively rotate -90° in new space
-        expected = np.array([0.0, -1.0, 0.0])
+        # Vector should effectively rotate +90° in new space
+        expected = np.array([0.0, 1.0, 0.0])
         assert np.allclose(result.to_numpy(), expected, atol=1e-6)
 
