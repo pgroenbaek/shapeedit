@@ -5,8 +5,8 @@ from shapeedit import ShapeEditor
 
 if __name__ == "__main__":
     ffeditc_path = "./ffeditc_unicode.exe"
-    load_path = "/media/peter/T7 Shield/TRAINS/TRAINSET/My Nohab"
-    processed_path = "/media/peter/T7 Shield/TRAINS/TRAINSET/My Nohab"
+    load_path = "E:/TRAINS/TRAINSET/My Nohab"
+    processed_path = "E:/TRAINS/TRAINSET/My Nohab"
     locomotive_shape = "DSB_My1135.s"
     new_locomotive_shape = "DSB_My1135_no_mirrors.s"
     
@@ -43,4 +43,5 @@ if __name__ == "__main__":
                             primitive.remove_triangles_connected_to(vertex)
 
     shapeio.dump(shape, new_shape_path)
+    #pyffeditc.compress(ffeditc_path, new_shape_path)
 
