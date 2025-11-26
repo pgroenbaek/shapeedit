@@ -41,25 +41,19 @@ def remap_point(
     Returns:
         shape.Point: The point transformed into the new coordinate system.
     """
-    p = np.array([point.x, point.y, point.z, 1.0])
     old_matrix = from_matrix.to_numpy().astype(np.float32)
     new_matrix = to_matrix.to_numpy().astype(np.float32)
-    
-    M_old = np.eye(4, dtype=np.float32)
-    M_old[:3, :3] = old_matrix[:3, :].T
-    M_old[:3, 3]  = old_matrix[3, :]
 
-    M_new = np.eye(4, dtype=np.float32)
-    M_new[:3, :3] = new_matrix[:3, :].T
-    M_new[:3, 3]  = new_matrix[3, :]
+    R_old = old_matrix[:3, :]
+    t_old = old_matrix[3, :]
+    R_new = new_matrix[:3, :]
+    t_new = new_matrix[3, :]
 
-    M_new_inv = np.linalg.inv(M_new)
-    M_transform = M_new_inv @ M_old
+    p = np.array([point.x, point.y, point.z], dtype=np.float32)
+    p_world = p @ R_old + t_old
+    p_new = (p_world - t_new) @ np.linalg.inv(R_new)
 
-    p_new = M_transform @ p
-    p_new = p_new[:3] / p_new[3]
-
-    return shape.Point.from_numpy(p_new)
+    return shape.Point.from_numpy(p_new.astype(float))
 
 
 def remap_normal(
@@ -82,24 +76,17 @@ def remap_normal(
     Returns:
         shape.Vector: The normal vector transformed into the new coordinate system.
     """
-    n = np.array([normal.x, normal.y, normal.z])
     old_matrix = from_matrix.to_numpy().astype(np.float32)
     new_matrix = to_matrix.to_numpy().astype(np.float32)
-    
-    M_old = np.eye(4, dtype=np.float32)
-    M_old[:3, :3] = old_matrix[:3, :].T
-    M_old[:3, 3]  = old_matrix[3, :]
 
-    M_new = np.eye(4, dtype=np.float32)
-    M_new[:3, :3] = new_matrix[:3, :].T
-    M_new[:3, 3]  = new_matrix[3, :]
+    R_old = old_matrix[:3, :]
+    R_new = new_matrix[:3, :]
 
-    M_new_inv = np.linalg.inv(M_new)
-    M_transform = M_new_inv @ M_old
-
-    linear = M_transform[:3, :3]
+    linear = np.linalg.inv(R_new) @ R_old
     normal_matrix = np.linalg.inv(linear).T
+
+    n = np.array([normal.x, normal.y, normal.z], dtype=np.float32)
     n_new = normal_matrix @ n
     n_new /= np.linalg.norm(n_new)
 
-    return shape.Vector.from_numpy(n_new)
+    return shape.Vector.from_numpy(n_new.astype(float))
