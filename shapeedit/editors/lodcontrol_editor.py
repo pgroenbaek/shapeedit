@@ -69,6 +69,12 @@ class _LodControlEditor:
         self._parent = _parent
     
     def __repr__(self):
+        """
+        Return a string representation of the _LodControlEditor object.
+
+        Returns:
+            str: A string representation of the _LodControlEditor instance.
+        """
         return f"_LodControlEditor({self._lod_control})"
 
     @property

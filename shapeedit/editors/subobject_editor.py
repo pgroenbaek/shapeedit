@@ -72,6 +72,12 @@ class _SubObjectEditor:
         self._sub_object_helper = _SubObjectHelper(sub_object)
     
     def __repr__(self):
+        """
+        Return a string representation of the _SubObjectEditor object.
+
+        Returns:
+            str: A string representation of the _SubObjectEditor instance.
+        """
         return f"_SubObjectEditor({self._sub_object})"
     
     @property

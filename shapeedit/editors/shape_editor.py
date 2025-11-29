@@ -74,6 +74,12 @@ class ShapeEditor:
         self._shape = shape
     
     def __repr__(self):
+        """
+        Return a string representation of the ShapeEditor instance.
+
+        Returns:
+            str: A string representation of the ShapeEditor instance.
+        """
         return f"ShapeEditor({self._shape})"
 
     def lod_control(self, lod_control_index: int) -> _LodControlEditor:

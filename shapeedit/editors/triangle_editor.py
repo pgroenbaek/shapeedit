@@ -74,6 +74,12 @@ class _TriangleEditor:
         self._parent = _parent
     
     def __repr__(self):
+        """
+        Return a string representation of the _TriangleEditor object.
+
+        Returns:
+            str: A string representation of the _TriangleEditor instance.
+        """
         return f"_TriangleEditor({self._vertex_idx}, {self._normal_idx})"
 
     @property

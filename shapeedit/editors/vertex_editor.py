@@ -67,6 +67,12 @@ class _VertexEditor:
         self._parent = _parent
     
     def __repr__(self):
+        """
+        Return a string representation of the _VertexEditor object.
+
+        Returns:
+            str: A string representation of the _VertexEditor instance.
+        """
         return f"_VertexEditor({self._vertex})"
     
     @property

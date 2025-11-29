@@ -65,6 +65,12 @@ class _DistanceLevelEditor:
         self._parent = _parent
     
     def __repr__(self):
+        """
+        Return a string representation of the _DistanceLevelEditor object.
+
+        Returns:
+            str: A string representation of the _DistanceLevelEditor instance.
+        """
         return f"_DistanceLevelEditor({self._distance_level})"
 
     @property

@@ -73,6 +73,12 @@ class _PrimitiveEditor:
         self._parent = _parent
     
     def __repr__(self):
+        """
+        Return a string representation of the _PrimitiveEditor object.
+
+        Returns:
+            str: A string representation of the _PrimitiveEditor instance.
+        """
         return f"_PrimitiveEditor({self._primitive})"
     
     @property
