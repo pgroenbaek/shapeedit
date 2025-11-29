@@ -24,13 +24,12 @@ from shapeedit import ShapeEditor
 from shapeedit.editors.lodcontrol_editor import _LodControlEditor
 
 
-def test_replace_texture_image_matches(global_storage):
+def test_shape_editor_replace_texture_image_matches(global_storage):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
     editor = ShapeEditor(shape)
 
     result = editor.replace_texture_image("DB_Rails10w.ACE", "V4_Rails1.ace")
     expected = "V4_Rails1.ace"
-    print(shape.images)
     assert result is True
     assert shape.images[0] != expected
     assert shape.images[1] != expected
@@ -40,7 +39,7 @@ def test_replace_texture_image_matches(global_storage):
     assert shape.images[10] == expected
 
 
-def test_replace_texture_image_no_match(global_storage):
+def test_shape_editor_replace_texture_image_no_match(global_storage):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
     editor = ShapeEditor(shape)
 
@@ -56,7 +55,7 @@ def test_replace_texture_image_no_match(global_storage):
 @pytest.mark.parametrize("ignore_case", [
     True, False
 ])
-def test_replace_texture_image_ignore_case(global_storage, ignore_case):
+def test_shape_editor_replace_texture_image_ignore_case(global_storage, ignore_case):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
     editor = ShapeEditor(shape)
 
@@ -74,6 +73,40 @@ def test_replace_texture_image_ignore_case(global_storage, ignore_case):
     assert shape.images[4] == expected
     assert shape.images[5] == expected
     assert shape.images[10] == expected
+
+
+@pytest.mark.parametrize("bad_input", [
+    None, 1, Point(1, 2, 3)
+])
+def test_shape_editor_replace_texture_image_bad_match_input_raises(global_storage, bad_input):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    with pytest.raises(TypeError):
+        editor.replace_texture_image(bad_input, "V4_Rails1.ace")
+
+
+@pytest.mark.parametrize("bad_input", [
+    None, 1, Point(1, 2, 3)
+])
+def test_shape_editor_replace_texture_image_bad_replace_input_raises(global_storage, bad_input):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    with pytest.raises(TypeError):
+        editor.replace_texture_image("DB_Rails10w.ace", bad_input, "V4_Rails1.ace")
+
+
+@pytest.mark.parametrize("bad_input", [
+    None, 1, Point(1, 2, 3)
+])
+def test_shape_editor_replace_texture_image_bad_case_input_raises(global_storage, bad_input):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    with pytest.raises(TypeError):
+        editor.replace_texture_image("DB_Rails10w.ace", "V4_Rails1.ace", ignore_case=bad_input)
+
 
 
 def test_shape_editor_lod_controls(global_storage):

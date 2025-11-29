@@ -85,7 +85,7 @@ class ShapeEditor:
 
     def replace_texture_image(self, match_image: str, replace_image: str, ignore_case: bool = True) -> bool:
         """
-        Replace texture images that exactly match `match_image` with `replace_image`.
+        Replace texture images that match `match_image` with `replace_image`.
 
         The match is performed on the entire string, not as a substring. 
         By default, the match is case-insensitive.
@@ -98,6 +98,15 @@ class ShapeEditor:
         Returns:
             bool: True if at least one image was replaced, False otherwise.
         """
+        if not isinstance(match_image, str):
+            raise TypeError(f"Parameter 'match_image' must be of type str, but got {type(match_image).__name__}")
+        
+        if not isinstance(replace_image, str):
+            raise TypeError(f"Parameter 'replace_image' must be of type str, but got {type(replace_image).__name__}")
+        
+        if not isinstance(ignore_case, bool):
+            raise TypeError(f"Parameter 'ignore_case' must be of type bool, but got {type(ignore_case).__name__}")
+        
         result = False
 
         for idx, image in enumerate(self._shape.images):
