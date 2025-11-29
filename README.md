@@ -160,12 +160,12 @@ my_shape = shapeio.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
 
-# Add three new vertices to primitives associated with prim_state_index 22.
+# Add three new vertices to primitives associated with prim_state_idx 22.
 # Connect the three vertices added to each primitive with a triangle.
 for lod_control in shape_editor.lod_controls():
     for distance_level in lod_control.distance_levels():
         for sub_object in distance_level.sub_objects():
-            for primitive in sub_object.primitives(prim_state_idx=22):
+            for primitive in sub_object.primitives(prim_state_index=22):
                 new_point1 = Point(0.0, 0.0, 0.0)
                 new_point2 = Point(1.0, 0.0, 0.0)
                 new_point3 = Point(2.0, 0.0, 1.0)
