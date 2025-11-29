@@ -24,6 +24,58 @@ from shapeedit import ShapeEditor
 from shapeedit.editors.lodcontrol_editor import _LodControlEditor
 
 
+def test_replace_texture_image_matches(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    result = editor.replace_texture_image("DB_Rails10w.ACE", "V4_Rails1.ace")
+    expected = "V4_Rails1.ace"
+    print(shape.images)
+    assert result is True
+    assert shape.images[0] != expected
+    assert shape.images[1] != expected
+    assert shape.images[2] == expected
+    assert shape.images[4] == expected
+    assert shape.images[5] == expected
+    assert shape.images[10] == expected
+
+
+def test_replace_texture_image_no_match(global_storage):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    result = editor.replace_texture_image("NotInTheList.ace", "V4_Rails1.ace")
+    expected = "DB_Rails10w.ACE"
+    assert result is False
+    assert shape.images[2] == expected
+    assert shape.images[4] == expected
+    assert shape.images[5] == expected
+    assert shape.images[10] == expected
+
+
+@pytest.mark.parametrize("ignore_case", [
+    True, False
+])
+def test_replace_texture_image_ignore_case(global_storage, ignore_case):
+    shape = global_storage["shape_DK10f_A1tPnt5dLft"]
+    editor = ShapeEditor(shape)
+
+    result = editor.replace_texture_image("DB_Rails10w.ace", "V4_Rails1.ace", ignore_case=ignore_case)
+    
+    if ignore_case:
+        expected = "V4_Rails1.ace"
+        assert result is True
+    else:
+        expected = "DB_Rails10w.ACE"
+        assert result is False
+    assert shape.images[0] != expected
+    assert shape.images[1] != expected
+    assert shape.images[2] == expected
+    assert shape.images[4] == expected
+    assert shape.images[5] == expected
+    assert shape.images[10] == expected
+
+
 def test_shape_editor_lod_controls(global_storage):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
     editor = ShapeEditor(shape)

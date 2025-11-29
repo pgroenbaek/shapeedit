@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
+import re
 from typing import List
 from shapeio.shape import Shape
 
@@ -81,6 +82,36 @@ class ShapeEditor:
             str: A string representation of the ShapeEditor instance.
         """
         return f"ShapeEditor({self._shape})"
+
+    def replace_texture_image(self, match_image: str, replace_image: str, ignore_case: bool = True) -> bool:
+        """
+        Replace texture images that exactly match `match_image` with `replace_image`.
+
+        The match is performed on the entire string, not as a substring. 
+        By default, the match is case-insensitive.
+
+        Args:
+            match_image (str): The image filename to search for.
+            replace_image (str): The image filename to replace matches with.
+            ignore_case (bool, optional): Whether to ignore case when matching. Defaults to True.
+
+        Returns:
+            bool: True if at least one image was replaced, False otherwise.
+        """
+        result = False
+
+        for idx, image in enumerate(self._shape.images):
+            pattern = f"^{re.escape(match_image)}$"
+            if ignore_case:
+                new_image, count = re.subn(pattern, replace_image, image, flags=re.IGNORECASE)
+            else:
+                new_image, count = re.subn(pattern, replace_image, image)
+
+            if count > 0:
+                result = True
+                self._shape.images[idx] = new_image
+
+        return result
 
     def lod_control(self, lod_control_index: int) -> _LodControlEditor:
         """
