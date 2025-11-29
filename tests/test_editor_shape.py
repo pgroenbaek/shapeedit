@@ -76,7 +76,7 @@ def test_shape_editor_replace_texture_image_ignore_case(global_storage, ignore_c
 
 
 @pytest.mark.parametrize("bad_input", [
-    None, 1, Point(1, 2, 3)
+    None, 1, Point(1, 2, 3), True
 ])
 def test_shape_editor_replace_texture_image_bad_match_input_raises(global_storage, bad_input):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
@@ -87,7 +87,7 @@ def test_shape_editor_replace_texture_image_bad_match_input_raises(global_storag
 
 
 @pytest.mark.parametrize("bad_input", [
-    None, 1, Point(1, 2, 3)
+    None, 1, Point(1, 2, 3), True
 ])
 def test_shape_editor_replace_texture_image_bad_replace_input_raises(global_storage, bad_input):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
@@ -98,7 +98,7 @@ def test_shape_editor_replace_texture_image_bad_replace_input_raises(global_stor
 
 
 @pytest.mark.parametrize("bad_input", [
-    None, 1, Point(1, 2, 3)
+    None, 1, Point(1, 2, 3), "thisisastring"
 ])
 def test_shape_editor_replace_texture_image_bad_case_input_raises(global_storage, bad_input):
     shape = global_storage["shape_DK10f_A1tPnt5dLft"]
