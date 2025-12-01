@@ -94,7 +94,7 @@ def test_shape_editor_replace_texture_image_bad_replace_input_raises(global_stor
     editor = ShapeEditor(shape)
 
     with pytest.raises(TypeError):
-        editor.replace_texture_image("DB_Rails10w.ace", bad_input, "V4_Rails1.ace")
+        editor.replace_texture_image("DB_Rails10w.ace", bad_input)
 
 
 @pytest.mark.parametrize("bad_input", [
@@ -106,7 +106,6 @@ def test_shape_editor_replace_texture_image_bad_case_input_raises(global_storage
 
     with pytest.raises(TypeError):
         editor.replace_texture_image("DB_Rails10w.ace", "V4_Rails1.ace", ignore_case=bad_input)
-
 
 
 def test_shape_editor_lod_controls(global_storage):

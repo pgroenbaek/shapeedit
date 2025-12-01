@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name="shapeedit",
-    version="0.5.0b0",
+    version="0.5.0b2",
     packages=find_packages(),
     install_requires=[
         "numpy",
-        "shapeio==0.5.0b0"
+        "shapeio==0.5.0b2"
     ],
     author="Peter Grønbæk Andersen",
     author_email="peter@grnbk.io",
