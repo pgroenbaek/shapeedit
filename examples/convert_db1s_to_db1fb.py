@@ -30,15 +30,13 @@ if __name__ == "__main__":
         pyffeditc.decompress(ffeditc_path, new_shape_path)
         trackshape = shapeio.load(new_shape_path)
 
-        for idx, image in enumerate(trackshape.images):
-            image = re.sub(r"DB_TrackSfs1.ace", "DB_Track1.ace", image, flags=re.IGNORECASE)
-            image = re.sub(r"DB_TrackSfs1s.ace", "DB_Track1s.ace", image, flags=re.IGNORECASE)
-            image = re.sub(r"DB_TrackSfs1w.ace", "DB_Track1w.ace", image, flags=re.IGNORECASE)
-            image = re.sub(r"DB_TrackSfs1sw.ace", "DB_Track1sw.ace", image, flags=re.IGNORECASE)
-            trackshape.images[idx] = image
-
         trackshape_editor = ShapeEditor(trackshape)
         lod_control = trackshape_editor.lod_control(0)
+
+        trackshape_editor.replace_texture_image("DB_TrackSfs1.ace", "DB_Track1.ace")
+        trackshape_editor.replace_texture_image("DB_TrackSfs1s.ace", "DB_Track1s.ace")
+        trackshape_editor.replace_texture_image("DB_TrackSfs1w.ace", "DB_Track1w.ace")
+        trackshape_editor.replace_texture_image("DB_TrackSfs1sw.ace", "DB_Track1sw.ace")
 
         for lod_dlevel in lod_control.distance_levels():
             for sub_object in lod_dlevel.sub_objects():
