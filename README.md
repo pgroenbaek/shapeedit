@@ -234,7 +234,7 @@ Then, run tests with:
 tox
 ```
 
-This will execute tests in all Python versions specified in `tox.ini`.
+This will execute tests for all Python versions specified in `tox.ini`.
 
 
 ## Roadmap
