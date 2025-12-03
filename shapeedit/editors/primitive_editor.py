@@ -291,7 +291,7 @@ class _PrimitiveEditor:
         """
         Inserts a new triangle into this primitive's indexed trilist.
 
-        Validates that the vertices belong to the same SubObject and vertex set,
+        Validates that the vertices belong to the same SubObject,
         calculates the triangle's face normal, creates the corresponding VertexIdx
         and NormalIdx objects, and appends them to the indexed trilist.
 
@@ -305,7 +305,7 @@ class _PrimitiveEditor:
 
         Raises:
             TypeError: If any vertex argument is not of type _VertexEditor.
-            ValueError: If any vertex does not belong to the same SubObject or vertex set as this primitive.
+            ValueError: If any vertex does not belong to the same SubObject as this primitive.
         """
         sub_object = self._parent
         sub_object_helper = sub_object._sub_object_helper
@@ -349,14 +349,37 @@ class _PrimitiveEditor:
 
         return new_triangle_editor
 
+    def remove_triangle(self, triangle: _TriangleEditor):
+        """
+        Removes a triangle from this primitive.
+
+        Validates that the vertices within the triangle belong to the same
+        SubObject, searches the primitive's indexed trilist for exactly this
+        triangle and removes it. Updates the parent SubObject's geometry information
+        afterward.
+
+        Args:
+            triangle (_TriangleEditor): The triangle to remove.
+
+        Raises:
+            TypeError: If the triangle argument is not of type _TriangleEditor.
+            ValueError: If any vertex within the triangle does not belong to the same SubObject as this primitive.
+        """
+        if not isinstance(triangle, _TriangleEditor):
+            raise TypeError(f"Parameter 'triangle' must be of type _TriangleEditor, but got {type(triangle).__name__}")
+        
+        vertices = triangle.vertices()
+
+        self.remove_triangle(vertices[0], vertices[1], vertices[2])
+
     def remove_triangle(self, vertex1: _VertexEditor, vertex2: _VertexEditor, vertex3: _VertexEditor):
         """
         Removes a triangle from this primitive that matches the specified vertices.
 
-        Validates that the vertices belong to the same SubObject and vertex set,
-        then searches the primitive's indexed trilist for a triangle containing
-        exactly these vertices and removes it. Updates the parent SubObject's
-        geometry information afterward.
+        Validates that the vertices belong to the same SubObject, searches the
+        primitive's indexed trilist for a triangle containing exactly these
+        vertices and removes it. Updates the parent SubObject's geometry
+        information afterward.
 
         Args:
             vertex1 (_VertexEditor): The first vertex of the triangle to remove.
@@ -365,7 +388,7 @@ class _PrimitiveEditor:
 
         Raises:
             TypeError: If any vertex argument is not of type _VertexEditor.
-            ValueError: If any vertex does not belong to the same SubObject or vertex set as this primitive.
+            ValueError: If any vertex does not belong to the same SubObject as this primitive.
         """
         sub_object = self._parent
         sub_object_helper = sub_object._sub_object_helper
@@ -404,16 +427,16 @@ class _PrimitiveEditor:
         """
         Removes all triangles in this primitive that include the specified vertex.
 
-        Validates that the vertex belongs to the same SubObject and vertex set,
-        then iterates over the primitive's indexed trilist and deletes all triangles
-        containing the vertex. Updates the parent SubObject's geometry information.
+        Validates that the vertices belong to the same SubObject, then iterates over
+        the primitive's indexed trilist and deletes all triangles containing the vertex.
+        Updates the parent SubObject's geometry information.
 
         Args:
             vertex (_VertexEditor): The vertex whose connected triangles should be removed.
 
         Raises:
             TypeError: If the vertex is not of type _VertexEditor.
-            ValueError: If the vertex does not belong to the same SubObject or vertex set as this primitive.
+            ValueError: If the vertex does not belong to the same SubObject as this primitive.
         """
         sub_object = self._parent
         sub_object_helper = sub_object._sub_object_helper
