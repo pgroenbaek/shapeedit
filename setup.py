@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name="shapeedit",
-    version="0.5.0b2",
+    version="0.5.0b3",
     packages=find_packages(),
     install_requires=[
         "numpy",
-        "shapeio==0.5.0b2"
+        "shapeio==0.5.0b3"
     ],
     author="Peter Grønbæk Andersen",
     author_email="peter@grnbk.io",
@@ -23,5 +23,5 @@ setup(
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.7",
 )
