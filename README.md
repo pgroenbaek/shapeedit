@@ -55,9 +55,9 @@ The original shapes and textures below are by Norbert Rieger. In the [first exam
 
 In the [second example](https://github.com/pgroenbaek/dbtracks-extras/blob/master/scripts/V4hs1t_RKL/convert_db1z1t_to_v4hs1trkl.py), trackbed vertices are repositioned to mimic the concrete slabs of the V4hs_RKL track sections. Here, texture images are also swapped.
 
-![DB1s vs. DB1fb](./images/DB1s_DB1fb.png)
+![DB1s vs. DB1fb](https://github.com/pgroenbaek/shapeedit/blob/master/images/DB1s_DB1fb.png)
 
-![DB1s vs. V4hs1t_RKL](./images/V4hs1t_RKL.png)
+![DB1s vs. V4hs1t_RKL](https://github.com/pgroenbaek/shapeedit/blob/master/images/V4hs1t_RKL.png)
 
 ### Addition of new geometry
 
@@ -67,7 +67,7 @@ In [this example](https://github.com/pgroenbaek/nremb-atracks/blob/master/script
 
 This particular example is somewhat more advanced compared to the others, as the script quite literally weaves new geometry into both curved and straight track sections from stratch.
 
-![NR_Emb vs. NR_Emb_AT](./images/NR_Emb_AT.png)
+![NR_Emb vs. NR_Emb_AT](https://github.com/pgroenbaek/shapeedit/blob/master/images/NR_Emb_AT.png)
 
 The edited NR_Emb shapes with ATracks rails are available for download at [trainsim.com](https://www.trainsim.com/forums/filelib/search-fileid?fid=90029).
 
@@ -77,7 +77,7 @@ Triangles connecting existing vertices can also be removed, effetively making ge
 
 In [this example](https://github.com/pgroenbaek/nohab-my/blob/master/scripts/remove_mirrors.py), the side mirrors of the Nohab MY locomotive model by Pál Tamás are removed.
 
-![Nohab MY mirror removal](./images/NohabMyMirrors.png)
+![Nohab MY mirror removal](https://github.com/pgroenbaek/shapeedit/blob/master/images/NohabMyMirrors.png)
 
 ### Transferring geometry
 
@@ -85,7 +85,7 @@ Geometry can also be transferred from one shape to another.
 
 In [this example](https://github.com/pgroenbaek/dblslip7_5d-ohw/blob/master/scripts/DblSlip7_5d/make_ohw_dblslip7_5d.py), the overhead wires are copied from one of Norbert Rieger's DblSlip7_5d shapes onto the animated DblSlip7_5d switches by Laci1959.
 
-![DB2_DblSlip7_5d vs. DB2f_DblSlip7_5d](./images/DblSlip7_5d.png)
+![DB2_DblSlip7_5d vs. DB2f_DblSlip7_5d](https://github.com/pgroenbaek/shapeedit/blob/master/images/DblSlip7_5d.png)
 
 The edited DblSlip7\_5d shapes are available for download at [the-train.de](https://the-train.de/downloads/entry/11283-dbtracks-doppelte-kreuzungsweiche-dkw-7-5/).
 
@@ -253,8 +253,8 @@ Pull requests are also welcome.
 
 Contributions of all kinds are welcome. These could be suggestions, issues, bug fixes, documentation improvements, or new features.
 
-For more details see the [contribution guidelines](/CONTRIBUTING.md).
+For more details see the [contribution guidelines](https://github.com/pgroenbaek/shapeedit/blob/master/CONTRIBUTING.md).
 
 ## License
 
-This Python module was created by Peter Grønbæk Andersen and is licensed under [GNU GPL v3](/LICENSE).
+This Python module was created by Peter Grønbæk Andersen and is licensed under [GNU GPL v3](https://github.com/pgroenbaek/shapeedit/blob/master/LICENSE).
