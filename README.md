@@ -51,23 +51,23 @@ You can perform pretty cool edits on existing shapes using this set of tools.
 
 Existing geometry within shapes can be modified. Vertex positions, texture coordinates, and normal vectors are all adjustable.
 
-The original shapes and textures below are by Norbert Rieger. In the [first example](./examples/convert_db1s_to_db1fb.py), the LZB cable is moved below the trackbed, and texture images are swapped to convert DB1s track sections into DB1fb.
+The original shapes and textures below are by Norbert Rieger. In the [first example](https://github.com/pgroenbaek/dbtracks-extras/blob/master/scripts/DBxfb/convert_db1s_to_db1fb.py), the LZB cable is moved below the trackbed, and texture images are swapped to convert DB1s track sections into DB1fb.
 
-In the [second example](https://github.com/pgroenbaek/trackshape-utils/blob/master/examples/convert_db1z1t_to_v4hsrkl1t.py), trackbed vertices are repositioned to mimic the concrete slabs of the V4hs_RKL track sections. Here, texture images are also swapped.
+In the [second example](https://github.com/pgroenbaek/dbtracks-extras/blob/master/scripts/V4hs1t_RKL/convert_db1z1t_to_v4hs1trkl.py), trackbed vertices are repositioned to mimic the concrete slabs of the V4hs_RKL track sections. Here, texture images are also swapped.
 
-![DB1s vs. DB1fb](./examples/images/DB1s_DB1fb.png)
+![DB1s vs. DB1fb](./images/DB1s_DB1fb.png)
 
-![DB1s vs. V4hs1t_RKL](./examples/images/V4hs1t_RKL.png)
+![DB1s vs. V4hs1t_RKL](./images/V4hs1t_RKL.png)
 
 ### Addition of new geometry
 
 Brand-new geometry, i.e., new vertices and triangles, can also be inserted into existing shapes.
 
-In [this example](https://github.com/pgroenbaek/trackshape-utils/blob/master/examples/change_nrembrails_to_atracksrails.py), the original NR_Emb shapes are by Norbert Rieger. The square railheads that match the old XTracks track system are extended with new geometry and folded up to match Eric's newer ATracks shapes.
+In [this example](https://github.com/pgroenbaek/nremb-atracks/blob/master/scripts/NR_Emb_AT/change_nrembrails_to_atracksrails.py), the original NR_Emb shapes are by Norbert Rieger. The square railheads that match the old XTracks track system are extended with new geometry and folded up to match Eric's newer ATracks shapes.
 
 This particular example is somewhat more advanced compared to the others, as the script quite literally weaves new geometry into both curved and straight track sections from stratch.
 
-![NR_Emb vs. NR_Emb_AT](./examples/images/NR_Emb_AT.png)
+![NR_Emb vs. NR_Emb_AT](./images/NR_Emb_AT.png)
 
 The edited NR_Emb shapes with ATracks rails are available for download at [trainsim.com](https://www.trainsim.com/forums/filelib/search-fileid?fid=90029).
 
@@ -75,17 +75,17 @@ The edited NR_Emb shapes with ATracks rails are available for download at [train
 
 Triangles connecting existing vertices can also be removed, effetively making geometry no longer visible even though the vertices technically remain.
 
-In [this example](./examples/remove_nohab_my_mirrors.py), the side mirrors of the Nohab MY locomotive model by Pál Tamás are removed.
+In [this example](https://github.com/pgroenbaek/nohab-my/blob/master/scripts/remove_mirrors.py), the side mirrors of the Nohab MY locomotive model by Pál Tamás are removed.
 
-![Nohab MY mirror removal](./examples/images/NohabMyMirrors.png)
+![Nohab MY mirror removal](./images/NohabMyMirrors.png)
 
 ### Transferring geometry
 
 Geometry can also be transferred from one shape to another.
 
-In [this example](./examples/make_ohw_dblslip7_5d.py), the overhead wires are copied from one of Norbert Rieger's DblSlip7_5d shapes onto the animated DblSlip7_5d switches by Laci1959.
+In [this example](https://github.com/pgroenbaek/dblslip7_5d-ohw/blob/master/scripts/DblSlip7_5d/make_ohw_dblslip7_5d.py), the overhead wires are copied from one of Norbert Rieger's DblSlip7_5d shapes onto the animated DblSlip7_5d switches by Laci1959.
 
-![DB2_DblSlip7_5d vs. DB2f_DblSlip7_5d](./examples/images/DblSlip7_5d.png)
+![DB2_DblSlip7_5d vs. DB2f_DblSlip7_5d](./images/DblSlip7_5d.png)
 
 The edited DblSlip7\_5d shapes are available for download at [the-train.de](https://the-train.de/downloads/entry/11283-dbtracks-doppelte-kreuzungsweiche-dkw-7-5/).
 
