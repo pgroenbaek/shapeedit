@@ -2,15 +2,15 @@ from setuptools import setup, find_packages
 
 setup(
     name="shapeedit",
-    version="0.5.0b3",
+    version="0.5.0b4",
     packages=find_packages(),
     install_requires=[
         "numpy",
-        "shapeio==0.5.0b3"
+        "shapeio==0.5.0b4"
     ],
     author="Peter Grønbæk Andersen",
     author_email="peter@grnbk.io",
-    description="A library that provides experimental operations for modifying existing MSTS/ORTS shape files.",
+    description="A Python module for programmatically modifying MSTS/ORTS shape files without using 3D modeling software.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     project_urls={
