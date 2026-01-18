@@ -439,3 +439,20 @@ class _PrimitiveEditor:
 
         # Update geometry_info in the parent sub_object.
         sub_object_helper.update_geometry_info()
+
+    def remove_all_triangles(self):
+        """
+        Removes all triangles from this primitive, and updates the parent SubObject's
+        geometry information afterward.
+        """
+        sub_object = self._parent
+        sub_object_helper = sub_object._sub_object_helper
+        indexed_trilist = self._primitive.indexed_trilist
+
+        # Remove all triangles from the indexed trilist.
+        indexed_trilist.vertex_idxs.clear()
+        indexed_trilist.normal_idxs.clear()
+        indexed_trilist.flags.clear()
+
+        # Update geometry_info in the parent sub_object.
+        sub_object_helper.update_geometry_info()
