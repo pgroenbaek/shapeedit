@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shapeedit"
-version = "0.5.0b4"
+version = "0.6.0"
 description = "A Python module for programmatically modifying MSTS/ORTS shape files without using 3D modeling software."
 readme = "README.md"
 authors = [{name = "Peter Grønbæk Andersen", email = "peter@grnbk.io"}]
 license = {text = "GNU GPL v3"}
 dependencies = [
     "numpy",
-    "shapeio==0.5.0b4"
+    "simisa"
 ]
 requires-python = ">=3.7"
 classifiers = [

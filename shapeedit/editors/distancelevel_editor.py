@@ -18,7 +18,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 from typing import TYPE_CHECKING, List
-from shapeio.shape import DistanceLevel
+from simisa.shape import DistanceLevel
 
 from .subobject_editor import _SubObjectEditor
 

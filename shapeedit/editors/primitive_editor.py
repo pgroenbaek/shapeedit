@@ -19,8 +19,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import copy
 from typing import TYPE_CHECKING, List
-from shapeio.shape import Primitive, Vertex, Point, UVPoint, Vector
-from shapeio.shape import Matrix, VertexIdx, NormalIdx
+from simisa.shape import Primitive, Vertex, Point, UVPoint, Vector
+from simisa.shape import Matrix, VertexIdx, NormalIdx
 
 from .triangle_editor import _TriangleEditor
 from .vertex_editor import _VertexEditor

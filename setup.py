@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name="shapeedit",
-    version="0.5.0b4",
+    version="0.6.0",
     packages=find_packages(),
     install_requires=[
         "numpy",
-        "shapeio==0.5.0b4"
+        "simisa"
     ],
     author="Peter Grønbæk Andersen",
     author_email="peter@grnbk.io",

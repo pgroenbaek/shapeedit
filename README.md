@@ -4,17 +4,15 @@
 [![Python 3.7+](https://img.shields.io/badge/Python-3.7%2B-blue?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 [![License GNU GPL v3](https://img.shields.io/badge/License-%20%20GNU%20GPL%20v3%20-lightgrey?style=flat&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNTEyIj4KICA8IS0tIEZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuIC0tPgogIDxwYXRoIGZpbGw9IndoaXRlIiBkPSJNMzg0IDMybDEyOCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMycy0xNC4zIDMyLTMyIDMyTDM5OC40IDk2Yy01LjIgMjUuOC0yMi45IDQ3LjEtNDYuNCA1Ny4zTDM1MiA0NDhsMTYwIDBjMTcuNyAwIDMyIDE0LjMgMzIgMzJzLTE0LjMgMzItMzIgMzJsLTE5MiAwLTE5MiAwYy0xNy43IDAtMzItMTQuMy0zMi0zMnMxNC4zLTMyIDMyLTMybDE2MCAwIDAtMjk0LjdjLTIzLjUtMTAuMy00MS4yLTMxLjYtNDYuNC01Ny4zTDEyOCA5NmMtMTcuNyAwLTMyLTE0LjMtMzItMzJzMTQuMy0zMiAzMi0zMmwxMjggMGMxNC42LTE5LjQgMzcuOC0zMiA2NC0zMnM0OS40IDEyLjYgNjQgMzJ6bTU1LjYgMjg4bDE0NC45IDBMNTEyIDE5NS44IDQzOS42IDMyMHpNNTEyIDQxNmMtNjIuOSAwLTExNS4yLTM0LTEyNi03OC45Yy0yLjYtMTEgMS0yMi4zIDYuNy0zMi4xbDk1LjItMTYzLjJjNS04LjYgMTQuMi0xMy44IDI0LjEtMTMuOHMxOS4xIDUuMyAyNC4xIDEzLjhsOTUuMiAxNjMuMmM1LjcgOS44IDkuMyAyMS4xIDYuNyAzMi4xQzYyNy4yIDM4MiA1NzQuOSA0MTYgNTEyIDQxNnpNMTI2LjggMTk1LjhMNTQuNCAzMjBsMTQ0LjkgMEwxMjYuOCAxOTUuOHpNLjkgMzM3LjFjLTIuNi0xMSAxLTIyLjMgNi43LTMyLjFsOTUuMi0xNjMuMmM1LTguNiAxNC4yLTEzLjggMjQuMS0xMy44czE5LjEgNS4zIDI0LjEgMTMuOGw5NS4yIDE2My4yYzUuNyA5LjggOS4zIDIxLjEgNi43IDMyLjFDMjQyIDM4MiAxODkuNyA0MTYgMTI2LjggNDE2UzExLjcgMzgyIC45IDMzNy4xeiIvPgo8L3N2Zz4=&logoColor=%23ffffff)](https://github.com/pgroenbaek/shapeedit/blob/master/LICENSE)
 
-This Python module provides a wrapper around the shape data structure from [shapeio](https://github.com/pgroenbaek/shapeio), offering operations for modifying existing MSTS and ORTS shape files.
+This Python module provides a wrapper around the shape data structure from [simisa](https://github.com/pgroenbaek/simisa), offering operations for modifying existing MSTS and ORTS shape files.
 
 Depending on how the module is used, you may end up with unusual-looking shapes; however, the implemented operations ensure that shapes remain error-free and usable in MSTS and Open Rails.
 
 At this stage, only a limited set of operations is implemented. If you need additional functionality or have any other suggestions, you are welcome to request them by creating an issue.
 
 List of companion modules:
-- [shapeio](https://github.com/pgroenbaek/shapeio) - offers functions to convert shapes between structured text format and Python objects.
+- [simisa](https://github.com/pgroenbaek/simisa) - provides capability to read and write shapefiles used with MSTS and Open Rails.
 - [trackshape-utils](https://github.com/pgroenbaek/trackshape-utils) - offers additional utilities for working with track shapes.
-- [pyffeditc](https://github.com/pgroenbaek/pyffeditc) - handles compression and decompression of shape files through the `ffeditc_unicode.exe` utility found in MSTS installations.
-- [pytkutils](https://github.com/pgroenbaek/pytkutils) - handles compression and decompression of shape files through the `TK.MSTS.Tokens.dll` library by Okrasa Ghia.
 
 ## Installation
 
@@ -93,7 +91,7 @@ The edited DblSlip7\_5d shapes are available for download at [the-train.de](http
 
 At present, operations that add new textures, primitives, or sub-objects are not implemented in this module. The goal is to eventually support those capabilites.
 
-You can attempt such modifications manually through [shapeio](https://github.com/pgroenbaek/shapeio), as the entire shape data structure can be accessed and modified using that module.
+You can attempt such modifications manually through [simisa](https://github.com/pgroenbaek/simisa), as the entire shape data structure can be accessed and modified using that module.
 
 Just keep in mind that you are not going to have the abstraction layer provided in this module. The one that makes things easy and keeps the shape error-free.
 
@@ -126,10 +124,10 @@ You will need to inspect the shape manually in a text editor to determine the ex
 ### Modification of existing geometry
 
 ```python
-import shapeio
+from simisa import shape
 from shapeedit import ShapeEditor
 
-my_shape = shapeio.load("./path/to/example.s")
+my_shape = shape.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
 
@@ -146,17 +144,17 @@ for vertex in sub_object.vertices():
     vertex.normal.y = 0.0
     vertex.normal.z = 0.0
 
-shapeio.dump(my_shape, "./path/to/output.s")
+shape.dump(my_shape, "./path/to/output.s")
 ```
 
 ### Addition of new vertices and triangles
 
 ```python
-import shapeio
-from shapeio.shape import Point, UVPoint, Vector
+from simisa import shape
+from simisa.shape import Point, UVPoint, Vector
 from shapeedit import ShapeEditor
 
-my_shape = shapeio.load("./path/to/example.s")
+my_shape = shape.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
 
@@ -178,16 +176,16 @@ for lod_control in shape_editor.lod_controls():
 
                 primitive.insert_triangle(new_vertex1, new_vertex2, new_vertex3)
 
-shapeio.dump(my_shape, "./path/to/output.s")
+shape.dump(my_shape, "./path/to/output.s")
 ```
 
 ### Removal of triangles
 
 ```python
-import shapeio
+from simisa import shape
 from shapeedit import ShapeEditor
 
-my_shape = shapeio.load("./path/to/example.s")
+my_shape = shape.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
 
@@ -199,7 +197,7 @@ for lod_control in shape_editor.lod_controls():
                 for vertex in primitive.vertices():
                     primitive.remove_triangles_connected_to(vertex)
 
-shapeio.dump(my_shape, "./path/to/output.s")
+shape.dump(my_shape, "./path/to/output.s")
 ```
 
 ## Running Tests

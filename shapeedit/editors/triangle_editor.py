@@ -18,7 +18,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 from typing import TYPE_CHECKING, List
-from shapeio.shape import VertexIdx, NormalIdx, Vertex, Vector
+from simisa.shape import VertexIdx, NormalIdx, Vertex, Vector
 
 from .vertex_editor import _VertexEditor
 

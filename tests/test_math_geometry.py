@@ -20,7 +20,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import numpy as np
 import pytest
 
-from shapeio.shape import Point, UVPoint
+from simisa.shape import Point, UVPoint
 from shapeedit.math.geometry import (
     calculate_point_centroid,
     calculate_point_midpoint,

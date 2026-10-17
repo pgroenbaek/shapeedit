@@ -19,7 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import re
 from typing import List
-from shapeio.shape import Shape
+from simisa.shape import Shape
 
 from .lodcontrol_editor import _LodControlEditor
 
@@ -37,10 +37,10 @@ class ShapeEditor:
     modify, remove and add new geometry in an existing shape.
 
     Example:
-        >>> import shapeio
+        >>> from simisa import shape
         >>> from shapeedit import ShapeEditor
         >>>
-        >>> my_shape = shapeio.load("./path/to/example.s")
+        >>> my_shape = shape.load("./path/to/example.s")
         >>>
         >>> shape_editor = ShapeEditor(my_shape)
         >>> sub_object = shape_editor.lod_control(0).distance_level(200).sub_object(0)
@@ -51,7 +51,7 @@ class ShapeEditor:
         ...     vertex.point.y = 1.0
         ...     vertex.point.z = 2.0
         >>>
-        >>> shapeio.dump(my_shape, "./path/to/output.s")
+        >>> shape.dump(my_shape, "./path/to/output.s")
     """
 
     def __init__(self, shape: Shape):
