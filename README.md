@@ -10,13 +10,9 @@ Depending on how the module is used, you may end up with unusual-looking shapes;
 
 At this stage, only a limited set of operations is implemented. If you need additional functionality or have any other suggestions, you are welcome to request them by creating an issue.
 
-
 List of companion modules:
 - [simisa](https://github.com/pgroenbaek/simisa) - provides capability to read and write shapefiles used with MSTS and Open Rails.
 - [trackshape-utils](https://github.com/pgroenbaek/trackshape-utils) - offers additional utilities for working with track shapes.
-
-See also:
-- [simisatool](https://github.com/pgroenbaek/simisatool) - A cross-platform CLI to compress/decompress `.s`, `.w` and `.t` files.
 
 ## Installation
 
