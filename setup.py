@@ -6,7 +6,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         "numpy",
-        "shapeio==0.5.0b4"
+        "simisa"
     ],
     author="Peter Grønbæk Andersen",
     author_email="peter@grnbk.io",

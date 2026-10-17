@@ -18,7 +18,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 from typing import TYPE_CHECKING, List
-from shapeio.shape import LodControl
+from simisa.shape import LodControl
 
 from .distancelevel_editor import _DistanceLevelEditor
 

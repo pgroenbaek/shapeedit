@@ -20,7 +20,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import pytest
 import math
 
-from shapeio.shape import Point
+from simisa.shape import Point
 from shapeedit.math.distance import distance_between, signed_distance_between
 
 

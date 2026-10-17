@@ -18,7 +18,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 from typing import TYPE_CHECKING
-from shapeio.shape import Vertex, Point, UVPoint, Vector
+from simisa.shape import Vertex, Point, UVPoint, Vector
 
 if TYPE_CHECKING:
     from .subobject_editor import _SubObjectEditor

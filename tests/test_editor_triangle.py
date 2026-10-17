@@ -19,7 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import pytest
 
-from shapeio.shape import Vector
+from simisa.shape import Vector
 from shapeedit import ShapeEditor
 
 

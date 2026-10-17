@@ -18,7 +18,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 from typing import Optional
-from shapeio.shape import SubObject, Primitive
+from simisa.shape import SubObject, Primitive
 
 
 class _SubObjectHelper:

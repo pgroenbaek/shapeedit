@@ -95,7 +95,7 @@ The edited DblSlip7\_5d shapes are available for download at [the-train.de](http
 
 At present, operations that add new textures, primitives, or sub-objects are not implemented in this module. The goal is to eventually support those capabilites.
 
-You can attempt such modifications manually through [shapeio](https://github.com/pgroenbaek/shapeio), as the entire shape data structure can be accessed and modified using that module.
+You can attempt such modifications manually through [simisa](https://github.com/pgroenbaek/simisa), as the entire shape data structure can be accessed and modified using that module.
 
 Just keep in mind that you are not going to have the abstraction layer provided in this module. The one that makes things easy and keeps the shape error-free.
 
@@ -128,10 +128,10 @@ You will need to inspect the shape manually in a text editor to determine the ex
 ### Modification of existing geometry
 
 ```python
-import shapeio
+from simisa import shape
 from shapeedit import ShapeEditor
 
-my_shape = shapeio.load("./path/to/example.s")
+my_shape = shape.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
 
@@ -148,17 +148,17 @@ for vertex in sub_object.vertices():
     vertex.normal.y = 0.0
     vertex.normal.z = 0.0
 
-shapeio.dump(my_shape, "./path/to/output.s")
+shape.dump(my_shape, "./path/to/output.s")
 ```
 
 ### Addition of new vertices and triangles
 
 ```python
-import shapeio
-from shapeio.shape import Point, UVPoint, Vector
+from simisa import shape
+from simisa.shape import Point, UVPoint, Vector
 from shapeedit import ShapeEditor
 
-my_shape = shapeio.load("./path/to/example.s")
+my_shape = shape.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
 
@@ -180,16 +180,16 @@ for lod_control in shape_editor.lod_controls():
 
                 primitive.insert_triangle(new_vertex1, new_vertex2, new_vertex3)
 
-shapeio.dump(my_shape, "./path/to/output.s")
+shape.dump(my_shape, "./path/to/output.s")
 ```
 
 ### Removal of triangles
 
 ```python
-import shapeio
+from simisa import shape
 from shapeedit import ShapeEditor
 
-my_shape = shapeio.load("./path/to/example.s")
+my_shape = shape.load("./path/to/example.s")
 
 shape_editor = ShapeEditor(my_shape)
 
@@ -201,7 +201,7 @@ for lod_control in shape_editor.lod_controls():
                 for vertex in primitive.vertices():
                     primitive.remove_triangles_connected_to(vertex)
 
-shapeio.dump(my_shape, "./path/to/output.s")
+shape.dump(my_shape, "./path/to/output.s")
 ```
 
 ## Running Tests

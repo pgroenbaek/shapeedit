@@ -19,7 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import pytest
 
-import shapeio
+from simisa import shape
 
 
 def _fast_clone(obj):
@@ -57,7 +57,7 @@ def _fast_clone(obj):
 
 @pytest.fixture(scope="session")
 def _loaded_shape():
-    return shapeio.load("./tests/data/DK10f_A1tPnt5dLft.s")
+    return shape.load("./tests/data/DK10f_A1tPnt5dLft.s")
 
 
 @pytest.fixture(scope="function")
